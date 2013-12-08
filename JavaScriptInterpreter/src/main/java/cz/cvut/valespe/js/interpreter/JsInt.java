@@ -39,24 +39,28 @@ public class JsInt extends JsObject {
     }
 
     @Override
-    public JsObject invoke(String function, List<JsObject> args) {
-        if (!args.get(0).isJsInt())
+    public Memory.Reference invoke(String function, List<Memory.Reference> args, Scope invokeScope, Memory memory) {
+        JsObject that = memory.getJsObject(args.get(0));
+        JsInt result = null;
+        if (!that.isJsInt())
             throw new TypeError("Can't call " + function + " with non Int arg.");
-        if ("+".equals(function))
-            return plus((JsInt) args.get(0));
-        if ("-".equals(function))
-            return minus((JsInt) args.get(0));
-        if ("*".equals(function))
-            return mul((JsInt) args.get(0));
-        if ("/".equals(function))
-            return div((JsInt) args.get(0));
-        if ("%".equals(function))
-            return mod((JsInt) args.get(0));
-        throw new TypeError("Unknown function: " + function + " for type Int.");
+        else if ("+".equals(function))
+            result = plus((JsInt) that);
+        else if ("-".equals(function))
+            result = minus((JsInt) that);
+        else if ("*".equals(function))
+            result = mul((JsInt) that);
+        else if ("/".equals(function))
+            result = div((JsInt) that);
+        else if ("%".equals(function))
+            result = mod((JsInt) that);
+        else
+            throw new TypeError("Unknown function: " + function + " for type Int.");
+        return memory.storeJsObject(result);
     }
 
     @Override
-    public JsObject invoke(List<JsObject> args) {
+    public Memory.Reference invoke(List<Memory.Reference> args, Scope invokeScope, Memory memory) {
         throw new TypeError("Number is not function.");
     }
 

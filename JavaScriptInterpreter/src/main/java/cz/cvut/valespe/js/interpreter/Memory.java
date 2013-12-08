@@ -37,6 +37,7 @@ public class Memory {
             memory.add(index, object);
         else
             throw new OutOfMemoryError();
+        object.setRerence(new Reference(index));
         return new Reference(index++);
     }
 

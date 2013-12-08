@@ -8,6 +8,8 @@ import java.util.List;
  */
 public abstract class JsObject {
 
+    protected Memory.Reference selfRef;
+
     public abstract Object value();
 
     public boolean isJsObject() {
@@ -34,12 +36,20 @@ public abstract class JsObject {
         return false;
     }
 
-    public abstract JsObject invoke(String function, List<JsObject> args);
+    public abstract Memory.Reference invoke(String function, List<Memory.Reference> args, Scope invokeScope, Memory memory);
 
-    public abstract JsObject invoke(List<JsObject> args);
+    public abstract Memory.Reference invoke(List<Memory.Reference> args, Scope invokeScope, Memory memory);
 
     public List<Memory.Reference> getReferences() {
         return Collections.EMPTY_LIST; // TODO
+    }
+
+    public Memory.Reference getRerence() {
+        return this.selfRef;
+    }
+
+    public void setRerence(Memory.Reference rerence) {
+        selfRef = rerence;
     }
 
 }

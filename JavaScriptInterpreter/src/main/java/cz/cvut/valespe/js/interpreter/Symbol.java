@@ -23,12 +23,12 @@ public class Symbol extends JsObject {
     }
 
     @Override
-    public JsObject invoke(String function, List<JsObject> args) {
+    public Memory.Reference invoke(String function, List<Memory.Reference> args, Scope invokeScope, Memory memory) {
         throw new TypeError("Can't invoke function on symbol.");
     }
 
     @Override
-    public JsObject invoke(List<JsObject> args) {
+    public Memory.Reference invoke(List<Memory.Reference> args, Scope invokeScope, Memory memory) {
         throw new TypeError("Symbol is not function.");
     }
 }

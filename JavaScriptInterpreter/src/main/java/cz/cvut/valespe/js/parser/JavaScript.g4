@@ -23,8 +23,8 @@ functionBody
     ;
 
 expression
-    : ID #id
-    | functionCall #functionCallExpression
+    : functionCall #functionCallExpression
+    | ID #id
     | INT #int
     | assignmentExpression #assignmentExpressionExpression
     | anonymousFunction #anonymousFunctionExpression

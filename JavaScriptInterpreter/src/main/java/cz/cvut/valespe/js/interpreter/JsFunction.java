@@ -9,11 +9,13 @@ import java.util.List;
  */
 public class JsFunction extends JsObject {
 
-    private List<String> params;
-    private JavaScriptParser.FunctionBodyContext body;
-    private Scope scope;
+    private final String name;
+    private final List<String> params;
+    private final JavaScriptParser.FunctionBodyContext body;
+    private final Scope scope;
 
-    public JsFunction(List<String> params, JavaScriptParser.FunctionBodyContext body, Scope scope) {
+    public JsFunction(String name, List<String> params, JavaScriptParser.FunctionBodyContext body, Scope scope) {
+        this.name = name;
         this.params = params;
         this.body = body;
         this.scope = scope;
@@ -29,13 +31,21 @@ public class JsFunction extends JsObject {
     }
 
     @Override
-    public JsObject invoke(String function, List<JsObject> args) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public Memory.Reference invoke(String function, List<Memory.Reference> args, Scope invokeScope, Memory memory) {
+        return null;
     }
 
     @Override
-    public JsObject invoke(List<JsObject> args) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public Memory.Reference invoke(List<Memory.Reference> args, Scope invokeScope, Memory memory) {
+        Scope callScope = new Scope(scope, invokeScope);
+        for (int i = 0; i < args.size(); i++)
+            callScope.set(params.get(i), args.get(i));
+        if (name != null)
+            callScope.set(name, selfRef);
+        Memory.Reference resultRef = (Memory.Reference) body.accept(new InterpreterVisitor(memory, callScope));
+        if (resultRef != null && memory.getJsObject(resultRef).isSymbol())
+            resultRef = callScope.get((String) memory.getJsObject(resultRef).value());
+        return resultRef;
     }
 
     public List<String> getParams() {

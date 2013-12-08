@@ -2,24 +2,34 @@ function f1() {
 
 }
 
-f1()
+var a = f1()
 
 function f2() {
     1 + 2
 }
 
-f2()
+var b = f2()
 
 function f3() {
     var a
-    a = 1 + 2
+    a = 1 + 5
+    a
 }
 
-f3()
+var c = f3()
 
 function f4(a) {
     a + 2
 }
 
-f4(1)
-f4(10)
+var d = f4(1)
+var e = f4(10)
+
+function f5(a) {
+    a + x
+}
+
+var x = 1
+
+var f = f5(1)
+var g = f5(10)

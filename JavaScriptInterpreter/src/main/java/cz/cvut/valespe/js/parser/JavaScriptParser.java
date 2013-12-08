@@ -715,20 +715,20 @@ public class JavaScriptParser extends Parser {
 			switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
 			case 1:
 				{
-				_localctx = new IdContext(_localctx);
+				_localctx = new FunctionCallExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(75); match(ID);
+				setState(75); functionCall();
 				}
 				break;
 
 			case 2:
 				{
-				_localctx = new FunctionCallExpressionContext(_localctx);
+				_localctx = new IdContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(76); functionCall();
+				setState(76); match(ID);
 				}
 				break;
 
@@ -1257,8 +1257,8 @@ public class JavaScriptParser extends Parser {
 		"\n\6\289\7\6\2\29;\5\n\6\2:8\3\2\2\2;>\3\2\2\2<:\3\2\2\2<=\3\2\2\2=\t"+
 		"\3\2\2\2><\3\2\2\2?@\7\21\2\2@\13\3\2\2\2AG\7\3\2\2BF\5\4\3\2CF\5\16\b"+
 		"\2DF\5\32\16\2EB\3\2\2\2EC\3\2\2\2ED\3\2\2\2FI\3\2\2\2GE\3\2\2\2GH\3\2"+
-		"\2\2HJ\3\2\2\2IG\3\2\2\2JK\7\b\2\2K\r\3\2\2\2LM\b\b\1\2MW\7\21\2\2NW\5"+
-		"\20\t\2OW\7\20\2\2PW\5\26\f\2QW\5\30\r\2RS\7\7\2\2ST\5\16\b\2TU\7\5\2"+
+		"\2\2HJ\3\2\2\2IG\3\2\2\2JK\7\b\2\2K\r\3\2\2\2LM\b\b\1\2MW\5\20\t\2NW\7"+
+		"\21\2\2OW\7\20\2\2PW\5\26\f\2QW\5\30\r\2RS\7\7\2\2ST\5\16\b\2TU\7\5\2"+
 		"\2UW\3\2\2\2VL\3\2\2\2VN\3\2\2\2VO\3\2\2\2VP\3\2\2\2VQ\3\2\2\2VR\3\2\2"+
 		"\2Wi\3\2\2\2XY\6\b\2\3YZ\7\r\2\2Zh\5\16\b\2[\\\6\b\3\3\\]\7\16\2\2]h\5"+
 		"\16\b\2^_\6\b\4\3_`\7\17\2\2`h\5\16\b\2ab\6\b\5\3bc\7\13\2\2ch\5\16\b"+

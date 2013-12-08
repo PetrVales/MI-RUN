@@ -26,7 +26,20 @@ import java.util.Set;
  */
 public class Scope {
 
-    private Map<String, Memory.Reference> scope = new HashMap<String, Memory.Reference>();
+    private Scope parent;
+    private Map<String, Memory.Reference> scope;
+
+    public Scope() {
+        scope = new HashMap<String, Memory.Reference>();
+        parent = null;
+    }
+
+    public Scope(Scope definitionScope, Scope parentScope) {
+        this();
+        this.parent = parentScope;
+        for (String name : definitionScope.getDefinedNames())
+            define(name);
+    }
 
     public void define(String name) {
         scope.put(name, null);
@@ -35,13 +48,17 @@ public class Scope {
     public void set(String name, Memory.Reference reference) {
         if (scope.containsKey(name))
             scope.put(name, reference);
-        else
-            throw new ReferenceError();
+        else if (parent != null)
+            parent.set(name, reference);
+        else if (parent == null)
+            scope.put(name, reference);
     }
 
     public Memory.Reference get(String name) {
         if (scope.containsKey(name))
             return scope.get(name);
+        else if (parent != null)
+            return parent.get(name);
         else
             return null;
     }

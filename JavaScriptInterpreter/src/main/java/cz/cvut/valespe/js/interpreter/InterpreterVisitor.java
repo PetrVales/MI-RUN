@@ -11,6 +11,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,11 +37,6 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     }
 
     @Override
-    public Object visitVarAssignment(@NotNull JavaScriptParser.VarAssignmentContext ctx) {
-        return null;
-    }
-
-    @Override
     public Object visitParenthesesExpression(@NotNull JavaScriptParser.ParenthesesExpressionContext ctx) {
         return ctx.expression().accept(this);
     }
@@ -55,16 +51,8 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
         Memory.Reference nameRef = (Memory.Reference) ctx.ID().accept(this);
         Memory.Reference funRef = scope.get((String) memory.getJsObject(nameRef).value());
         JsFunction function = (JsFunction) memory.getJsObject(funRef);
-        List<Memory.Reference> paramRefs = (List) ctx.callParams().accept(this);
-        List<JsObject> params = new ArrayList<JsObject>(paramRefs.size());
-        for (Memory.Reference reference : paramRefs) {
-            JsObject value = memory.getJsObject(reference);
-            if (value.isSymbol())
-                value = memory.getJsObject(scope.get((String) value.value()));
-            params.add(value);
-        }
-        JsObject returnValue = function.invoke(params);
-        return memory.storeJsObject(returnValue);
+        List<Memory.Reference> paramRefs = ctx.callParams() == null ? Collections.emptyList() : (List) ctx.callParams().accept(this);
+        return function.invoke(paramRefs, scope, memory);
     }
 
     @Override
@@ -134,9 +122,8 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
         if (first.isSymbol())
             first = memory.getJsObject(scope.get((String) first.value()));
         if (second.isSymbol())
-            second = memory.getJsObject(scope.get((String) second.value()));
-        JsObject result = first.invoke(operation, Arrays.asList(second));
-        return memory.storeJsObject(result);
+            secondRef = scope.get((String) second.value());
+        return first.invoke(operation, Arrays.asList(secondRef), scope, memory);
     }
 
     @Override
@@ -145,9 +132,21 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     }
 
     @Override
+    public Object visitVarAssignment(@NotNull JavaScriptParser.VarAssignmentContext ctx) {
+        Memory.Reference nameRef = (Memory.Reference) ctx.ID().accept(this);
+        Memory.Reference resultRef = (Memory.Reference) ctx.expression().accept(this);
+        if (resultRef != null && memory.getJsObject(resultRef).isSymbol())
+            resultRef = scope.get((String) memory.getJsObject(resultRef).value());
+        scope.set((String) memory.getJsObject(nameRef).value(), resultRef);
+        return null;
+    }
+
+    @Override
     public Object visitAssignment(@NotNull JavaScriptParser.AssignmentContext ctx) {
         Memory.Reference nameRef = (Memory.Reference) ctx.ID().accept(this);
         Memory.Reference resultRef = (Memory.Reference) ctx.expression().accept(this);
+        if (resultRef != null && memory.getJsObject(resultRef).isSymbol())
+            resultRef = scope.get((String) memory.getJsObject(resultRef).value());
         scope.set((String) memory.getJsObject(nameRef).value(), resultRef);
         return null;
     }
@@ -159,7 +158,7 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
 
     @Override
     public Object visitAnonymousFunction(@NotNull JavaScriptParser.AnonymousFunctionContext ctx) {
-        JsFunction function = new JsFunction(getFunctionParams(ctx.functionParameters()), ctx.functionBody(), null); // TODO scope
+        JsFunction function = new JsFunction(null, getFunctionParams(ctx.functionParameters()), ctx.functionBody(), null); // TODO scope
         return memory.storeJsObject(function);
     }
 

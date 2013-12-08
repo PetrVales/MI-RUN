@@ -19,18 +19,22 @@ class InterpretSimpleExpressions {
         interpretFile(collectDefinitions(parseCode(stream.text)))
 
         assert ["a", "b", "c"] as Set == scope.getDefinedNames()
-        def aRef = scope.get("a")
-        def bRef = scope.get("b")
-        def cRef = scope.get("c")
-        assert 5 == memory.getJsObject(aRef).value()
-        assert 23 == memory.getJsObject(bRef).value()
-        assert 28 == memory.getJsObject(cRef).value()
+        assertValueOfVariable("a", 5)
+        assertValueOfVariable("b", 23)
+        assertValueOfVariable("c", 28)
     }
 
     @Test
     public void "interpret invoke function file"() {
         def stream = InterpretSimpleExpressions.class.getResourceAsStream("/InvokeFunction.js")
         interpretFile(collectDefinitions(parseCode(stream.text)))
+        assert null == scope.get("a")
+        assertValueOfVariable("b", 3)
+        assertValueOfVariable("c", 6)
+        assertValueOfVariable("d", 3)
+        assertValueOfVariable("e", 12)
+        assertValueOfVariable("f", 2)
+        assertValueOfVariable("g", 11)
     }
 
     def private parseCode(code) {
@@ -54,4 +58,10 @@ class InterpretSimpleExpressions {
         file.accept(javaScriptVisitor)
         file
     }
+
+    def private assertValueOfVariable(String variable, value) {
+        def variableRef = scope.get(variable)
+        assert value == memory.getJsObject(variableRef).value()
+    }
+
 }
