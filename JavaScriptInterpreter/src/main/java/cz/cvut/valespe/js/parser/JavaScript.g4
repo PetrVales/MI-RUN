@@ -5,7 +5,7 @@ grammar JavaScript;
 file: (functionDeclaration | expression | varDeclaration)+;
 
 functionDeclaration
-    : 'function' WS? functionName WS? '(' functionParameters? ')' WS? block
+    : 'function' WS? functionName WS? '(' functionParameters? ')' WS? functionBody
     ;
 
 functionName
@@ -18,12 +18,13 @@ functionParameter
     : ID
     ;
 
-block
+functionBody
     : '{' (functionDeclaration | expression | varDeclaration)* '}'
     ;
 
 expression
     : ID #id
+    | functionCall #functionCallExpression
     | INT #int
     | assignmentExpression #assignmentExpressionExpression
     | anonymousFunction #anonymousFunctionExpression
@@ -35,22 +36,31 @@ expression
     | expression MINUS expression #minusExpression
     ;
 
-assignmentExpression
-    :   ID assignmentOperator expression
+functionCall
+    : ID '(' callParams? ')'
+    ;
+callParams
+    : callParam (',' callParam)*
+    ;
+callParam
+    : (ID|INT)
     ;
 
-assignmentOperator
-    :   ' = ' | ' *= ' | ' /= ' | ' %= ' | ' += ' | ' -= '
+assignmentExpression
+    :   ID ASSIGNMENT expression #assignment
+    |   'var' ID ASSIGNMENT expression #varAssignment
     ;
+
 
 anonymousFunction
-    : 'function' '(' functionParameters? ')' block
+    : 'function' '(' functionParameters? ')' functionBody
     ;
 
 varDeclaration
     : 'var' ID
     ;
 
+ASSIGNMENT:'=';
 PLUS: '+';
 MINUS: '-';
 MUL: '*';

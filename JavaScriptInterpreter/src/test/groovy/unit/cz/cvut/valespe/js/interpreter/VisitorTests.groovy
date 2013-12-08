@@ -7,125 +7,124 @@ import org.antlr.v4.runtime.CharStream
 import org.antlr.v4.runtime.CommonTokenStream
 import org.junit.Test
 
-import static org.mockito.Matchers.any
 import static org.mockito.Mockito.mock
-import static org.mockito.Mockito.times
-import static org.mockito.Mockito.verify
 
 class VisitorTests {
 
+    def memory = new Memory()
     def scope = mock(Scope.class)
 
     @Test
     public void "visit INT"() {
-        assert 1 == getFileContextFor("1").file().accept(new JavaScriptVisitor())
-        assert 99 == getFileContextFor("99").file().accept(new JavaScriptVisitor())
+        def ref1 = getFileContextFor("1").file().accept(interpreterVisitor)
+        def ref2 = getFileContextFor("99").file().accept(interpreterVisitor)
+
+        assert 1 == memory.getJsObject(ref1).value()
+        assert 99 == memory.getJsObject(ref2).value()
     }
 
     @Test
     public void "visit PLUS"() {
-        assert 13 == getFileContextFor("11 + 2").file().accept(new JavaScriptVisitor())
+        def ref = getFileContextFor("11 + 2").file().accept(interpreterVisitor)
+        assert 13 == memory.getJsObject(ref).value()
     }
 
     @Test
     public void "visit MINUS"() {
-        assert 9 == getFileContextFor("11 - 2").file().accept(new JavaScriptVisitor())
+        def ref = getFileContextFor("11 - 2").file().accept(interpreterVisitor)
+        assert 9 == memory.getJsObject(ref).value()
     }
 
     @Test
     public void "visit MUL"() {
-        assert 22 == getFileContextFor("11 * 2").file().accept(new JavaScriptVisitor())
+        def ref = getFileContextFor("11 * 2").file().accept(interpreterVisitor)
+        assert 22 == memory.getJsObject(ref).value()
     }
 
     @Test
     public void "visit DIV"() {
-        assert 5 == getFileContextFor("11 / 2").file().accept(new JavaScriptVisitor())
-        assert 6 == getFileContextFor("12 / 2").file().accept(new JavaScriptVisitor())
+        def ref1 = getFileContextFor("11 / 2").file().accept(interpreterVisitor)
+        def ref2 = getFileContextFor("12 / 2").file().accept(interpreterVisitor)
+
+        assert 5 == memory.getJsObject(ref1).value()
+        assert 6 == memory.getJsObject(ref2).value()
     }
 
     @Test
     public void "visit MOD"() {
-        assert 1 == getFileContextFor("11 % 2").file().accept(new JavaScriptVisitor())
-        assert 0 == getFileContextFor("12 % 2").file().accept(new JavaScriptVisitor())
+        def ref1 = getFileContextFor("11 % 2").file().accept(interpreterVisitor)
+        def ref2 = getFileContextFor("12 % 2").file().accept(interpreterVisitor)
+
+        assert 1 == memory.getJsObject(ref1).value()
+        assert 0 == memory.getJsObject(ref2).value()
     }
 
     @Test
     public void "visit 11 + 2 + 99"() {
-        assert 112 == getFileContextFor("11 + 2 + 99").file().accept(new JavaScriptVisitor())
+        def ref = getFileContextFor("11 + 2 + 99").file().accept(interpreterVisitor)
+        assert 112 == memory.getJsObject(ref).value()
     }
 
     @Test
     public void "visit 11 + 2 + 99 - 20"() {
-        assert 92 == getFileContextFor("11 + 2 + 99 - 20").file().accept(new JavaScriptVisitor())
+        def ref = getFileContextFor("11 + 2 + 99 - 20").file().accept(interpreterVisitor)
+        assert 92 == memory.getJsObject(ref).value()
     }
 
     @Test
     public void "visit 11 + 2 + 99 - 10 * 3"() {
-        assert 82 == getFileContextFor("11 + 2 + 99 - 10 * 3").file().accept(new JavaScriptVisitor())
+        def ref = getFileContextFor("11 + 2 + 99 - 10 * 3").file().accept(interpreterVisitor)
+        assert 82 == memory.getJsObject(ref).value()
     }
 
     @Test
     public void "visit 11 + 2 + 99 - 10 * 3 / 5"() {
-        assert 106 == getFileContextFor("11 + 2 + 99 - 10 * 3 / 5").file().accept(new JavaScriptVisitor())
+        def ref = getFileContextFor("11 + 2 + 99 - 10 * 3 / 5").file().accept(interpreterVisitor)
+        assert 106 == memory.getJsObject(ref).value()
     }
 
     @Test
     public void "visit 11 + 2 + (99 - 10) * 3 / 5"() {
-        assert 66 == getFileContextFor("11 + 2 + (99 - 10) * 3 / 5").file().accept(new JavaScriptVisitor())
+        def ref = getFileContextFor("11 + 2 + (99 - 10) * 3 / 5").file().accept(interpreterVisitor)
+        assert 66 == memory.getJsObject(ref).value()
     }
 
     @Test
     public void "create anonymous function"() {
         def parser = getFileContextFor("function() { }")
-        def function = parser.file().accept(new JavaScriptVisitor())
+        def funRef = parser.file().accept(interpreterVisitor)
+        def function = memory.getJsObject(funRef)
 
-        assert function != null
-        assert function,isFunction()
-        assert function.params == []
-        assert function.body.toStringTree(parser) == "(block { })"
+        assert null != function
+        assert function,isJsFunction()
+        assert [] == function.params
+        assert "(functionBody { })" == function.body.toStringTree(parser)
     }
 
     @Test
     public void "create anonymous function with params"() {
         def parser = getFileContextFor("function(a, b) { }")
-        def function = parser.file().accept(new JavaScriptVisitor())
+        def funRef = parser.file().accept(interpreterVisitor)
+        def function = memory.getJsObject(funRef)
 
-        assert function != null
-        assert function,isFunction()
-        assert function.params == ["a", "b"]
-        assert function.body.toStringTree(parser) == "(block { })"
+        assert null != function
+        assert function,isJsFunction()
+        assert ["a", "b"] == function.params.collect { memory.getJsObject(it).value() }
+        assert "(functionBody { })" == function.body.toStringTree(parser)
     }
 
     @Test
     public void "create anonymous function with params and with body"() {
         def parser = getFileContextFor("function(a, b) { 1 + 2 }")
-        def function = parser.file().accept(new JavaScriptVisitor())
+        def funRef = parser.file().accept(interpreterVisitor)
+        def function = memory.getJsObject(funRef)
+        def resultRef = function.body.accept(interpreterVisitor)
 
-        assert function != null
-        assert function,isFunction()
-        assert function.params == ["a", "b"]
-        assert function.body.toStringTree(parser) != null
-        assert 3 == function.body.accept(new JavaScriptVisitor())
-    }
-
-    @Test
-    public void "declare function"() {
-        def parser = getFileContextFor("function a() { }")
-        def function = parser.file().accept(new JavaScriptVisitor(scope))
-
-        assert function != null
-        assert function,isFunction()
-        assert function.params == []
-        assert function.body.toStringTree(parser) == "(block { })"
-
-        verify(scope, times(1)).set("a", function)
-    }
-
-    @Test
-    public void "declare variable"() {
-        getFileContextFor("var a").file().accept(new JavaScriptVisitor(scope))
-
-        verify(scope, times(1)).define("a")
+        assert null != function
+        assert function.isJsFunction()
+        assert ["a", "b"] == function.params.collect { memory.getJsObject(it).value() }
+        assert null != function.body.toStringTree(parser)
+        assert 3 == memory.getJsObject(resultRef).value()
     }
 
     def private getFileContextFor(code) {
@@ -136,6 +135,10 @@ class VisitorTests {
         JavaScriptParser parser = new JavaScriptParser(tokens);
         parser.setBuildParseTree(true)
         return parser
+    }
+
+    def private final getInterpreterVisitor() {
+        new InterpreterVisitor(memory, scope)
     }
 
 }

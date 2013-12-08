@@ -55,62 +55,37 @@ class ParserShouldParse {
 
     @Test
     public void "file with assginment expression a = 1 + 2"() {
-        assert "(file (expression (assignmentExpression a (assignmentOperator  = ) (expression (expression 1) + (expression 2)))))" == parseCode("a = 1 + 2")
-    }
-
-    @Test
-    public void "file with assginment expression a += 1"() {
-        assert "(file (expression (assignmentExpression a (assignmentOperator  += ) (expression 1))))" == parseCode("a += 1")
-    }
-
-    @Test
-    public void "file with assginment expression a -= 1"() {
-        assert "(file (expression (assignmentExpression a (assignmentOperator  -= ) (expression 1))))" == parseCode("a -= 1")
-    }
-
-    @Test
-    public void "file with assginment expression a *= 1"() {
-        assert "(file (expression (assignmentExpression a (assignmentOperator  *= ) (expression 1))))" == parseCode("a *= 1")
-    }
-
-    @Test
-    public void "file with assginment expression a /= 1"() {
-        assert "(file (expression (assignmentExpression a (assignmentOperator  /= ) (expression 1))))" == parseCode("a /= 1")
-    }
-
-    @Test
-    public void "file with assginment expression a %= 1"() {
-        assert "(file (expression (assignmentExpression a (assignmentOperator  %= ) (expression 1))))" == parseCode("a %= 1")
+        assert "(file (expression (assignmentExpression a = (expression (expression 1) + (expression 2)))))" == parseCode("a = 1 + 2")
     }
 
     @Test
     public void "file with function declaration function a() { }"() {
-        assert "(file (functionDeclaration function (functionName a) ( ) (block { })))" == parseCode("function a() { }")
+        assert "(file (functionDeclaration function (functionName a) ( ) (functionBody { })))" == parseCode("function a() { }")
     }
 
     @Test
     public void "file with function declaration function a(in) { }"() {
-        assert "(file (functionDeclaration function (functionName a) ( (functionParameters (functionParameter in)) ) (block { })))" == parseCode("function a(in) { }")
+        assert "(file (functionDeclaration function (functionName a) ( (functionParameters (functionParameter in)) ) (functionBody { })))" == parseCode("function a(in) { }")
     }
 
     @Test
     public void "file with function declaration function a(in) { 1 + 2 }"() {
-        assert "(file (functionDeclaration function (functionName a) ( (functionParameters (functionParameter in)) ) (block { (expression (expression 1) + (expression 2)) })))" == parseCode("function a(in) { 1 + 2 }")
+        assert "(file (functionDeclaration function (functionName a) ( (functionParameters (functionParameter in)) ) (functionBody { (expression (expression 1) + (expression 2)) })))" == parseCode("function a(in) { 1 + 2 }")
     }
 
     @Test
     public void "file with anonymous function function() { }"() {
-        assert "(file (expression (anonymousFunction function ( ) (block { }))))" == parseCode("function() { }")
+        assert "(file (expression (anonymousFunction function ( ) (functionBody { }))))" == parseCode("function() { }")
     }
 
     @Test
     public void "file with anonymous function function(in) { }"() {
-        assert "(file (expression (anonymousFunction function ( (functionParameters (functionParameter in)) ) (block { }))))" == parseCode("function(in) { }")
+        assert "(file (expression (anonymousFunction function ( (functionParameters (functionParameter in)) ) (functionBody { }))))" == parseCode("function(in) { }")
     }
 
     @Test
     public void "file with anonymous function function() { 1 + 2 }"() {
-        assert "(file (expression (anonymousFunction function ( ) (block { (expression (expression 1) + (expression 2)) }))))" == parseCode("function() { 1 + 2 }")
+        assert "(file (expression (anonymousFunction function ( ) (functionBody { (expression (expression 1) + (expression 2)) }))))" == parseCode("function() { 1 + 2 }")
     }
 
     @Test

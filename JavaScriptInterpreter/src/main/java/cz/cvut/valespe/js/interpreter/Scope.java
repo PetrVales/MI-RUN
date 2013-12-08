@@ -1,6 +1,9 @@
 package cz.cvut.valespe.js.interpreter;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Variable scope. Everything gets defined in one globally shared namespace.
@@ -12,7 +15,7 @@ import java.util.Map;
 
  All scopes in JavaScript, including the global scope, have the special name this, defined in them, which refers to the current object.
 
- Function scopes also have the name arguments, defined in them, which contains the arguments that were passed to the function.
+ JsFunction scopes also have the name arguments, defined in them, which contains the arguments that were passed to the function.
 
  For example, when trying to access a variable named foo inside the scope of a function, JavaScript will look up the name in the following order:
 
@@ -23,22 +26,27 @@ import java.util.Map;
  */
 public class Scope {
 
-    private Map<String, Object> scope;
+    private Map<String, Memory.Reference> scope = new HashMap<String, Memory.Reference>();
 
     public void define(String name) {
         scope.put(name, null);
     }
 
-    public void set(String name, Object value) {
+    public void set(String name, Memory.Reference reference) {
         if (scope.containsKey(name))
-            scope.put(name, value);
+            scope.put(name, reference);
+        else
+            throw new ReferenceError();
     }
 
-    public Object get(String name) {
+    public Memory.Reference get(String name) {
         if (scope.containsKey(name))
             return scope.get(name);
         else
             return null;
     }
 
+    public Set<String> getDefinedNames() {
+        return scope.keySet();
+    }
 }
