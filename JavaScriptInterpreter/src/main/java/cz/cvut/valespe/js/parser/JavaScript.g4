@@ -68,4 +68,11 @@ DIV: '/';
 MOD: '%';
 INT: '-'? [0-9]+;
 ID: [a-zA-Z$_][a-zA-Z0-9$_]*;
-WS : [ \t\r\n]+ -> skip ;
+WS: [ \t\r\n]+ -> skip;
+COMMENT
+    :   '/*' .*? '*/' -> skip
+    ;
+
+LINE_COMMENT
+    :   '//' ~[\r\n]* -> skip
+    ;

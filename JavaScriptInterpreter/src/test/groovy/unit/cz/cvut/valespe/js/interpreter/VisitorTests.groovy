@@ -109,7 +109,7 @@ class VisitorTests {
 
         assert null != function
         assert function,isJsFunction()
-        assert ["a", "b"] == function.params.collect { memory.getJsObject(it).value() }
+        assert ["a", "b"] == function.params.collect { it }
         assert "(functionBody { })" == function.body.toStringTree(parser)
     }
 
@@ -122,7 +122,7 @@ class VisitorTests {
 
         assert null != function
         assert function.isJsFunction()
-        assert ["a", "b"] == function.params.collect { memory.getJsObject(it).value() }
+        assert ["a", "b"] == function.params.collect { it }
         assert null != function.body.toStringTree(parser)
         assert 3 == memory.getJsObject(resultRef).value()
     }

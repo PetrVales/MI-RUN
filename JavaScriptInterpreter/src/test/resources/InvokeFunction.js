@@ -33,3 +33,16 @@ var x = 1
 
 var f = f5(1)
 var g = f5(10)
+
+function f6(a) {
+    function(b) {
+        a + b + x
+    }
+}
+
+var h = f6(5)
+var i = h(10)
+
+x = 2
+
+var j = h(10)

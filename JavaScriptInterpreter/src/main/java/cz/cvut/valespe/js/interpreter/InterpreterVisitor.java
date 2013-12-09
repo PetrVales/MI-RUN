@@ -153,12 +153,12 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
 
     @Override
     public Object visitAnonymousFunctionExpression(@NotNull JavaScriptParser.AnonymousFunctionExpressionContext ctx) {
-        return ctx.anonymousFunction().accept(this);
+        return ctx.anonymousFunction().accept(new DefinitionCollectingVisitor(memory, scope));
     }
 
     @Override
     public Object visitAnonymousFunction(@NotNull JavaScriptParser.AnonymousFunctionContext ctx) {
-        JsFunction function = new JsFunction(null, getFunctionParams(ctx.functionParameters()), ctx.functionBody(), null); // TODO scope
+        JsFunction function = new JsFunction(null, getFunctionParams(ctx.functionParameters()), ctx.functionBody(), scope);
         return memory.storeJsObject(function);
     }
 

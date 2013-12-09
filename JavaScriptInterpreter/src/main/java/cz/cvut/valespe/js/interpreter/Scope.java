@@ -34,9 +34,14 @@ public class Scope {
         parent = null;
     }
 
-    public Scope(Scope definitionScope, Scope parentScope) {
+    public Scope(Scope parentScope) {
         this();
         this.parent = parentScope;
+    }
+
+    public Scope(Scope definitionScope, Scope parentScope) {
+        this();
+        this.parent = definitionScope.parent == null ? parentScope : definitionScope.parent;
         for (String name : definitionScope.getDefinedNames())
             define(name);
     }

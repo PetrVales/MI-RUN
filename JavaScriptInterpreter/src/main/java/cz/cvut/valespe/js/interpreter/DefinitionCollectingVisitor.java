@@ -58,16 +58,27 @@ public class DefinitionCollectingVisitor implements JavaScriptVisitor {
             ctx.functionParameters().accept(new DefinitionCollectingVisitor(memory, innerScope));
         }
         ctx.functionBody().accept(new DefinitionCollectingVisitor(memory, innerScope));
-        final JsFunction function = new JsFunction(name, getFunctionParams(ctx), ctx.functionBody(), innerScope);
+        final JsFunction function = new JsFunction(name, getFunctionParams(ctx.functionParameters()), ctx.functionBody(), innerScope);
         final Memory.Reference reference = memory.storeJsObject(function);
         scope.set(name, reference);
         return null;
     }
 
-    private List<String> getFunctionParams(JavaScriptParser.FunctionDeclarationContext ctx) {
-        List<String> params = new ArrayList<String>();
+    @Override
+    public Object visitAnonymousFunction(@NotNull JavaScriptParser.AnonymousFunctionContext ctx) {
+        Scope innerScope = new Scope(scope);
         if (ctx.functionParameters() != null) {
-            for (JavaScriptParser.FunctionParameterContext functionParameter : ctx.functionParameters().functionParameter()) {
+            ctx.functionParameters().accept(new DefinitionCollectingVisitor(memory, innerScope));
+        }
+        ctx.functionBody().accept(new DefinitionCollectingVisitor(memory, innerScope));
+        final JsFunction function = new JsFunction(null, getFunctionParams(ctx.functionParameters()), ctx.functionBody(), innerScope);
+        return memory.storeJsObject(function);
+    }
+
+    private List<String> getFunctionParams(JavaScriptParser.FunctionParametersContext ctx) {
+        List<String> params = new ArrayList<String>();
+        if (ctx != null) {
+            for (JavaScriptParser.FunctionParameterContext functionParameter : ctx.functionParameter()) {
                 params.add((String) functionParameter.ID().accept(this));
             }
         }
@@ -112,6 +123,23 @@ public class DefinitionCollectingVisitor implements JavaScriptVisitor {
     }
 
     @Override
+    public Object visitFunctionParameter(@NotNull JavaScriptParser.FunctionParameterContext ctx) {
+        scope.define((String) ctx.ID().accept(this));
+        return null;
+    }
+
+    @Override
+    public Object visitId(@NotNull JavaScriptParser.IdContext ctx) {
+        return ctx.ID().accept(this);
+    }
+
+    @Override
+    public Object visitVarDeclaration(@NotNull JavaScriptParser.VarDeclarationContext ctx) {
+        scope.define((String) ctx.ID().accept(this));
+        return null;
+    }
+
+    @Override
     public Object visitMinusExpression(@NotNull JavaScriptParser.MinusExpressionContext ctx) {
         // Nothing to do
         return null;
@@ -139,11 +167,6 @@ public class DefinitionCollectingVisitor implements JavaScriptVisitor {
     public Object visitAnonymousFunctionExpression(@NotNull JavaScriptParser.AnonymousFunctionExpressionContext ctx) {
         // Nothing to do
         return null;
-    }
-
-    @Override
-    public Object visitId(@NotNull JavaScriptParser.IdContext ctx) {
-        return ctx.ID().accept(this);
     }
 
     @Override
@@ -177,12 +200,6 @@ public class DefinitionCollectingVisitor implements JavaScriptVisitor {
     }
 
     @Override
-    public Object visitAnonymousFunction(@NotNull JavaScriptParser.AnonymousFunctionContext ctx) {
-        // Nothing to do
-        return null;
-    }
-
-    @Override
     public Object visitCallParams(@NotNull JavaScriptParser.CallParamsContext ctx) {
         // Nothing to do
         return null;
@@ -197,18 +214,6 @@ public class DefinitionCollectingVisitor implements JavaScriptVisitor {
     @Override
     public Object visitModExpression(@NotNull JavaScriptParser.ModExpressionContext ctx) {
         // Nothing to do
-        return null;
-    }
-
-    @Override
-    public Object visitFunctionParameter(@NotNull JavaScriptParser.FunctionParameterContext ctx) {
-        scope.define((String) ctx.ID().accept(this));
-        return null;
-    }
-
-    @Override
-    public Object visitVarDeclaration(@NotNull JavaScriptParser.VarDeclarationContext ctx) {
-        scope.define((String) ctx.ID().accept(this));
         return null;
     }
 
@@ -229,4 +234,5 @@ public class DefinitionCollectingVisitor implements JavaScriptVisitor {
         // Nothing to do
         return null;
     }
+
 }

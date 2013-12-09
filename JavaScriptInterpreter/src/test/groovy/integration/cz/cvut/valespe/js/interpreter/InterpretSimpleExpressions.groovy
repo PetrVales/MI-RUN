@@ -35,6 +35,9 @@ class InterpretSimpleExpressions {
         assertValueOfVariable("e", 12)
         assertValueOfVariable("f", 2)
         assertValueOfVariable("g", 11)
+        assert null != scope.get("h")
+        assertValueOfVariable("i", 16)
+        assertValueOfVariable("j", 17)
     }
 
     def private parseCode(code) {

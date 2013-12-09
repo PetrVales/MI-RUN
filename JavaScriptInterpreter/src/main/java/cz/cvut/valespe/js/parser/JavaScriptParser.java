@@ -16,10 +16,12 @@ public class JavaScriptParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__6=1, T__5=2, T__4=3, T__3=4, T__2=5, T__1=6, T__0=7, ASSIGNMENT=8, 
-		PLUS=9, MINUS=10, MUL=11, DIV=12, MOD=13, INT=14, ID=15, WS=16;
+		PLUS=9, MINUS=10, MUL=11, DIV=12, MOD=13, INT=14, ID=15, WS=16, COMMENT=17, 
+		LINE_COMMENT=18;
 	public static final String[] tokenNames = {
 		"<INVALID>", "'{'", "'function'", "')'", "','", "'('", "'}'", "'var'", 
-		"'='", "'+'", "'-'", "'*'", "'/'", "'%'", "INT", "ID", "WS"
+		"'='", "'+'", "'-'", "'*'", "'/'", "'%'", "INT", "ID", "WS", "COMMENT", 
+		"LINE_COMMENT"
 	};
 	public static final int
 		RULE_file = 0, RULE_functionDeclaration = 1, RULE_functionName = 2, RULE_functionParameters = 3, 
@@ -1235,7 +1237,7 @@ public class JavaScriptParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\uacf5\uee8c\u4f5d\u8b0d\u4a45\u78bd\u1b2f\u3378\3\22\u0092\4\2\t\2"+
+		"\3\uacf5\uee8c\u4f5d\u8b0d\u4a45\u78bd\u1b2f\u3378\3\24\u0092\4\2\t\2"+
 		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
 		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\3\2\3\2\3\2\6\2 \n\2\r\2\16\2!\3\3\3\3"+
 		"\5\3&\n\3\3\3\3\3\5\3*\n\3\3\3\3\3\5\3.\n\3\3\3\3\3\5\3\62\n\3\3\3\3\3"+

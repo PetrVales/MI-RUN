@@ -40,8 +40,10 @@ public class JsFunction extends JsObject {
         Scope callScope = new Scope(scope, invokeScope);
         for (int i = 0; i < args.size(); i++)
             callScope.set(params.get(i), args.get(i));
-        if (name != null)
+        if (name != null) {
+            callScope.define(name);
             callScope.set(name, selfRef);
+        }
         Memory.Reference resultRef = (Memory.Reference) body.accept(new InterpreterVisitor(memory, callScope));
         if (resultRef != null && memory.getJsObject(resultRef).isSymbol())
             resultRef = callScope.get((String) memory.getJsObject(resultRef).value());
