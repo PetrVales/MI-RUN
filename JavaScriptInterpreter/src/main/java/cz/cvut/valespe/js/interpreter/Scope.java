@@ -65,7 +65,7 @@ public class Scope {
         else if (parent != null)
             return parent.get(name);
         else
-            return null;
+            throw new ReferenceError();
     }
 
     public Set<String> getDefinedNames() {

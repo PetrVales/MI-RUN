@@ -73,6 +73,30 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     }
 
     @Override
+    public Object visitCreateInstanceExpression(@NotNull JavaScriptParser.CreateInstanceExpressionContext ctx) {
+        return ctx.createInstance().accept(this);
+    }
+
+    @Override
+    public Object visitThisAssignmentExpression(@NotNull JavaScriptParser.ThisAssignmentExpressionContext ctx) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public Object visitCreateInstance(@NotNull JavaScriptParser.CreateInstanceContext ctx) {
+        Memory.Reference nameRef = (Memory.Reference) ctx.ID().accept(this);
+        Symbol functionName = (Symbol) memory.getJsObject(nameRef);
+        Memory.Reference constructorRef = scope.get((String) functionName.value());
+        final JsObject jsObject = memory.getJsObject(constructorRef);
+        if (jsObject.isJsFunction()) {
+            JsFunction constructor = (JsFunction) jsObject;
+            List<Memory.Reference> paramRefs = ctx.callParams() == null ? Collections.emptyList() : (List) ctx.callParams().accept(this);
+            return constructor.constructInstance(paramRefs, scope, memory);
+        }
+        return null;
+    }
+
+    @Override
     public Object visitFunctionBody(@NotNull JavaScriptParser.FunctionBodyContext ctx) {
         Object returnValue = null;
         for (JavaScriptParser.ExpressionContext expressionContext : ctx.expression()) {
@@ -149,6 +173,11 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
             resultRef = scope.get((String) memory.getJsObject(resultRef).value());
         scope.set((String) memory.getJsObject(nameRef).value(), resultRef);
         return null;
+    }
+
+    @Override
+    public Object visitThisAssignmentExpressionExpression(@NotNull JavaScriptParser.ThisAssignmentExpressionExpressionContext ctx) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

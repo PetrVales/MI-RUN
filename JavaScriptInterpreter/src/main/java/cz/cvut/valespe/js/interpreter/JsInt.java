@@ -65,6 +65,11 @@ public class JsInt extends JsObject {
     }
 
     @Override
+    public Memory.Reference constructInstance(List<Memory.Reference> args, Scope invokeScope, Memory memory) {
+        throw new TypeError("Can't construct instance from Int.");
+    }
+
+    @Override
     public Object value() {
         return value;
     }

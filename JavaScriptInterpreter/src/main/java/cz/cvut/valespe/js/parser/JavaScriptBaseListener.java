@@ -17,32 +17,6 @@ public class JavaScriptBaseListener implements JavaScriptListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void enterFunctionParameters(@NotNull JavaScriptParser.FunctionParametersContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitFunctionParameters(@NotNull JavaScriptParser.FunctionParametersContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void enterMinusExpression(@NotNull JavaScriptParser.MinusExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitMinusExpression(@NotNull JavaScriptParser.MinusExpressionContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
 	@Override public void enterVarAssignment(@NotNull JavaScriptParser.VarAssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -56,32 +30,6 @@ public class JavaScriptBaseListener implements JavaScriptListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void enterMulExpression(@NotNull JavaScriptParser.MulExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitMulExpression(@NotNull JavaScriptParser.MulExpressionContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void enterInt(@NotNull JavaScriptParser.IntContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitInt(@NotNull JavaScriptParser.IntContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
 	@Override public void enterParenthesesExpression(@NotNull JavaScriptParser.ParenthesesExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -89,19 +37,6 @@ public class JavaScriptBaseListener implements JavaScriptListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitParenthesesExpression(@NotNull JavaScriptParser.ParenthesesExpressionContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void enterFunctionBody(@NotNull JavaScriptParser.FunctionBodyContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitFunctionBody(@NotNull JavaScriptParser.FunctionBodyContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -134,26 +69,13 @@ public class JavaScriptBaseListener implements JavaScriptListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void enterDivExpression(@NotNull JavaScriptParser.DivExpressionContext ctx) { }
+	@Override public void enterFunctionCall(@NotNull JavaScriptParser.FunctionCallContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void exitDivExpression(@NotNull JavaScriptParser.DivExpressionContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void enterAssignment(@NotNull JavaScriptParser.AssignmentContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitAssignment(@NotNull JavaScriptParser.AssignmentContext ctx) { }
+	@Override public void exitFunctionCall(@NotNull JavaScriptParser.FunctionCallContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -173,13 +95,26 @@ public class JavaScriptBaseListener implements JavaScriptListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void enterFunctionCall(@NotNull JavaScriptParser.FunctionCallContext ctx) { }
+	@Override public void enterCreateInstanceExpression(@NotNull JavaScriptParser.CreateInstanceExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void exitFunctionCall(@NotNull JavaScriptParser.FunctionCallContext ctx) { }
+	@Override public void exitCreateInstanceExpression(@NotNull JavaScriptParser.CreateInstanceExpressionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterThisAssignmentExpression(@NotNull JavaScriptParser.ThisAssignmentExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitThisAssignmentExpression(@NotNull JavaScriptParser.ThisAssignmentExpressionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -193,19 +128,6 @@ public class JavaScriptBaseListener implements JavaScriptListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitFile(@NotNull JavaScriptParser.FileContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void enterFunctionCallExpression(@NotNull JavaScriptParser.FunctionCallExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitFunctionCallExpression(@NotNull JavaScriptParser.FunctionCallExpressionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -251,6 +173,162 @@ public class JavaScriptBaseListener implements JavaScriptListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterAssignmentExpressionExpression(@NotNull JavaScriptParser.AssignmentExpressionExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitAssignmentExpressionExpression(@NotNull JavaScriptParser.AssignmentExpressionExpressionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterVarDeclaration(@NotNull JavaScriptParser.VarDeclarationContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitVarDeclaration(@NotNull JavaScriptParser.VarDeclarationContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterFunctionParameters(@NotNull JavaScriptParser.FunctionParametersContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitFunctionParameters(@NotNull JavaScriptParser.FunctionParametersContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterMinusExpression(@NotNull JavaScriptParser.MinusExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitMinusExpression(@NotNull JavaScriptParser.MinusExpressionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterInt(@NotNull JavaScriptParser.IntContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitInt(@NotNull JavaScriptParser.IntContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterMulExpression(@NotNull JavaScriptParser.MulExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitMulExpression(@NotNull JavaScriptParser.MulExpressionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterFunctionBody(@NotNull JavaScriptParser.FunctionBodyContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitFunctionBody(@NotNull JavaScriptParser.FunctionBodyContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterCreateInstance(@NotNull JavaScriptParser.CreateInstanceContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitCreateInstance(@NotNull JavaScriptParser.CreateInstanceContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterDivExpression(@NotNull JavaScriptParser.DivExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitDivExpression(@NotNull JavaScriptParser.DivExpressionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterAssignment(@NotNull JavaScriptParser.AssignmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitAssignment(@NotNull JavaScriptParser.AssignmentContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterThisAssignmentExpressionExpression(@NotNull JavaScriptParser.ThisAssignmentExpressionExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitThisAssignmentExpressionExpression(@NotNull JavaScriptParser.ThisAssignmentExpressionExpressionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterFunctionCallExpression(@NotNull JavaScriptParser.FunctionCallExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitFunctionCallExpression(@NotNull JavaScriptParser.FunctionCallExpressionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterFunctionDeclaration(@NotNull JavaScriptParser.FunctionDeclarationContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -277,19 +355,6 @@ public class JavaScriptBaseListener implements JavaScriptListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void enterAssignmentExpressionExpression(@NotNull JavaScriptParser.AssignmentExpressionExpressionContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitAssignmentExpressionExpression(@NotNull JavaScriptParser.AssignmentExpressionExpressionContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
 	@Override public void enterModExpression(@NotNull JavaScriptParser.ModExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -310,19 +375,6 @@ public class JavaScriptBaseListener implements JavaScriptListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitFunctionParameter(@NotNull JavaScriptParser.FunctionParameterContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void enterVarDeclaration(@NotNull JavaScriptParser.VarDeclarationContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitVarDeclaration(@NotNull JavaScriptParser.VarDeclarationContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

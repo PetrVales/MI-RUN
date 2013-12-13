@@ -40,6 +40,8 @@ public abstract class JsObject {
 
     public abstract Memory.Reference invoke(List<Memory.Reference> args, Scope invokeScope, Memory memory);
 
+    public abstract Memory.Reference constructInstance(List<Memory.Reference> args, Scope invokeScope, Memory memory);
+
     public List<Memory.Reference> getReferences() {
         return Collections.EMPTY_LIST; // TODO
     }

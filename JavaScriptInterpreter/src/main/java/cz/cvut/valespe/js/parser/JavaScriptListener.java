@@ -9,28 +9,6 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface JavaScriptListener extends ParseTreeListener {
 	/**
-	 * Enter a parse tree produced by {@link JavaScriptParser#functionParameters}.
-	 * @param ctx the parse tree
-	 */
-	void enterFunctionParameters(@NotNull JavaScriptParser.FunctionParametersContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link JavaScriptParser#functionParameters}.
-	 * @param ctx the parse tree
-	 */
-	void exitFunctionParameters(@NotNull JavaScriptParser.FunctionParametersContext ctx);
-
-	/**
-	 * Enter a parse tree produced by {@link JavaScriptParser#minusExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterMinusExpression(@NotNull JavaScriptParser.MinusExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link JavaScriptParser#minusExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitMinusExpression(@NotNull JavaScriptParser.MinusExpressionContext ctx);
-
-	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#varAssignment}.
 	 * @param ctx the parse tree
 	 */
@@ -42,28 +20,6 @@ public interface JavaScriptListener extends ParseTreeListener {
 	void exitVarAssignment(@NotNull JavaScriptParser.VarAssignmentContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link JavaScriptParser#mulExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterMulExpression(@NotNull JavaScriptParser.MulExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link JavaScriptParser#mulExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitMulExpression(@NotNull JavaScriptParser.MulExpressionContext ctx);
-
-	/**
-	 * Enter a parse tree produced by {@link JavaScriptParser#int}.
-	 * @param ctx the parse tree
-	 */
-	void enterInt(@NotNull JavaScriptParser.IntContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link JavaScriptParser#int}.
-	 * @param ctx the parse tree
-	 */
-	void exitInt(@NotNull JavaScriptParser.IntContext ctx);
-
-	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#parenthesesExpression}.
 	 * @param ctx the parse tree
 	 */
@@ -73,17 +29,6 @@ public interface JavaScriptListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitParenthesesExpression(@NotNull JavaScriptParser.ParenthesesExpressionContext ctx);
-
-	/**
-	 * Enter a parse tree produced by {@link JavaScriptParser#functionBody}.
-	 * @param ctx the parse tree
-	 */
-	void enterFunctionBody(@NotNull JavaScriptParser.FunctionBodyContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link JavaScriptParser#functionBody}.
-	 * @param ctx the parse tree
-	 */
-	void exitFunctionBody(@NotNull JavaScriptParser.FunctionBodyContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#anonymousFunctionExpression}.
@@ -108,26 +53,15 @@ public interface JavaScriptListener extends ParseTreeListener {
 	void exitId(@NotNull JavaScriptParser.IdContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link JavaScriptParser#divExpression}.
+	 * Enter a parse tree produced by {@link JavaScriptParser#functionCall}.
 	 * @param ctx the parse tree
 	 */
-	void enterDivExpression(@NotNull JavaScriptParser.DivExpressionContext ctx);
+	void enterFunctionCall(@NotNull JavaScriptParser.FunctionCallContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link JavaScriptParser#divExpression}.
+	 * Exit a parse tree produced by {@link JavaScriptParser#functionCall}.
 	 * @param ctx the parse tree
 	 */
-	void exitDivExpression(@NotNull JavaScriptParser.DivExpressionContext ctx);
-
-	/**
-	 * Enter a parse tree produced by {@link JavaScriptParser#assignment}.
-	 * @param ctx the parse tree
-	 */
-	void enterAssignment(@NotNull JavaScriptParser.AssignmentContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link JavaScriptParser#assignment}.
-	 * @param ctx the parse tree
-	 */
-	void exitAssignment(@NotNull JavaScriptParser.AssignmentContext ctx);
+	void exitFunctionCall(@NotNull JavaScriptParser.FunctionCallContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#callParam}.
@@ -141,15 +75,26 @@ public interface JavaScriptListener extends ParseTreeListener {
 	void exitCallParam(@NotNull JavaScriptParser.CallParamContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link JavaScriptParser#functionCall}.
+	 * Enter a parse tree produced by {@link JavaScriptParser#createInstanceExpression}.
 	 * @param ctx the parse tree
 	 */
-	void enterFunctionCall(@NotNull JavaScriptParser.FunctionCallContext ctx);
+	void enterCreateInstanceExpression(@NotNull JavaScriptParser.CreateInstanceExpressionContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link JavaScriptParser#functionCall}.
+	 * Exit a parse tree produced by {@link JavaScriptParser#createInstanceExpression}.
 	 * @param ctx the parse tree
 	 */
-	void exitFunctionCall(@NotNull JavaScriptParser.FunctionCallContext ctx);
+	void exitCreateInstanceExpression(@NotNull JavaScriptParser.CreateInstanceExpressionContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#thisAssignmentExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterThisAssignmentExpression(@NotNull JavaScriptParser.ThisAssignmentExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#thisAssignmentExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitThisAssignmentExpression(@NotNull JavaScriptParser.ThisAssignmentExpressionContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#file}.
@@ -161,17 +106,6 @@ public interface JavaScriptListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFile(@NotNull JavaScriptParser.FileContext ctx);
-
-	/**
-	 * Enter a parse tree produced by {@link JavaScriptParser#functionCallExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterFunctionCallExpression(@NotNull JavaScriptParser.FunctionCallExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link JavaScriptParser#functionCallExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitFunctionCallExpression(@NotNull JavaScriptParser.FunctionCallExpressionContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#anonymousFunction}.
@@ -207,6 +141,138 @@ public interface JavaScriptListener extends ParseTreeListener {
 	void exitPlusExpression(@NotNull JavaScriptParser.PlusExpressionContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#assignmentExpressionExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssignmentExpressionExpression(@NotNull JavaScriptParser.AssignmentExpressionExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#assignmentExpressionExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssignmentExpressionExpression(@NotNull JavaScriptParser.AssignmentExpressionExpressionContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#varDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void enterVarDeclaration(@NotNull JavaScriptParser.VarDeclarationContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#varDeclaration}.
+	 * @param ctx the parse tree
+	 */
+	void exitVarDeclaration(@NotNull JavaScriptParser.VarDeclarationContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#functionParameters}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionParameters(@NotNull JavaScriptParser.FunctionParametersContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#functionParameters}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionParameters(@NotNull JavaScriptParser.FunctionParametersContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#minusExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterMinusExpression(@NotNull JavaScriptParser.MinusExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#minusExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitMinusExpression(@NotNull JavaScriptParser.MinusExpressionContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#int}.
+	 * @param ctx the parse tree
+	 */
+	void enterInt(@NotNull JavaScriptParser.IntContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#int}.
+	 * @param ctx the parse tree
+	 */
+	void exitInt(@NotNull JavaScriptParser.IntContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#mulExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterMulExpression(@NotNull JavaScriptParser.MulExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#mulExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitMulExpression(@NotNull JavaScriptParser.MulExpressionContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#functionBody}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionBody(@NotNull JavaScriptParser.FunctionBodyContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#functionBody}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionBody(@NotNull JavaScriptParser.FunctionBodyContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#createInstance}.
+	 * @param ctx the parse tree
+	 */
+	void enterCreateInstance(@NotNull JavaScriptParser.CreateInstanceContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#createInstance}.
+	 * @param ctx the parse tree
+	 */
+	void exitCreateInstance(@NotNull JavaScriptParser.CreateInstanceContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#divExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterDivExpression(@NotNull JavaScriptParser.DivExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#divExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitDivExpression(@NotNull JavaScriptParser.DivExpressionContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#assignment}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssignment(@NotNull JavaScriptParser.AssignmentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#assignment}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssignment(@NotNull JavaScriptParser.AssignmentContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#thisAssignmentExpressionExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterThisAssignmentExpressionExpression(@NotNull JavaScriptParser.ThisAssignmentExpressionExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#thisAssignmentExpressionExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitThisAssignmentExpressionExpression(@NotNull JavaScriptParser.ThisAssignmentExpressionExpressionContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#functionCallExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunctionCallExpression(@NotNull JavaScriptParser.FunctionCallExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#functionCallExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunctionCallExpression(@NotNull JavaScriptParser.FunctionCallExpressionContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#functionDeclaration}.
 	 * @param ctx the parse tree
 	 */
@@ -229,17 +295,6 @@ public interface JavaScriptListener extends ParseTreeListener {
 	void exitFunctionName(@NotNull JavaScriptParser.FunctionNameContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link JavaScriptParser#assignmentExpressionExpression}.
-	 * @param ctx the parse tree
-	 */
-	void enterAssignmentExpressionExpression(@NotNull JavaScriptParser.AssignmentExpressionExpressionContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link JavaScriptParser#assignmentExpressionExpression}.
-	 * @param ctx the parse tree
-	 */
-	void exitAssignmentExpressionExpression(@NotNull JavaScriptParser.AssignmentExpressionExpressionContext ctx);
-
-	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#modExpression}.
 	 * @param ctx the parse tree
 	 */
@@ -260,15 +315,4 @@ public interface JavaScriptListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunctionParameter(@NotNull JavaScriptParser.FunctionParameterContext ctx);
-
-	/**
-	 * Enter a parse tree produced by {@link JavaScriptParser#varDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void enterVarDeclaration(@NotNull JavaScriptParser.VarDeclarationContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link JavaScriptParser#varDeclaration}.
-	 * @param ctx the parse tree
-	 */
-	void exitVarDeclaration(@NotNull JavaScriptParser.VarDeclarationContext ctx);
 }

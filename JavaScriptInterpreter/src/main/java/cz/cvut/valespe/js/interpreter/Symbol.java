@@ -31,4 +31,9 @@ public class Symbol extends JsObject {
     public Memory.Reference invoke(List<Memory.Reference> args, Scope invokeScope, Memory memory) {
         throw new TypeError("Symbol is not function.");
     }
+
+    @Override
+    public Memory.Reference constructInstance(List<Memory.Reference> args, Scope invokeScope, Memory memory) {
+        throw new TypeError("Can't construct instance from symbol.");
+    }
 }

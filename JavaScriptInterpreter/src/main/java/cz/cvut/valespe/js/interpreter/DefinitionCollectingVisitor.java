@@ -140,6 +140,18 @@ public class DefinitionCollectingVisitor implements JavaScriptVisitor {
     }
 
     @Override
+    public Object visitThisAssignmentExpressionExpression(@NotNull JavaScriptParser.ThisAssignmentExpressionExpressionContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
+    public Object visitThisAssignmentExpression(@NotNull JavaScriptParser.ThisAssignmentExpressionContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
     public Object visitMinusExpression(@NotNull JavaScriptParser.MinusExpressionContext ctx) {
         // Nothing to do
         return null;
@@ -182,7 +194,19 @@ public class DefinitionCollectingVisitor implements JavaScriptVisitor {
     }
 
     @Override
+    public Object visitCreateInstance(@NotNull JavaScriptParser.CreateInstanceContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
     public Object visitCallParam(@NotNull JavaScriptParser.CallParamContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
+    public Object visitCreateInstanceExpression(@NotNull JavaScriptParser.CreateInstanceExpressionContext ctx) {
         // Nothing to do
         return null;
     }

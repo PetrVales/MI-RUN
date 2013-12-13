@@ -24,8 +24,10 @@ functionBody
 
 expression
     : functionCall #functionCallExpression
+    | createInstance #createInstanceExpression
     | ID #id
     | INT #int
+    | thisAssignmentExpression #thisAssignmentExpressionExpression
     | assignmentExpression #assignmentExpressionExpression
     | anonymousFunction #anonymousFunctionExpression
     | '(' expression ')' #parenthesesExpression
@@ -44,6 +46,14 @@ callParams
     ;
 callParam
     : (ID|INT)
+    ;
+
+createInstance
+    : 'new' ID'(' callParams? ')'
+    ;
+
+thisAssignmentExpression
+    : 'this.'ID ASSIGNMENT expression
     ;
 
 assignmentExpression

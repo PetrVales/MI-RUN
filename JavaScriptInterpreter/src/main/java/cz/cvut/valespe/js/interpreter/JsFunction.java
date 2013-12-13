@@ -32,7 +32,7 @@ public class JsFunction extends JsObject {
 
     @Override
     public Memory.Reference invoke(String function, List<Memory.Reference> args, Scope invokeScope, Memory memory) {
-        return null;
+        throw new TypeError("Function does not have methods.");
     }
 
     @Override
@@ -48,6 +48,19 @@ public class JsFunction extends JsObject {
         if (resultRef != null && memory.getJsObject(resultRef).isSymbol())
             resultRef = callScope.get((String) memory.getJsObject(resultRef).value());
         return resultRef;
+    }
+
+    public Memory.Reference constructInstance(List<Memory.Reference> args, Scope invokeScope, Memory memory) {
+        Scope callScope = new Scope(scope, invokeScope);
+        for (int i = 0; i < args.size(); i++)
+            callScope.set(params.get(i), args.get(i));
+        if (name != null) {
+            callScope.define(name);
+            callScope.set(name, selfRef);
+        }
+        body.accept(new InterpreterVisitor(memory, callScope));
+        JsObject instance = new JsInstance(callScope, this);
+        return memory.storeJsObject(instance);
     }
 
     public List<String> getParams() {

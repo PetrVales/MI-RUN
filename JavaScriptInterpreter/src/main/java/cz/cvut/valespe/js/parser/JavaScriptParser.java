@@ -15,23 +15,25 @@ public class JavaScriptParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__6=1, T__5=2, T__4=3, T__3=4, T__2=5, T__1=6, T__0=7, ASSIGNMENT=8, 
-		PLUS=9, MINUS=10, MUL=11, DIV=12, MOD=13, INT=14, ID=15, WS=16, COMMENT=17, 
-		LINE_COMMENT=18;
+		T__8=1, T__7=2, T__6=3, T__5=4, T__4=5, T__3=6, T__2=7, T__1=8, T__0=9, 
+		ASSIGNMENT=10, PLUS=11, MINUS=12, MUL=13, DIV=14, MOD=15, INT=16, ID=17, 
+		WS=18, COMMENT=19, LINE_COMMENT=20;
 	public static final String[] tokenNames = {
-		"<INVALID>", "'{'", "'function'", "')'", "','", "'('", "'}'", "'var'", 
-		"'='", "'+'", "'-'", "'*'", "'/'", "'%'", "INT", "ID", "WS", "COMMENT", 
-		"LINE_COMMENT"
+		"<INVALID>", "'{'", "'function'", "')'", "','", "'('", "'new'", "'}'", 
+		"'var'", "'this.'", "'='", "'+'", "'-'", "'*'", "'/'", "'%'", "INT", "ID", 
+		"WS", "COMMENT", "LINE_COMMENT"
 	};
 	public static final int
 		RULE_file = 0, RULE_functionDeclaration = 1, RULE_functionName = 2, RULE_functionParameters = 3, 
 		RULE_functionParameter = 4, RULE_functionBody = 5, RULE_expression = 6, 
-		RULE_functionCall = 7, RULE_callParams = 8, RULE_callParam = 9, RULE_assignmentExpression = 10, 
-		RULE_anonymousFunction = 11, RULE_varDeclaration = 12;
+		RULE_functionCall = 7, RULE_callParams = 8, RULE_callParam = 9, RULE_createInstance = 10, 
+		RULE_thisAssignmentExpression = 11, RULE_assignmentExpression = 12, RULE_anonymousFunction = 13, 
+		RULE_varDeclaration = 14;
 	public static final String[] ruleNames = {
 		"file", "functionDeclaration", "functionName", "functionParameters", "functionParameter", 
 		"functionBody", "expression", "functionCall", "callParams", "callParam", 
-		"assignmentExpression", "anonymousFunction", "varDeclaration"
+		"createInstance", "thisAssignmentExpression", "assignmentExpression", 
+		"anonymousFunction", "varDeclaration"
 	};
 
 	@Override
@@ -95,36 +97,36 @@ public class JavaScriptParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(29); 
+			setState(33); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
 				{
-				setState(29);
+				setState(33);
 				switch ( getInterpreter().adaptivePredict(_input,0,_ctx) ) {
 				case 1:
 					{
-					setState(26); functionDeclaration();
+					setState(30); functionDeclaration();
 					}
 					break;
 
 				case 2:
 					{
-					setState(27); expression(0);
+					setState(31); expression(0);
 					}
 					break;
 
 				case 3:
 					{
-					setState(28); varDeclaration();
+					setState(32); varDeclaration();
 					}
 					break;
 				}
 				}
-				setState(31); 
+				setState(35); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 2) | (1L << 5) | (1L << 7) | (1L << INT) | (1L << ID))) != 0) );
+			} while ( (((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 2) | (1L << 5) | (1L << 6) | (1L << 8) | (1L << 9) | (1L << INT) | (1L << ID))) != 0) );
 			}
 		}
 		catch (RecognitionException re) {
@@ -178,16 +180,7 @@ public class JavaScriptParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(33); match(2);
-			setState(35);
-			_la = _input.LA(1);
-			if (_la==WS) {
-				{
-				setState(34); match(WS);
-				}
-			}
-
-			setState(37); functionName();
+			setState(37); match(2);
 			setState(39);
 			_la = _input.LA(1);
 			if (_la==WS) {
@@ -196,25 +189,34 @@ public class JavaScriptParser extends Parser {
 				}
 			}
 
-			setState(41); match(5);
+			setState(41); functionName();
 			setState(43);
-			_la = _input.LA(1);
-			if (_la==ID) {
-				{
-				setState(42); functionParameters();
-				}
-			}
-
-			setState(45); match(3);
-			setState(47);
 			_la = _input.LA(1);
 			if (_la==WS) {
 				{
-				setState(46); match(WS);
+				setState(42); match(WS);
 				}
 			}
 
-			setState(49); functionBody();
+			setState(45); match(5);
+			setState(47);
+			_la = _input.LA(1);
+			if (_la==ID) {
+				{
+				setState(46); functionParameters();
+				}
+			}
+
+			setState(49); match(3);
+			setState(51);
+			_la = _input.LA(1);
+			if (_la==WS) {
+				{
+				setState(50); match(WS);
+				}
+			}
+
+			setState(53); functionBody();
 			}
 		}
 		catch (RecognitionException re) {
@@ -255,7 +257,7 @@ public class JavaScriptParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(51); match(ID);
+			setState(55); match(ID);
 			}
 		}
 		catch (RecognitionException re) {
@@ -302,18 +304,18 @@ public class JavaScriptParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(53); functionParameter();
-			setState(58);
+			setState(57); functionParameter();
+			setState(62);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==4) {
 				{
 				{
-				setState(54); match(4);
-				setState(55); functionParameter();
+				setState(58); match(4);
+				setState(59); functionParameter();
 				}
 				}
-				setState(60);
+				setState(64);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -357,7 +359,7 @@ public class JavaScriptParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(61); match(ID);
+			setState(65); match(ID);
 			}
 		}
 		catch (RecognitionException re) {
@@ -416,38 +418,38 @@ public class JavaScriptParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(63); match(1);
-			setState(69);
+			setState(67); match(1);
+			setState(73);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 2) | (1L << 5) | (1L << 7) | (1L << INT) | (1L << ID))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << 2) | (1L << 5) | (1L << 6) | (1L << 8) | (1L << 9) | (1L << INT) | (1L << ID))) != 0)) {
 				{
-				setState(67);
+				setState(71);
 				switch ( getInterpreter().adaptivePredict(_input,7,_ctx) ) {
 				case 1:
 					{
-					setState(64); functionDeclaration();
+					setState(68); functionDeclaration();
 					}
 					break;
 
 				case 2:
 					{
-					setState(65); expression(0);
+					setState(69); expression(0);
 					}
 					break;
 
 				case 3:
 					{
-					setState(66); varDeclaration();
+					setState(70); varDeclaration();
 					}
 					break;
 				}
 				}
-				setState(71);
+				setState(75);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
-			setState(72); match(6);
+			setState(76); match(7);
 			}
 		}
 		catch (RecognitionException re) {
@@ -539,6 +541,25 @@ public class JavaScriptParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class CreateInstanceExpressionContext extends ExpressionContext {
+		public CreateInstanceContext createInstance() {
+			return getRuleContext(CreateInstanceContext.class,0);
+		}
+		public CreateInstanceExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof JavaScriptListener ) ((JavaScriptListener)listener).enterCreateInstanceExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof JavaScriptListener ) ((JavaScriptListener)listener).exitCreateInstanceExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof JavaScriptVisitor ) return ((JavaScriptVisitor<? extends T>)visitor).visitCreateInstanceExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 	public static class IntContext extends ExpressionContext {
 		public TerminalNode INT() { return getToken(JavaScriptParser.INT, 0); }
 		public IntContext(ExpressionContext ctx) { copyFrom(ctx); }
@@ -614,6 +635,25 @@ public class JavaScriptParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof JavaScriptVisitor ) return ((JavaScriptVisitor<? extends T>)visitor).visitFunctionCallExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class ThisAssignmentExpressionExpressionContext extends ExpressionContext {
+		public ThisAssignmentExpressionContext thisAssignmentExpression() {
+			return getRuleContext(ThisAssignmentExpressionContext.class,0);
+		}
+		public ThisAssignmentExpressionExpressionContext(ExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof JavaScriptListener ) ((JavaScriptListener)listener).enterThisAssignmentExpressionExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof JavaScriptListener ) ((JavaScriptListener)listener).exitThisAssignmentExpressionExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof JavaScriptVisitor ) return ((JavaScriptVisitor<? extends T>)visitor).visitThisAssignmentExpressionExpression(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -713,7 +753,7 @@ public class JavaScriptParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(84);
+			setState(90);
 			switch ( getInterpreter().adaptivePredict(_input,9,_ctx) ) {
 			case 1:
 				{
@@ -721,59 +761,77 @@ public class JavaScriptParser extends Parser {
 				_ctx = _localctx;
 				_prevctx = _localctx;
 
-				setState(75); functionCall();
+				setState(79); functionCall();
 				}
 				break;
 
 			case 2:
 				{
-				_localctx = new IdContext(_localctx);
+				_localctx = new CreateInstanceExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(76); match(ID);
+				setState(80); createInstance();
 				}
 				break;
 
 			case 3:
 				{
-				_localctx = new IntContext(_localctx);
+				_localctx = new IdContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(77); match(INT);
+				setState(81); match(ID);
 				}
 				break;
 
 			case 4:
 				{
-				_localctx = new AssignmentExpressionExpressionContext(_localctx);
+				_localctx = new IntContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(78); assignmentExpression();
+				setState(82); match(INT);
 				}
 				break;
 
 			case 5:
 				{
-				_localctx = new AnonymousFunctionExpressionContext(_localctx);
+				_localctx = new ThisAssignmentExpressionExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(79); anonymousFunction();
+				setState(83); thisAssignmentExpression();
 				}
 				break;
 
 			case 6:
 				{
+				_localctx = new AssignmentExpressionExpressionContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(84); assignmentExpression();
+				}
+				break;
+
+			case 7:
+				{
+				_localctx = new AnonymousFunctionExpressionContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(85); anonymousFunction();
+				}
+				break;
+
+			case 8:
+				{
 				_localctx = new ParenthesesExpressionContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(80); match(5);
-				setState(81); expression(0);
-				setState(82); match(3);
+				setState(86); match(5);
+				setState(87); expression(0);
+				setState(88); match(3);
 				}
 				break;
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(103);
+			setState(109);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,11,_ctx);
 			while ( _alt!=2 && _alt!=-1 ) {
@@ -781,16 +839,16 @@ public class JavaScriptParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(101);
+					setState(107);
 					switch ( getInterpreter().adaptivePredict(_input,10,_ctx) ) {
 					case 1:
 						{
 						_localctx = new MulExpressionContext(new ExpressionContext(_parentctx, _parentState, _p));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(86);
+						setState(92);
 						if (!(5 >= _localctx._p)) throw new FailedPredicateException(this, "5 >= $_p");
-						setState(87); match(MUL);
-						setState(88); expression(6);
+						setState(93); match(MUL);
+						setState(94); expression(6);
 						}
 						break;
 
@@ -798,10 +856,10 @@ public class JavaScriptParser extends Parser {
 						{
 						_localctx = new DivExpressionContext(new ExpressionContext(_parentctx, _parentState, _p));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(89);
+						setState(95);
 						if (!(4 >= _localctx._p)) throw new FailedPredicateException(this, "4 >= $_p");
-						setState(90); match(DIV);
-						setState(91); expression(5);
+						setState(96); match(DIV);
+						setState(97); expression(5);
 						}
 						break;
 
@@ -809,10 +867,10 @@ public class JavaScriptParser extends Parser {
 						{
 						_localctx = new ModExpressionContext(new ExpressionContext(_parentctx, _parentState, _p));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(92);
+						setState(98);
 						if (!(3 >= _localctx._p)) throw new FailedPredicateException(this, "3 >= $_p");
-						setState(93); match(MOD);
-						setState(94); expression(4);
+						setState(99); match(MOD);
+						setState(100); expression(4);
 						}
 						break;
 
@@ -820,10 +878,10 @@ public class JavaScriptParser extends Parser {
 						{
 						_localctx = new PlusExpressionContext(new ExpressionContext(_parentctx, _parentState, _p));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(95);
+						setState(101);
 						if (!(2 >= _localctx._p)) throw new FailedPredicateException(this, "2 >= $_p");
-						setState(96); match(PLUS);
-						setState(97); expression(3);
+						setState(102); match(PLUS);
+						setState(103); expression(3);
 						}
 						break;
 
@@ -831,16 +889,16 @@ public class JavaScriptParser extends Parser {
 						{
 						_localctx = new MinusExpressionContext(new ExpressionContext(_parentctx, _parentState, _p));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression);
-						setState(98);
+						setState(104);
 						if (!(1 >= _localctx._p)) throw new FailedPredicateException(this, "1 >= $_p");
-						setState(99); match(MINUS);
-						setState(100); expression(2);
+						setState(105); match(MINUS);
+						setState(106); expression(2);
 						}
 						break;
 					}
 					} 
 				}
-				setState(105);
+				setState(111);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,11,_ctx);
 			}
@@ -888,17 +946,17 @@ public class JavaScriptParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(106); match(ID);
-			setState(107); match(5);
-			setState(109);
+			setState(112); match(ID);
+			setState(113); match(5);
+			setState(115);
 			_la = _input.LA(1);
 			if (_la==INT || _la==ID) {
 				{
-				setState(108); callParams();
+				setState(114); callParams();
 				}
 			}
 
-			setState(111); match(3);
+			setState(117); match(3);
 			}
 		}
 		catch (RecognitionException re) {
@@ -945,18 +1003,18 @@ public class JavaScriptParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(113); callParam();
-			setState(118);
+			setState(119); callParam();
+			setState(124);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			while (_la==4) {
 				{
 				{
-				setState(114); match(4);
-				setState(115); callParam();
+				setState(120); match(4);
+				setState(121); callParam();
 				}
 				}
-				setState(120);
+				setState(126);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -1002,12 +1060,116 @@ public class JavaScriptParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(121);
+			setState(127);
 			_la = _input.LA(1);
 			if ( !(_la==INT || _la==ID) ) {
 			_errHandler.recoverInline(this);
 			}
 			consume();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class CreateInstanceContext extends ParserRuleContext {
+		public CallParamsContext callParams() {
+			return getRuleContext(CallParamsContext.class,0);
+		}
+		public TerminalNode ID() { return getToken(JavaScriptParser.ID, 0); }
+		public CreateInstanceContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_createInstance; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof JavaScriptListener ) ((JavaScriptListener)listener).enterCreateInstance(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof JavaScriptListener ) ((JavaScriptListener)listener).exitCreateInstance(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof JavaScriptVisitor ) return ((JavaScriptVisitor<? extends T>)visitor).visitCreateInstance(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final CreateInstanceContext createInstance() throws RecognitionException {
+		CreateInstanceContext _localctx = new CreateInstanceContext(_ctx, getState());
+		enterRule(_localctx, 20, RULE_createInstance);
+		int _la;
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(129); match(6);
+			setState(130); match(ID);
+			setState(131); match(5);
+			setState(133);
+			_la = _input.LA(1);
+			if (_la==INT || _la==ID) {
+				{
+				setState(132); callParams();
+				}
+			}
+
+			setState(135); match(3);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ThisAssignmentExpressionContext extends ParserRuleContext {
+		public TerminalNode ID() { return getToken(JavaScriptParser.ID, 0); }
+		public ExpressionContext expression() {
+			return getRuleContext(ExpressionContext.class,0);
+		}
+		public TerminalNode ASSIGNMENT() { return getToken(JavaScriptParser.ASSIGNMENT, 0); }
+		public ThisAssignmentExpressionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_thisAssignmentExpression; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof JavaScriptListener ) ((JavaScriptListener)listener).enterThisAssignmentExpression(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof JavaScriptListener ) ((JavaScriptListener)listener).exitThisAssignmentExpression(this);
+		}
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof JavaScriptVisitor ) return ((JavaScriptVisitor<? extends T>)visitor).visitThisAssignmentExpression(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+
+	public final ThisAssignmentExpressionContext thisAssignmentExpression() throws RecognitionException {
+		ThisAssignmentExpressionContext _localctx = new ThisAssignmentExpressionContext(_ctx, getState());
+		enterRule(_localctx, 22, RULE_thisAssignmentExpression);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(137); match(9);
+			setState(138); match(ID);
+			setState(139); match(ASSIGNMENT);
+			setState(140); expression(0);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1077,27 +1239,27 @@ public class JavaScriptParser extends Parser {
 
 	public final AssignmentExpressionContext assignmentExpression() throws RecognitionException {
 		AssignmentExpressionContext _localctx = new AssignmentExpressionContext(_ctx, getState());
-		enterRule(_localctx, 20, RULE_assignmentExpression);
+		enterRule(_localctx, 24, RULE_assignmentExpression);
 		try {
-			setState(130);
+			setState(149);
 			switch (_input.LA(1)) {
 			case ID:
 				_localctx = new AssignmentContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(123); match(ID);
-				setState(124); match(ASSIGNMENT);
-				setState(125); expression(0);
+				setState(142); match(ID);
+				setState(143); match(ASSIGNMENT);
+				setState(144); expression(0);
 				}
 				break;
-			case 7:
+			case 8:
 				_localctx = new VarAssignmentContext(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(126); match(7);
-				setState(127); match(ID);
-				setState(128); match(ASSIGNMENT);
-				setState(129); expression(0);
+				setState(145); match(8);
+				setState(146); match(ID);
+				setState(147); match(ASSIGNMENT);
+				setState(148); expression(0);
 				}
 				break;
 			default:
@@ -1143,23 +1305,23 @@ public class JavaScriptParser extends Parser {
 
 	public final AnonymousFunctionContext anonymousFunction() throws RecognitionException {
 		AnonymousFunctionContext _localctx = new AnonymousFunctionContext(_ctx, getState());
-		enterRule(_localctx, 22, RULE_anonymousFunction);
+		enterRule(_localctx, 26, RULE_anonymousFunction);
 		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(132); match(2);
-			setState(133); match(5);
-			setState(135);
+			setState(151); match(2);
+			setState(152); match(5);
+			setState(154);
 			_la = _input.LA(1);
 			if (_la==ID) {
 				{
-				setState(134); functionParameters();
+				setState(153); functionParameters();
 				}
 			}
 
-			setState(137); match(3);
-			setState(138); functionBody();
+			setState(156); match(3);
+			setState(157); functionBody();
 			}
 		}
 		catch (RecognitionException re) {
@@ -1196,12 +1358,12 @@ public class JavaScriptParser extends Parser {
 
 	public final VarDeclarationContext varDeclaration() throws RecognitionException {
 		VarDeclarationContext _localctx = new VarDeclarationContext(_ctx, getState());
-		enterRule(_localctx, 24, RULE_varDeclaration);
+		enterRule(_localctx, 28, RULE_varDeclaration);
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(140); match(7);
-			setState(141); match(ID);
+			setState(159); match(8);
+			setState(160); match(ID);
 			}
 		}
 		catch (RecognitionException re) {
@@ -1237,45 +1399,52 @@ public class JavaScriptParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\uacf5\uee8c\u4f5d\u8b0d\u4a45\u78bd\u1b2f\u3378\3\24\u0092\4\2\t\2"+
+		"\3\uacf5\uee8c\u4f5d\u8b0d\u4a45\u78bd\u1b2f\u3378\3\26\u00a5\4\2\t\2"+
 		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
-		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\3\2\3\2\3\2\6\2 \n\2\r\2\16\2!\3\3\3\3"+
-		"\5\3&\n\3\3\3\3\3\5\3*\n\3\3\3\3\3\5\3.\n\3\3\3\3\3\5\3\62\n\3\3\3\3\3"+
-		"\3\4\3\4\3\5\3\5\3\5\7\5;\n\5\f\5\16\5>\13\5\3\6\3\6\3\7\3\7\3\7\3\7\7"+
-		"\7F\n\7\f\7\16\7I\13\7\3\7\3\7\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b"+
-		"\5\bW\n\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b"+
-		"\7\bh\n\b\f\b\16\bk\13\b\3\t\3\t\3\t\5\tp\n\t\3\t\3\t\3\n\3\n\3\n\7\n"+
-		"w\n\n\f\n\16\nz\13\n\3\13\3\13\3\f\3\f\3\f\3\f\3\f\3\f\3\f\5\f\u0085\n"+
-		"\f\3\r\3\r\3\r\5\r\u008a\n\r\3\r\3\r\3\r\3\16\3\16\3\16\3\16\2\17\2\4"+
-		"\6\b\n\f\16\20\22\24\26\30\32\2\3\3\2\20\21\u009d\2\37\3\2\2\2\4#\3\2"+
-		"\2\2\6\65\3\2\2\2\b\67\3\2\2\2\n?\3\2\2\2\fA\3\2\2\2\16V\3\2\2\2\20l\3"+
-		"\2\2\2\22s\3\2\2\2\24{\3\2\2\2\26\u0084\3\2\2\2\30\u0086\3\2\2\2\32\u008e"+
-		"\3\2\2\2\34 \5\4\3\2\35 \5\16\b\2\36 \5\32\16\2\37\34\3\2\2\2\37\35\3"+
-		"\2\2\2\37\36\3\2\2\2 !\3\2\2\2!\37\3\2\2\2!\"\3\2\2\2\"\3\3\2\2\2#%\7"+
-		"\4\2\2$&\7\22\2\2%$\3\2\2\2%&\3\2\2\2&\'\3\2\2\2\')\5\6\4\2(*\7\22\2\2"+
-		")(\3\2\2\2)*\3\2\2\2*+\3\2\2\2+-\7\7\2\2,.\5\b\5\2-,\3\2\2\2-.\3\2\2\2"+
-		"./\3\2\2\2/\61\7\5\2\2\60\62\7\22\2\2\61\60\3\2\2\2\61\62\3\2\2\2\62\63"+
-		"\3\2\2\2\63\64\5\f\7\2\64\5\3\2\2\2\65\66\7\21\2\2\66\7\3\2\2\2\67<\5"+
-		"\n\6\289\7\6\2\29;\5\n\6\2:8\3\2\2\2;>\3\2\2\2<:\3\2\2\2<=\3\2\2\2=\t"+
-		"\3\2\2\2><\3\2\2\2?@\7\21\2\2@\13\3\2\2\2AG\7\3\2\2BF\5\4\3\2CF\5\16\b"+
-		"\2DF\5\32\16\2EB\3\2\2\2EC\3\2\2\2ED\3\2\2\2FI\3\2\2\2GE\3\2\2\2GH\3\2"+
-		"\2\2HJ\3\2\2\2IG\3\2\2\2JK\7\b\2\2K\r\3\2\2\2LM\b\b\1\2MW\5\20\t\2NW\7"+
-		"\21\2\2OW\7\20\2\2PW\5\26\f\2QW\5\30\r\2RS\7\7\2\2ST\5\16\b\2TU\7\5\2"+
-		"\2UW\3\2\2\2VL\3\2\2\2VN\3\2\2\2VO\3\2\2\2VP\3\2\2\2VQ\3\2\2\2VR\3\2\2"+
-		"\2Wi\3\2\2\2XY\6\b\2\3YZ\7\r\2\2Zh\5\16\b\2[\\\6\b\3\3\\]\7\16\2\2]h\5"+
-		"\16\b\2^_\6\b\4\3_`\7\17\2\2`h\5\16\b\2ab\6\b\5\3bc\7\13\2\2ch\5\16\b"+
-		"\2de\6\b\6\3ef\7\f\2\2fh\5\16\b\2gX\3\2\2\2g[\3\2\2\2g^\3\2\2\2ga\3\2"+
-		"\2\2gd\3\2\2\2hk\3\2\2\2ig\3\2\2\2ij\3\2\2\2j\17\3\2\2\2ki\3\2\2\2lm\7"+
-		"\21\2\2mo\7\7\2\2np\5\22\n\2on\3\2\2\2op\3\2\2\2pq\3\2\2\2qr\7\5\2\2r"+
-		"\21\3\2\2\2sx\5\24\13\2tu\7\6\2\2uw\5\24\13\2vt\3\2\2\2wz\3\2\2\2xv\3"+
-		"\2\2\2xy\3\2\2\2y\23\3\2\2\2zx\3\2\2\2{|\t\2\2\2|\25\3\2\2\2}~\7\21\2"+
-		"\2~\177\7\n\2\2\177\u0085\5\16\b\2\u0080\u0081\7\t\2\2\u0081\u0082\7\21"+
-		"\2\2\u0082\u0083\7\n\2\2\u0083\u0085\5\16\b\2\u0084}\3\2\2\2\u0084\u0080"+
-		"\3\2\2\2\u0085\27\3\2\2\2\u0086\u0087\7\4\2\2\u0087\u0089\7\7\2\2\u0088"+
-		"\u008a\5\b\5\2\u0089\u0088\3\2\2\2\u0089\u008a\3\2\2\2\u008a\u008b\3\2"+
-		"\2\2\u008b\u008c\7\5\2\2\u008c\u008d\5\f\7\2\u008d\31\3\2\2\2\u008e\u008f"+
-		"\7\t\2\2\u008f\u0090\7\21\2\2\u0090\33\3\2\2\2\22\37!%)-\61<EGVgiox\u0084"+
-		"\u0089";
+		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\3\2\3\2\3\2\6\2$\n"+
+		"\2\r\2\16\2%\3\3\3\3\5\3*\n\3\3\3\3\3\5\3.\n\3\3\3\3\3\5\3\62\n\3\3\3"+
+		"\3\3\5\3\66\n\3\3\3\3\3\3\4\3\4\3\5\3\5\3\5\7\5?\n\5\f\5\16\5B\13\5\3"+
+		"\6\3\6\3\7\3\7\3\7\3\7\7\7J\n\7\f\7\16\7M\13\7\3\7\3\7\3\b\3\b\3\b\3\b"+
+		"\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\5\b]\n\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b"+
+		"\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\7\bn\n\b\f\b\16\bq\13\b\3\t\3\t\3\t\5"+
+		"\tv\n\t\3\t\3\t\3\n\3\n\3\n\7\n}\n\n\f\n\16\n\u0080\13\n\3\13\3\13\3\f"+
+		"\3\f\3\f\3\f\5\f\u0088\n\f\3\f\3\f\3\r\3\r\3\r\3\r\3\r\3\16\3\16\3\16"+
+		"\3\16\3\16\3\16\3\16\5\16\u0098\n\16\3\17\3\17\3\17\5\17\u009d\n\17\3"+
+		"\17\3\17\3\17\3\20\3\20\3\20\3\20\2\21\2\4\6\b\n\f\16\20\22\24\26\30\32"+
+		"\34\36\2\3\3\2\22\23\u00b1\2#\3\2\2\2\4\'\3\2\2\2\69\3\2\2\2\b;\3\2\2"+
+		"\2\nC\3\2\2\2\fE\3\2\2\2\16\\\3\2\2\2\20r\3\2\2\2\22y\3\2\2\2\24\u0081"+
+		"\3\2\2\2\26\u0083\3\2\2\2\30\u008b\3\2\2\2\32\u0097\3\2\2\2\34\u0099\3"+
+		"\2\2\2\36\u00a1\3\2\2\2 $\5\4\3\2!$\5\16\b\2\"$\5\36\20\2# \3\2\2\2#!"+
+		"\3\2\2\2#\"\3\2\2\2$%\3\2\2\2%#\3\2\2\2%&\3\2\2\2&\3\3\2\2\2\')\7\4\2"+
+		"\2(*\7\24\2\2)(\3\2\2\2)*\3\2\2\2*+\3\2\2\2+-\5\6\4\2,.\7\24\2\2-,\3\2"+
+		"\2\2-.\3\2\2\2./\3\2\2\2/\61\7\7\2\2\60\62\5\b\5\2\61\60\3\2\2\2\61\62"+
+		"\3\2\2\2\62\63\3\2\2\2\63\65\7\5\2\2\64\66\7\24\2\2\65\64\3\2\2\2\65\66"+
+		"\3\2\2\2\66\67\3\2\2\2\678\5\f\7\28\5\3\2\2\29:\7\23\2\2:\7\3\2\2\2;@"+
+		"\5\n\6\2<=\7\6\2\2=?\5\n\6\2><\3\2\2\2?B\3\2\2\2@>\3\2\2\2@A\3\2\2\2A"+
+		"\t\3\2\2\2B@\3\2\2\2CD\7\23\2\2D\13\3\2\2\2EK\7\3\2\2FJ\5\4\3\2GJ\5\16"+
+		"\b\2HJ\5\36\20\2IF\3\2\2\2IG\3\2\2\2IH\3\2\2\2JM\3\2\2\2KI\3\2\2\2KL\3"+
+		"\2\2\2LN\3\2\2\2MK\3\2\2\2NO\7\t\2\2O\r\3\2\2\2PQ\b\b\1\2Q]\5\20\t\2R"+
+		"]\5\26\f\2S]\7\23\2\2T]\7\22\2\2U]\5\30\r\2V]\5\32\16\2W]\5\34\17\2XY"+
+		"\7\7\2\2YZ\5\16\b\2Z[\7\5\2\2[]\3\2\2\2\\P\3\2\2\2\\R\3\2\2\2\\S\3\2\2"+
+		"\2\\T\3\2\2\2\\U\3\2\2\2\\V\3\2\2\2\\W\3\2\2\2\\X\3\2\2\2]o\3\2\2\2^_"+
+		"\6\b\2\3_`\7\17\2\2`n\5\16\b\2ab\6\b\3\3bc\7\20\2\2cn\5\16\b\2de\6\b\4"+
+		"\3ef\7\21\2\2fn\5\16\b\2gh\6\b\5\3hi\7\r\2\2in\5\16\b\2jk\6\b\6\3kl\7"+
+		"\16\2\2ln\5\16\b\2m^\3\2\2\2ma\3\2\2\2md\3\2\2\2mg\3\2\2\2mj\3\2\2\2n"+
+		"q\3\2\2\2om\3\2\2\2op\3\2\2\2p\17\3\2\2\2qo\3\2\2\2rs\7\23\2\2su\7\7\2"+
+		"\2tv\5\22\n\2ut\3\2\2\2uv\3\2\2\2vw\3\2\2\2wx\7\5\2\2x\21\3\2\2\2y~\5"+
+		"\24\13\2z{\7\6\2\2{}\5\24\13\2|z\3\2\2\2}\u0080\3\2\2\2~|\3\2\2\2~\177"+
+		"\3\2\2\2\177\23\3\2\2\2\u0080~\3\2\2\2\u0081\u0082\t\2\2\2\u0082\25\3"+
+		"\2\2\2\u0083\u0084\7\b\2\2\u0084\u0085\7\23\2\2\u0085\u0087\7\7\2\2\u0086"+
+		"\u0088\5\22\n\2\u0087\u0086\3\2\2\2\u0087\u0088\3\2\2\2\u0088\u0089\3"+
+		"\2\2\2\u0089\u008a\7\5\2\2\u008a\27\3\2\2\2\u008b\u008c\7\13\2\2\u008c"+
+		"\u008d\7\23\2\2\u008d\u008e\7\f\2\2\u008e\u008f\5\16\b\2\u008f\31\3\2"+
+		"\2\2\u0090\u0091\7\23\2\2\u0091\u0092\7\f\2\2\u0092\u0098\5\16\b\2\u0093"+
+		"\u0094\7\n\2\2\u0094\u0095\7\23\2\2\u0095\u0096\7\f\2\2\u0096\u0098\5"+
+		"\16\b\2\u0097\u0090\3\2\2\2\u0097\u0093\3\2\2\2\u0098\33\3\2\2\2\u0099"+
+		"\u009a\7\4\2\2\u009a\u009c\7\7\2\2\u009b\u009d\5\b\5\2\u009c\u009b\3\2"+
+		"\2\2\u009c\u009d\3\2\2\2\u009d\u009e\3\2\2\2\u009e\u009f\7\5\2\2\u009f"+
+		"\u00a0\5\f\7\2\u00a0\35\3\2\2\2\u00a1\u00a2\7\n\2\2\u00a2\u00a3\7\23\2"+
+		"\2\u00a3\37\3\2\2\2\23#%)-\61\65@IK\\mou~\u0087\u0097\u009c";
 	public static final ATN _ATN =
 		ATNSimulator.deserialize(_serializedATN.toCharArray());
 	static {
