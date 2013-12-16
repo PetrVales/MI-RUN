@@ -21,8 +21,11 @@ public class JsInstance extends JsObject {
         if (jsObject != null && jsObject.isJsFunction()) {
             JsFunction jsFunction = (JsFunction) jsObject;
             return jsFunction.invoke(args, objectScope, memory);
+        } else if (args == null) {
+            return objectScope.get(function);
         } else {
-            throw new TypeError(function + " is not function of object.");
+            objectScope.set(function, args.get(0));
+            return null;
         }
     }
 
@@ -33,7 +36,7 @@ public class JsInstance extends JsObject {
 
     @Override
     public Memory.Reference constructInstance(List<Memory.Reference> args, Scope invokeScope, Memory memory) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        throw new TypeError("Object is not function.");
     }
 
 }

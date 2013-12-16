@@ -49,7 +49,7 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
         Symbol instanceName = (Symbol) memory.getJsObject(nameRef);
         Memory.Reference instanceRed = scope.get((String) instanceName.value());
         JsObject instance = memory.getJsObject(instanceRed);
-        Memory.Reference methodRef = (Memory.Reference) ctx.ID(1).accept(this);   // TODO
+        Memory.Reference methodRef = (Memory.Reference) ctx.ID(1).accept(this);
         Symbol methodName = (Symbol) memory.getJsObject(methodRef);
         List<Memory.Reference> paramRefs = ctx.callParams() == null ? Collections.emptyList() : (List) ctx.callParams().accept(this);
         return instance.invoke((String) methodName.value(), paramRefs, scope, memory);
