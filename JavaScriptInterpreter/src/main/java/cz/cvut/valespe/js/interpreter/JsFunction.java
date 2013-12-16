@@ -37,20 +37,22 @@ public class JsFunction extends JsObject {
 
     @Override
     public Memory.Reference invoke(List<Memory.Reference> args, Scope invokeScope, Memory memory) {
-        Scope callScope = new Scope(scope, invokeScope);
-        for (int i = 0; i < args.size(); i++)
-            callScope.set(params.get(i), args.get(i));
-        if (name != null) {
-            callScope.define(name);
-            callScope.set(name, selfRef);
-        }
-        Memory.Reference resultRef = (Memory.Reference) body.accept(new InterpreterVisitor(memory, callScope));
+        Scope callScope = getCallScope(args, invokeScope);
+        Memory.Reference resultRef = (Memory.Reference) body.accept(new InterpreterVisitor(memory, callScope, invokeScope));
         if (resultRef != null && memory.getJsObject(resultRef).isSymbol())
             resultRef = callScope.get((String) memory.getJsObject(resultRef).value());
         return resultRef;
     }
 
     public Memory.Reference constructInstance(List<Memory.Reference> args, Scope invokeScope, Memory memory) {
+        Scope callScope = getCallScope(args, invokeScope);
+        Scope thisScope = new Scope();
+        body.accept(new InterpreterVisitor(memory, callScope, thisScope));
+        JsObject instance = new JsInstance(thisScope, this);
+        return memory.storeJsObject(instance);
+    }
+
+    private Scope getCallScope(List<Memory.Reference> args, Scope invokeScope) {
         Scope callScope = new Scope(scope, invokeScope);
         for (int i = 0; i < args.size(); i++)
             callScope.set(params.get(i), args.get(i));
@@ -58,9 +60,7 @@ public class JsFunction extends JsObject {
             callScope.define(name);
             callScope.set(name, selfRef);
         }
-        body.accept(new InterpreterVisitor(memory, callScope));
-        JsObject instance = new JsInstance(callScope, this);
-        return memory.storeJsObject(instance);
+        return callScope;
     }
 
     public List<String> getParams() {

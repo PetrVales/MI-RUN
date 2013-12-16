@@ -25,9 +25,10 @@ functionBody
 expression
     : functionCall #functionCallExpression
     | createInstance #createInstanceExpression
+    | thisExpression #thisExpressionExpression
+    | messageToInstance #messageToInstanceExpression
     | ID #id
     | INT #int
-    | thisAssignmentExpression #thisAssignmentExpressionExpression
     | assignmentExpression #assignmentExpressionExpression
     | anonymousFunction #anonymousFunctionExpression
     | '(' expression ')' #parenthesesExpression
@@ -52,8 +53,16 @@ createInstance
     : 'new' ID'(' callParams? ')'
     ;
 
-thisAssignmentExpression
-    : 'this.'ID ASSIGNMENT expression
+messageToInstance
+    : ID'.'ID'(' callParams? ')' #callMethodOnInstance
+    | ID'.'ID ASSIGNMENT expression  #setPropertyOnInstance
+    | ID'.'ID  #getPropertyOnInstance
+    ;
+
+thisExpression
+    : 'this.'ID'(' callParams? ')' #thisCallMethod
+    | 'this.'ID ASSIGNMENT expression #thisSetterExpression
+    | 'this.'ID #thisGetterExpression
     ;
 
 assignmentExpression

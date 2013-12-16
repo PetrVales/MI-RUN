@@ -19,6 +19,13 @@ public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	T visitVarAssignment(@NotNull JavaScriptParser.VarAssignmentContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#thisSetterExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitThisSetterExpression(@NotNull JavaScriptParser.ThisSetterExpressionContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#parenthesesExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -31,6 +38,13 @@ public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAnonymousFunctionExpression(@NotNull JavaScriptParser.AnonymousFunctionExpressionContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#messageToInstanceExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitMessageToInstanceExpression(@NotNull JavaScriptParser.MessageToInstanceExpressionContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#id}.
@@ -54,6 +68,13 @@ public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	T visitCallParam(@NotNull JavaScriptParser.CallParamContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#thisExpressionExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitThisExpressionExpression(@NotNull JavaScriptParser.ThisExpressionExpressionContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#createInstanceExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -61,18 +82,25 @@ public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	T visitCreateInstanceExpression(@NotNull JavaScriptParser.CreateInstanceExpressionContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link JavaScriptParser#thisAssignmentExpression}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitThisAssignmentExpression(@NotNull JavaScriptParser.ThisAssignmentExpressionContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#file}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitFile(@NotNull JavaScriptParser.FileContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#getPropertyOnInstance}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitGetPropertyOnInstance(@NotNull JavaScriptParser.GetPropertyOnInstanceContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#thisGetterExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitThisGetterExpression(@NotNull JavaScriptParser.ThisGetterExpressionContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#anonymousFunction}.
@@ -124,6 +152,13 @@ public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	T visitMinusExpression(@NotNull JavaScriptParser.MinusExpressionContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#setPropertyOnInstance}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSetPropertyOnInstance(@NotNull JavaScriptParser.SetPropertyOnInstanceContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#int}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -143,6 +178,13 @@ public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunctionBody(@NotNull JavaScriptParser.FunctionBodyContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#callMethodOnInstance}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCallMethodOnInstance(@NotNull JavaScriptParser.CallMethodOnInstanceContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#createInstance}.
@@ -166,11 +208,11 @@ public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	T visitAssignment(@NotNull JavaScriptParser.AssignmentContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link JavaScriptParser#thisAssignmentExpressionExpression}.
+	 * Visit a parse tree produced by {@link JavaScriptParser#thisCallMethod}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitThisAssignmentExpressionExpression(@NotNull JavaScriptParser.ThisAssignmentExpressionExpressionContext ctx);
+	T visitThisCallMethod(@NotNull JavaScriptParser.ThisCallMethodContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#functionCallExpression}.

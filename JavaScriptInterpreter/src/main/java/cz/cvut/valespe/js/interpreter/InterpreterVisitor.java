@@ -21,10 +21,12 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
 
     private Memory memory;
     private Scope scope;
+    private Scope thisScope;
 
-    public InterpreterVisitor(Memory memory, Scope scope) {
+    public InterpreterVisitor(Memory memory, Scope scope, Scope thisScope) {
         this.memory = memory;
         this.scope = scope;
+        this.thisScope = thisScope;
     }
 
     @Override
@@ -34,6 +36,77 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
             result = expressionContext.accept(this);
         }
         return result;
+    }
+
+    @Override
+    public Object visitMessageToInstanceExpression(@NotNull JavaScriptParser.MessageToInstanceExpressionContext ctx) {
+        return ctx.messageToInstance().accept(this);
+    }
+
+    @Override
+    public Object visitCallMethodOnInstance(@NotNull JavaScriptParser.CallMethodOnInstanceContext ctx) {
+        Memory.Reference nameRef = (Memory.Reference) ctx.ID(0).accept(this);
+        Symbol instanceName = (Symbol) memory.getJsObject(nameRef);
+        Memory.Reference instanceRed = scope.get((String) instanceName.value());
+        JsObject instance = memory.getJsObject(instanceRed);
+        Memory.Reference methodRef = (Memory.Reference) ctx.ID(1).accept(this);   // TODO
+        Symbol methodName = (Symbol) memory.getJsObject(methodRef);
+        List<Memory.Reference> paramRefs = ctx.callParams() == null ? Collections.emptyList() : (List) ctx.callParams().accept(this);
+        return instance.invoke((String) methodName.value(), paramRefs, scope, memory);
+    }
+
+    @Override
+    public Object visitGetPropertyOnInstance(@NotNull JavaScriptParser.GetPropertyOnInstanceContext ctx) {
+        Memory.Reference nameRef = (Memory.Reference) ctx.ID(0).accept(this);
+        Symbol instanceName = (Symbol) memory.getJsObject(nameRef);
+        Memory.Reference instanceRed = scope.get((String) instanceName.value());
+        JsObject instance = memory.getJsObject(instanceRed);
+        Memory.Reference methodRef = (Memory.Reference) ctx.ID(1).accept(this);
+        Symbol methodName = (Symbol) memory.getJsObject(methodRef);
+        return instance.invoke((String) methodName.value(), null, scope, memory);
+    }
+
+    @Override
+    public Object visitSetPropertyOnInstance(@NotNull JavaScriptParser.SetPropertyOnInstanceContext ctx) {
+        Memory.Reference nameRef = (Memory.Reference) ctx.ID(0).accept(this);
+        Symbol instanceName = (Symbol) memory.getJsObject(nameRef);
+        Memory.Reference instanceRed = scope.get((String) instanceName.value());
+        JsObject instance = memory.getJsObject(instanceRed);
+        Memory.Reference methodRef = (Memory.Reference) ctx.ID(1).accept(this);
+        Symbol methodName = (Symbol) memory.getJsObject(methodRef);
+        List<Memory.Reference> paramRefs = Arrays.asList((Memory.Reference) ctx.expression().accept(this));
+        return instance.invoke((String) methodName.value(), paramRefs, scope, memory);
+    }
+
+    @Override
+    public Object visitThisExpressionExpression(@NotNull JavaScriptParser.ThisExpressionExpressionContext ctx) {
+        return ctx.thisExpression().accept(this);
+    }
+
+    @Override
+    public Object visitThisCallMethod(@NotNull JavaScriptParser.ThisCallMethodContext ctx) {
+        Memory.Reference methodRef = (Memory.Reference) ctx.ID().accept(this);
+        Symbol methodName = (Symbol) memory.getJsObject(methodRef);
+        JsObject method = memory.getJsObject(thisScope.get((String) methodName.value()));
+        List<Memory.Reference> paramRefs = ctx.callParams() == null ? Collections.emptyList() : (List) ctx.callParams().accept(this);
+        return method.invoke(paramRefs, thisScope, memory);
+    }
+
+    @Override
+    public Object visitThisGetterExpression(@NotNull JavaScriptParser.ThisGetterExpressionContext ctx) {
+        Memory.Reference nameRef = (Memory.Reference) ctx.ID().accept(this);
+        return thisScope.get((String) memory.getJsObject(nameRef).value());
+    }
+
+    @Override
+    public Object visitThisSetterExpression(@NotNull JavaScriptParser.ThisSetterExpressionContext ctx) {
+        Memory.Reference nameRef = (Memory.Reference) ctx.ID().accept(this);
+        Memory.Reference resultRef = (Memory.Reference) ctx.expression().accept(this);
+        if (resultRef != null && memory.getJsObject(resultRef).isSymbol())
+            resultRef = thisScope.get((String) memory.getJsObject(resultRef).value());
+        thisScope.define((String) memory.getJsObject(nameRef).value());
+        thisScope.set((String) memory.getJsObject(nameRef).value(), resultRef);
+        return null;
     }
 
     @Override
@@ -75,11 +148,6 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     @Override
     public Object visitCreateInstanceExpression(@NotNull JavaScriptParser.CreateInstanceExpressionContext ctx) {
         return ctx.createInstance().accept(this);
-    }
-
-    @Override
-    public Object visitThisAssignmentExpression(@NotNull JavaScriptParser.ThisAssignmentExpressionContext ctx) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -152,7 +220,8 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
 
     @Override
     public Object visitAssignmentExpressionExpression(@NotNull JavaScriptParser.AssignmentExpressionExpressionContext ctx) {
-        return ctx.assignmentExpression().accept(this);
+        ctx.assignmentExpression().accept(this);
+        return null;
     }
 
     @Override
@@ -173,11 +242,6 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
             resultRef = scope.get((String) memory.getJsObject(resultRef).value());
         scope.set((String) memory.getJsObject(nameRef).value(), resultRef);
         return null;
-    }
-
-    @Override
-    public Object visitThisAssignmentExpressionExpression(@NotNull JavaScriptParser.ThisAssignmentExpressionExpressionContext ctx) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override

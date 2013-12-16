@@ -2,15 +2,12 @@ package cz.cvut.valespe.js.interpreter;
 
 import java.util.List;
 
-/**
- * TODO javadoc
- */
 public class JsInstance extends JsObject {
 
     private Scope objectScope;
 
-    public JsInstance(Scope callScope, JsFunction jsFunction) {
-        //To change body of created methods use File | Settings | File Templates.
+    public JsInstance(Scope objectScope, JsFunction prototype) {
+        this.objectScope = objectScope;
     }
 
     @Override

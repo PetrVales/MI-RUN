@@ -140,19 +140,19 @@ public class DefinitionCollectingVisitor implements JavaScriptVisitor {
     }
 
     @Override
-    public Object visitThisAssignmentExpressionExpression(@NotNull JavaScriptParser.ThisAssignmentExpressionExpressionContext ctx) {
-        // Nothing to do
-        return null;
-    }
-
-    @Override
-    public Object visitThisAssignmentExpression(@NotNull JavaScriptParser.ThisAssignmentExpressionContext ctx) {
+    public Object visitCallMethodOnInstance(@NotNull JavaScriptParser.CallMethodOnInstanceContext ctx) {
         // Nothing to do
         return null;
     }
 
     @Override
     public Object visitMinusExpression(@NotNull JavaScriptParser.MinusExpressionContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
+    public Object visitSetPropertyOnInstance(@NotNull JavaScriptParser.SetPropertyOnInstanceContext ctx) {
         // Nothing to do
         return null;
     }
@@ -182,6 +182,12 @@ public class DefinitionCollectingVisitor implements JavaScriptVisitor {
     }
 
     @Override
+    public Object visitMessageToInstanceExpression(@NotNull JavaScriptParser.MessageToInstanceExpressionContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
     public Object visitDivExpression(@NotNull JavaScriptParser.DivExpressionContext ctx) {
         // Nothing to do
         return null;
@@ -194,6 +200,12 @@ public class DefinitionCollectingVisitor implements JavaScriptVisitor {
     }
 
     @Override
+    public Object visitThisCallMethod(@NotNull JavaScriptParser.ThisCallMethodContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
     public Object visitCreateInstance(@NotNull JavaScriptParser.CreateInstanceContext ctx) {
         // Nothing to do
         return null;
@@ -201,6 +213,12 @@ public class DefinitionCollectingVisitor implements JavaScriptVisitor {
 
     @Override
     public Object visitCallParam(@NotNull JavaScriptParser.CallParamContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
+    public Object visitThisExpressionExpression(@NotNull JavaScriptParser.ThisExpressionExpressionContext ctx) {
         // Nothing to do
         return null;
     }
@@ -255,6 +273,24 @@ public class DefinitionCollectingVisitor implements JavaScriptVisitor {
 
     @Override
     public Object visitErrorNode(@NotNull ErrorNode node) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
+    public Object visitGetPropertyOnInstance(@NotNull JavaScriptParser.GetPropertyOnInstanceContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
+    public Object visitThisGetterExpression(@NotNull JavaScriptParser.ThisGetterExpressionContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
+    public Object visitThisSetterExpression(@NotNull JavaScriptParser.ThisSetterExpressionContext ctx) {
         // Nothing to do
         return null;
     }

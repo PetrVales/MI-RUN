@@ -57,7 +57,7 @@ class InterpretSimpleExpressions {
     }
 
     def private interpretFile(FileContext file) {
-        InterpreterVisitor javaScriptVisitor = new InterpreterVisitor(memory, scope)
+        InterpreterVisitor javaScriptVisitor = new InterpreterVisitor(memory, scope, scope)
         file.accept(javaScriptVisitor)
         file
     }

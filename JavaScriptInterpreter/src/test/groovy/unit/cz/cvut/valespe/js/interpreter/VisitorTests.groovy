@@ -138,7 +138,7 @@ class VisitorTests {
     }
 
     def private final getInterpreterVisitor() {
-        new InterpreterVisitor(memory, scope)
+        new InterpreterVisitor(memory, scope, scope)
     }
 
 }
