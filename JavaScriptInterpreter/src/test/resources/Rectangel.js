@@ -6,7 +6,7 @@ function Rectangel(width, height) {
         this.width * this.height
     }
     this.surface2 = function() {
-        this.width * this.height
+        width * height
     }
 
 }

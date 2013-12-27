@@ -188,6 +188,18 @@ public class DefinitionCollectingVisitor implements JavaScriptVisitor {
     }
 
     @Override
+    public Object visitPrototypeAssignmentExpressionExpression(@NotNull JavaScriptParser.PrototypeAssignmentExpressionExpressionContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
+    public Object visitPrototypeAssignment(@NotNull JavaScriptParser.PrototypeAssignmentContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
     public Object visitDivExpression(@NotNull JavaScriptParser.DivExpressionContext ctx) {
         // Nothing to do
         return null;

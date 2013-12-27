@@ -20,6 +20,17 @@ public interface JavaScriptListener extends ParseTreeListener {
 	void exitVarAssignment(@NotNull JavaScriptParser.VarAssignmentContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#prototypeAssignment}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrototypeAssignment(@NotNull JavaScriptParser.PrototypeAssignmentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#prototypeAssignment}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrototypeAssignment(@NotNull JavaScriptParser.PrototypeAssignmentContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#thisSetterExpression}.
 	 * @param ctx the parse tree
 	 */
@@ -62,6 +73,17 @@ public interface JavaScriptListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMessageToInstanceExpression(@NotNull JavaScriptParser.MessageToInstanceExpressionContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#prototypeAssignmentExpressionExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterPrototypeAssignmentExpressionExpression(@NotNull JavaScriptParser.PrototypeAssignmentExpressionExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#prototypeAssignmentExpressionExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitPrototypeAssignmentExpressionExpression(@NotNull JavaScriptParser.PrototypeAssignmentExpressionExpressionContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#id}.

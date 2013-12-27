@@ -46,9 +46,15 @@ public class JsFunction extends JsObject {
 
     public Memory.Reference constructInstance(List<Memory.Reference> args, Scope invokeScope, Memory memory) {
         Scope callScope = getCallScope(args, invokeScope);
-        Scope thisScope = new Scope();
+        Scope thisScope;
+        if (prototype != null) {
+            final JsObject prototypeObject = memory.getJsObject(prototype);
+            thisScope = new Scope(prototypeObject.getScope());
+        } else {
+            thisScope = new Scope();
+        }
         body.accept(new InterpreterVisitor(memory, callScope, thisScope));
-        JsObject instance = new JsInstance(thisScope, this);
+        JsObject instance = new JsInstance(thisScope);
         return memory.storeJsObject(instance);
     }
 

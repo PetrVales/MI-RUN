@@ -6,7 +6,7 @@ public class JsInstance extends JsObject {
 
     private Scope objectScope;
 
-    public JsInstance(Scope objectScope, JsFunction prototype) {
+    public JsInstance(Scope objectScope) {
         this.objectScope = objectScope;
     }
 
@@ -39,4 +39,8 @@ public class JsInstance extends JsObject {
         throw new TypeError("Object is not function.");
     }
 
+    @Override
+    public Scope getScope() {
+        return objectScope;
+    }
 }

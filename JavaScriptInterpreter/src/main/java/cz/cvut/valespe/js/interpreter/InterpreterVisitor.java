@@ -245,6 +245,21 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     }
 
     @Override
+    public Object visitPrototypeAssignmentExpressionExpression(@NotNull JavaScriptParser.PrototypeAssignmentExpressionExpressionContext ctx) {
+        ctx.prototypeAssignmentExpression().accept(this);
+        return null;
+    }
+
+    @Override
+    public Object visitPrototypeAssignment(@NotNull JavaScriptParser.PrototypeAssignmentContext ctx) {
+        final Memory.Reference nameRef = (Memory.Reference) ctx.ID().accept(this);
+        final Memory.Reference objectRef = scope.get((String) memory.getJsObject(nameRef).value());
+        final JsObject jsObject = memory.getJsObject(objectRef);
+        jsObject.setPrototype((Memory.Reference) ctx.expression().accept(this));
+        return null;
+    }
+
+    @Override
     public Object visitAnonymousFunctionExpression(@NotNull JavaScriptParser.AnonymousFunctionExpressionContext ctx) {
         return ctx.anonymousFunction().accept(new DefinitionCollectingVisitor(memory, scope));
     }

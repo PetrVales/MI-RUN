@@ -29,6 +29,7 @@ expression
     | messageToInstance #messageToInstanceExpression
     | ID #id
     | INT #int
+    | prototypeAssignmentExpression #prototypeAssignmentExpressionExpression
     | assignmentExpression #assignmentExpressionExpression
     | anonymousFunction #anonymousFunctionExpression
     | '(' expression ')' #parenthesesExpression
@@ -63,6 +64,10 @@ thisExpression
     : 'this.'ID'(' callParams? ')' #thisCallMethod
     | 'this.'ID ASSIGNMENT expression #thisSetterExpression
     | 'this.'ID #thisGetterExpression
+    ;
+
+prototypeAssignmentExpression
+    :   ID'.prototype' ASSIGNMENT expression #prototypeAssignment
     ;
 
 assignmentExpression

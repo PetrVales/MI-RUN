@@ -94,9 +94,9 @@ class ParserShouldParse {
     }
 
     @Test
-    @Ignore // Don't how handle variable declaration and assignment
+//    @Ignore // Don't how handle variable declaration and assignment
     public void "file with var declaration var a = 1"() {
-        assert "(file (varDeclaration var a (assignmentOperator  = ) (expression 1)))" == parseCode("var a = 1")
+        assert "(file (expression (assignmentExpression var a = (expression 1))))" == parseCode("var a = 1")
     }
 
     def private parseCode(String codeToParse) {

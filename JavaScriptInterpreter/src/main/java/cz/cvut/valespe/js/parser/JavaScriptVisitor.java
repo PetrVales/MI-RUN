@@ -19,6 +19,13 @@ public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	T visitVarAssignment(@NotNull JavaScriptParser.VarAssignmentContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#prototypeAssignment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrototypeAssignment(@NotNull JavaScriptParser.PrototypeAssignmentContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#thisSetterExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -45,6 +52,13 @@ public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitMessageToInstanceExpression(@NotNull JavaScriptParser.MessageToInstanceExpressionContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#prototypeAssignmentExpressionExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPrototypeAssignmentExpressionExpression(@NotNull JavaScriptParser.PrototypeAssignmentExpressionExpressionContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#id}.

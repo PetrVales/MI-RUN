@@ -9,6 +9,7 @@ import java.util.List;
 public abstract class JsObject {
 
     protected Memory.Reference selfRef;
+    protected Memory.Reference prototype;
 
     public abstract Object value();
 
@@ -28,10 +29,6 @@ public abstract class JsObject {
         return false;
     }
 
-    public boolean isUserDefinedObject() {
-        return false;
-    }
-
     public boolean isSymbol() {
         return false;
     }
@@ -42,8 +39,8 @@ public abstract class JsObject {
 
     public abstract Memory.Reference constructInstance(List<Memory.Reference> args, Scope invokeScope, Memory memory);
 
-    public List<Memory.Reference> getReferences() {
-        return Collections.EMPTY_LIST; // TODO
+    public Scope getScope() {
+        return new Scope();
     }
 
     public Memory.Reference getRerence() {
@@ -54,4 +51,11 @@ public abstract class JsObject {
         selfRef = rerence;
     }
 
+    public Memory.Reference getPrototype() {
+        return prototype;
+    }
+
+    public void setPrototype(Memory.Reference prototype) {
+        this.prototype = prototype;
+    }
 }
