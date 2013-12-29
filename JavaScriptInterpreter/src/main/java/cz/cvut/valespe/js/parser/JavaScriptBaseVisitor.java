@@ -82,7 +82,7 @@ public class JavaScriptBaseVisitor<T> extends AbstractParseTreeVisitor<T> implem
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitFunctionCall(@NotNull JavaScriptParser.FunctionCallContext ctx) { return visitChildren(ctx); }
+	@Override public T visitCallParam(@NotNull JavaScriptParser.CallParamContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -90,7 +90,7 @@ public class JavaScriptBaseVisitor<T> extends AbstractParseTreeVisitor<T> implem
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitCallParam(@NotNull JavaScriptParser.CallParamContext ctx) { return visitChildren(ctx); }
+	@Override public T visitFunctionCall(@NotNull JavaScriptParser.FunctionCallContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -259,6 +259,14 @@ public class JavaScriptBaseVisitor<T> extends AbstractParseTreeVisitor<T> implem
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitThisCallMethod(@NotNull JavaScriptParser.ThisCallMethodContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitString(@NotNull JavaScriptParser.StringContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}

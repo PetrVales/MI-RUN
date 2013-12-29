@@ -18,10 +18,11 @@ class InterpretSimpleExpressions {
         def stream = InterpretSimpleExpressions.class.getResourceAsStream("/ExpressionsSimplified.js")
         interpretFile(collectDefinitions(parseCode(stream.text)))
 
-        assert ["a", "b", "c"] as Set == scope.getDefinedNames()
+        assert ["a", "b", "c", "d"] as Set == scope.getDefinedNames()
         assertValueOfVariable("a", 5)
         assertValueOfVariable("b", 23)
         assertValueOfVariable("c", 28)
+        assertValueOfVariable("d", "aaaa")
     }
 
     @Test

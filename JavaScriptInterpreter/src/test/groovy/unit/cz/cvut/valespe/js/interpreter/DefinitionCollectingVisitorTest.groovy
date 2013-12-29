@@ -17,10 +17,11 @@ class DefinitionCollectingVisitorTest {
         def stream = InterpretSimpleExpressions.class.getResourceAsStream("/ExpressionsSimplified.js")
         collectDefinitions(parseCode(stream.text))
 
-        assert ["a", "b", "c"] as Set == scope.@scope.keySet()
+        assert ["a", "b", "c", "d"] as Set == scope.@scope.keySet()
         assert null == scope.get("a")
         assert null == scope.get("b")
         assert null == scope.get("c")
+        assert null == scope.get("d")
     }
 
     @Test

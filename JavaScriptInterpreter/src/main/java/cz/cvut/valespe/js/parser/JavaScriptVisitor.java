@@ -68,18 +68,18 @@ public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	T visitId(@NotNull JavaScriptParser.IdContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link JavaScriptParser#functionCall}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitFunctionCall(@NotNull JavaScriptParser.FunctionCallContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#callParam}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitCallParam(@NotNull JavaScriptParser.CallParamContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#functionCall}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFunctionCall(@NotNull JavaScriptParser.FunctionCallContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#thisExpressionExpression}.
@@ -227,6 +227,13 @@ public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitThisCallMethod(@NotNull JavaScriptParser.ThisCallMethodContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#string}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitString(@NotNull JavaScriptParser.StringContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#functionCallExpression}.

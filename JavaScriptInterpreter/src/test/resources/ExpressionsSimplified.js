@@ -11,3 +11,4 @@ a = a + 1
 a = a - 2
 var c
 c = a + b
+var d = "aaaa"

@@ -306,6 +306,11 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     }
 
     @Override
+    public Object visitString(@NotNull JavaScriptParser.StringContext ctx) {
+        return ctx.STRING().accept(this);
+    }
+
+    @Override
     public Memory.Reference visitTerminal(@NotNull TerminalNode node) {
         JsObject terminal = null;
         switch (node.getSymbol().getType()) {
@@ -314,6 +319,9 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
                 break;
             case JavaScriptParser.ID:
                 terminal =  new Symbol(node.getText());
+                break;
+            case JavaScriptParser.STRING:
+                terminal =  new JsString(node.getText().replace("\"", ""));
                 break;
             default: throw new IllegalStateException("Unknown terminal node");
         }

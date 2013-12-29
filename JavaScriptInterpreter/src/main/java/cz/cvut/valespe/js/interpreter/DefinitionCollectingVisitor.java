@@ -164,6 +164,12 @@ public class DefinitionCollectingVisitor implements JavaScriptVisitor {
     }
 
     @Override
+    public Object visitString(@NotNull JavaScriptParser.StringContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
     public Object visitMulExpression(@NotNull JavaScriptParser.MulExpressionContext ctx) {
         // Nothing to do
         return null;

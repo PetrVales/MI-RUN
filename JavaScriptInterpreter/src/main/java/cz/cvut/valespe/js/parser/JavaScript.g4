@@ -29,6 +29,7 @@ expression
     | messageToInstance #messageToInstanceExpression
     | ID #id
     | INT #int
+    | STRING #string
     | prototypeAssignmentExpression #prototypeAssignmentExpressionExpression
     | assignmentExpression #assignmentExpressionExpression
     | anonymousFunction #anonymousFunctionExpression
@@ -47,7 +48,7 @@ callParams
     : callParam (',' callParam)*
     ;
 callParam
-    : (ID|INT)
+    : (ID|INT|STRING)
     ;
 
 createInstance
@@ -92,6 +93,7 @@ DIV: '/';
 MOD: '%';
 INT: '-'? [0-9]+;
 ID: [a-zA-Z$_][a-zA-Z0-9$_]*;
+STRING: '"' [a-zA-Z0-9,./?!+-*$_]* '"';
 WS: [ \t\r\n]+ -> skip;
 COMMENT
     :   '/*' .*? '*/' -> skip
