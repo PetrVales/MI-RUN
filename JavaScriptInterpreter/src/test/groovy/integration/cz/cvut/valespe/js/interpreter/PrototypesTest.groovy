@@ -7,22 +7,22 @@ import org.antlr.v4.runtime.CharStream
 import org.antlr.v4.runtime.CommonTokenStream
 import org.junit.Test
 
-class WorkWithObjectInstance {
+class PrototypesTest {
 
     private Memory memory = new Memory()
     private Scope scope = new Scope()
 
 
     @Test
-    public void "interpret instance messaging"() {
-        def stream = InterpretSimpleExpressions.class.getResourceAsStream("/WorkWithObjectInstance.js")
+    public void "count rectangel sourface"() {
+        def stream = InterpretSimpleExpressionsTest.class.getResourceAsStream("/Prototypes.js")
         interpretFile(collectDefinitions(parseCode(stream.text)))
 
-        assertValueOfVariable("w", 1)
-        assertValueOfVariable("x", 2)
-        assertValueOfVariable("y", 3)
-        assertValueOfVariable("z", 4)
-
+        assertValueOfVariable("aA", 1)
+        assertValueOfVariable("bA", 1)
+        assertValueOfVariable("bB", 2)
+        assertValueOfVariable("cA", 20)
+        assertValueOfVariable("cC", 3)
     }
 
     def private parseCode(code) {

@@ -14,7 +14,7 @@ class DefinitionCollectingVisitorTest {
 
     @Test
     public void "collect var definitions in js file"() {
-        def stream = InterpretSimpleExpressions.class.getResourceAsStream("/ExpressionsSimplified.js")
+        def stream = InterpretSimpleExpressionsTest.class.getResourceAsStream("/ExpressionsSimplified.js")
         collectDefinitions(parseCode(stream.text))
 
         assert ["a", "b", "c", "d"] as Set == scope.@scope.keySet()
@@ -26,7 +26,7 @@ class DefinitionCollectingVisitorTest {
 
     @Test
     public void "collect var definitions with assignment in js file"() {
-        def stream = InterpretSimpleExpressions.class.getResourceAsStream("/Expressions.js")
+        def stream = InterpretSimpleExpressionsTest.class.getResourceAsStream("/Expressions.js")
         collectDefinitions(parseCode(stream.text))
 
         assert ["a", "b", "c"] as Set == scope.@scope.keySet()
@@ -37,7 +37,7 @@ class DefinitionCollectingVisitorTest {
 
     @Test
     public void "collect function definitions in js file"() {
-        def stream = InterpretSimpleExpressions.class.getResourceAsStream("/FunctionDeclaration.js")
+        def stream = InterpretSimpleExpressionsTest.class.getResourceAsStream("/FunctionDeclaration.js")
         collectDefinitions(parseCode(stream.text))
 
         assert ["a", "b", "f1", "f2"] as Set == scope.getDefinedNames()

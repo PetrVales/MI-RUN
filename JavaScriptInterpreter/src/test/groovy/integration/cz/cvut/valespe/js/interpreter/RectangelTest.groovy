@@ -2,43 +2,24 @@ package cz.cvut.valespe.js.interpreter
 
 import cz.cvut.valespe.js.parser.JavaScriptLexer
 import cz.cvut.valespe.js.parser.JavaScriptParser
-import cz.cvut.valespe.js.parser.JavaScriptParser.FileContext
 import org.antlr.v4.runtime.ANTLRInputStream
 import org.antlr.v4.runtime.CharStream
 import org.antlr.v4.runtime.CommonTokenStream
 import org.junit.Test
 
-class InterpretSimpleExpressions {
+class RectangelTest {
 
     private Memory memory = new Memory()
     private Scope scope = new Scope()
 
-    @Test
-    public void "interpret simple expression file"() {
-        def stream = InterpretSimpleExpressions.class.getResourceAsStream("/ExpressionsSimplified.js")
-        interpretFile(collectDefinitions(parseCode(stream.text)))
-
-        assert ["a", "b", "c", "d"] as Set == scope.getDefinedNames()
-        assertValueOfVariable("a", 5)
-        assertValueOfVariable("b", 23)
-        assertValueOfVariable("c", 28)
-        assertValueOfVariable("d", "aaaa")
-    }
 
     @Test
-    public void "interpret invoke function file"() {
-        def stream = InterpretSimpleExpressions.class.getResourceAsStream("/InvokeFunction.js")
+    public void "count rectangel sourface"() {
+        def stream = InterpretSimpleExpressionsTest.class.getResourceAsStream("/Rectangel.js")
         interpretFile(collectDefinitions(parseCode(stream.text)))
-        assert null == scope.get("a")
-        assertValueOfVariable("b", 3)
-        assertValueOfVariable("c", 6)
-        assertValueOfVariable("d", 3)
-        assertValueOfVariable("e", 12)
-        assertValueOfVariable("f", 2)
-        assertValueOfVariable("g", 11)
-        assert null != scope.get("h")
-        assertValueOfVariable("i", 16)
-        assertValueOfVariable("j", 17)
+
+        assertValueOfVariable("surface1", 200)
+        assertValueOfVariable("surface2", 200)
     }
 
     def private parseCode(code) {
@@ -57,7 +38,7 @@ class InterpretSimpleExpressions {
         file
     }
 
-    def private interpretFile(FileContext file) {
+    def private interpretFile(JavaScriptParser.FileContext file) {
         InterpreterVisitor javaScriptVisitor = new InterpreterVisitor(memory, scope, scope)
         file.accept(javaScriptVisitor)
         file

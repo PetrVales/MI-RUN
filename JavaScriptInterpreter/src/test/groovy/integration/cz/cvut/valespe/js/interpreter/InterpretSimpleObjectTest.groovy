@@ -7,14 +7,14 @@ import org.antlr.v4.runtime.CharStream
 import org.antlr.v4.runtime.CommonTokenStream
 import org.junit.Test
 
-class InterpretSimpleObject {
+class InterpretSimpleObjectTest {
 
     private Memory memory = new Memory()
     private Scope scope = new Scope()
 
     @Test
     public void "interpret simple object creation"() {
-        def stream = InterpretSimpleExpressions.class.getResourceAsStream("/SimpleObject.js")
+        def stream = InterpretSimpleExpressionsTest.class.getResourceAsStream("/SimpleObject.js")
         interpretFile(collectDefinitions(parseCode(stream.text)))
 
         def variableRef = scope.get("x")
@@ -23,7 +23,7 @@ class InterpretSimpleObject {
 
     @Test
     public void "interpret simple object with a property"() {
-        def stream = InterpretSimpleExpressions.class.getResourceAsStream("/ObjectWithProperties.js")
+        def stream = InterpretSimpleExpressionsTest.class.getResourceAsStream("/ObjectWithProperties.js")
         interpretFile(collectDefinitions(parseCode(stream.text)))
 
         def variableRefX = scope.get("x")

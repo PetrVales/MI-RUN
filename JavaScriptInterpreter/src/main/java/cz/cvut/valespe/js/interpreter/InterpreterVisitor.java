@@ -141,8 +141,12 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     public Object visitCallParam(@NotNull JavaScriptParser.CallParamContext ctx) {
         if (ctx.ID() != null)
             return ctx.ID().accept(this);
-        else
+        else if (ctx.INT() != null)
             return ctx.INT().accept(this);
+        else if (ctx.STRING() != null)
+            return ctx.STRING().accept(this);
+        else
+            return null;
     }
 
     @Override

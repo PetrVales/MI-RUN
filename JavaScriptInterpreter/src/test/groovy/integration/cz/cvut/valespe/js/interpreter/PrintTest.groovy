@@ -5,21 +5,34 @@ import cz.cvut.valespe.js.parser.JavaScriptParser
 import org.antlr.v4.runtime.ANTLRInputStream
 import org.antlr.v4.runtime.CharStream
 import org.antlr.v4.runtime.CommonTokenStream
+import org.junit.Before
 import org.junit.Test
 
-class Rectangel {
+class PrintTest {
 
     private Memory memory = new Memory()
     private Scope scope = new Scope()
+    private BufferedReader reader;
 
+    @Before
+    public void init() {
+        PipedInputStream pipeInput = new PipedInputStream();
+        reader = new BufferedReader(new InputStreamReader(pipeInput));
+        PrintStream out = new PrintStream(new PipedOutputStream(pipeInput));
+
+        def printRef = memory.storeJsObject(new PrintFunction(out))
+        scope.set("print", printRef)
+    }
 
     @Test
-    public void "count rectangel sourface"() {
-        def stream = InterpretSimpleExpressions.class.getResourceAsStream("/Rectangel.js")
+    public void "print to output"() {
+        def stream = InterpretSimpleExpressionsTest.class.getResourceAsStream("/Print.js")
         interpretFile(collectDefinitions(parseCode(stream.text)))
 
-        assertValueOfVariable("surface1", 200)
-        assertValueOfVariable("surface2", 200)
+        assert reader.readLine() == "aaa"
+        assert reader.readLine() == "1"
+        assert reader.readLine() == "a"
+        assert reader.readLine() == "1"
     }
 
     def private parseCode(code) {
