@@ -16,9 +16,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * TODO javadoc
- */
 public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptVisitor {
 
     private Memory memory;

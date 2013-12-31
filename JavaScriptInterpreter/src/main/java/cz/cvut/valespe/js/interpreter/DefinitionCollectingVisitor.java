@@ -1,6 +1,7 @@
 package cz.cvut.valespe.js.interpreter;
 
 import cz.cvut.valespe.js.interpreter.model.JsFunction;
+import cz.cvut.valespe.js.interpreter.model.JsObject;
 import cz.cvut.valespe.js.parser.JavaScriptParser;
 import cz.cvut.valespe.js.parser.JavaScriptVisitor;
 import org.antlr.v4.runtime.misc.NotNull;
@@ -115,6 +116,21 @@ public class DefinitionCollectingVisitor implements JavaScriptVisitor {
     }
 
     @Override
+    public Object visitPrototypeAssignmentExpressionExpression(@NotNull JavaScriptParser.PrototypeAssignmentExpressionExpressionContext ctx) {
+        ctx.prototypeAssignmentExpression().accept(this);
+        return null;
+    }
+
+    @Override
+    public Object visitPrototypeAssignment(@NotNull JavaScriptParser.PrototypeAssignmentContext ctx) {
+        final String nameRef = (String) ctx.ID().accept(this);
+        final Memory.Reference objectRef = scope.get(nameRef);
+        final JsObject jsObject = memory.getJsObject(objectRef);
+        jsObject.setPrototype((Memory.Reference) ctx.expression().accept(this));
+        return null;
+    }
+
+    @Override
     public Object visitTerminal(@NotNull TerminalNode node) {
         switch (node.getSymbol().getType()) {
             case JavaScriptParser.INT: return Integer.parseInt(node.getText());
@@ -190,18 +206,6 @@ public class DefinitionCollectingVisitor implements JavaScriptVisitor {
 
     @Override
     public Object visitMessageToInstanceExpression(@NotNull JavaScriptParser.MessageToInstanceExpressionContext ctx) {
-        // Nothing to do
-        return null;
-    }
-
-    @Override
-    public Object visitPrototypeAssignmentExpressionExpression(@NotNull JavaScriptParser.PrototypeAssignmentExpressionExpressionContext ctx) {
-        // Nothing to do
-        return null;
-    }
-
-    @Override
-    public Object visitPrototypeAssignment(@NotNull JavaScriptParser.PrototypeAssignmentContext ctx) {
         // Nothing to do
         return null;
     }
