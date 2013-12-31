@@ -1,5 +1,7 @@
 package cz.cvut.valespe.js.interpreter;
 
+import cz.cvut.valespe.js.interpreter.model.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +19,7 @@ public class Memory {
      * Retrieve object stored on specified address
      * @param reference into memory, where object is stored
      * @return objected stored on given address
-     * @throws ReferenceError when no object is stored on given address
+     * @throws cz.cvut.valespe.js.interpreter.model.ReferenceError when no object is stored on given address
      */
     public JsObject getJsObject(Reference reference) {
         final JsObject value = memory.get(reference.address);
@@ -36,7 +38,7 @@ public class Memory {
         if  (index < MEMORY_MAX_SIZE)
             memory.add(index, object);
         else
-            throw new OutOfMemoryError();
+            throw new cz.cvut.valespe.js.interpreter.model.OutOfMemoryError();
         object.setRerence(new Reference(index));
         return new Reference(index++);
     }

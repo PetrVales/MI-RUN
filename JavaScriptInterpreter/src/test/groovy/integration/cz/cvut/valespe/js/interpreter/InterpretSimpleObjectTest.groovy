@@ -1,5 +1,6 @@
 package cz.cvut.valespe.js.interpreter
 
+import cz.cvut.valespe.js.interpreter.model.JsInstance
 import org.junit.Test
 
 class InterpretSimpleObjectTest extends IntegrationTest {

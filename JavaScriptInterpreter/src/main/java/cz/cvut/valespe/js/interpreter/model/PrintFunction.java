@@ -1,4 +1,9 @@
-package cz.cvut.valespe.js.interpreter;
+package cz.cvut.valespe.js.interpreter.model;
+
+import cz.cvut.valespe.js.interpreter.Memory;
+import cz.cvut.valespe.js.interpreter.Scope;
+import cz.cvut.valespe.js.interpreter.model.JsFunction;
+import cz.cvut.valespe.js.interpreter.model.JsObject;
 
 import java.io.PrintStream;
 import java.util.Arrays;

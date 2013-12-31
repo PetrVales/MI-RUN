@@ -1,5 +1,6 @@
 package cz.cvut.valespe.js.interpreter
 
+import cz.cvut.valespe.js.interpreter.model.PrintFunction
 import org.junit.Before
 import org.junit.Test
 

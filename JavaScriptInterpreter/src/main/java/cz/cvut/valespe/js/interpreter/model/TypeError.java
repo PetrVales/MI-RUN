@@ -1,4 +1,4 @@
-package cz.cvut.valespe.js.interpreter;
+package cz.cvut.valespe.js.interpreter.model;
 
 /**
  * TODO javadoc

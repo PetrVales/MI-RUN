@@ -1,7 +1,8 @@
 package cz.cvut.valespe.js.interpreter;
 
+import cz.cvut.valespe.js.interpreter.model.ReferenceError;
+
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 

@@ -1,5 +1,7 @@
 package cz.cvut.valespe.js.interpreter
 
+import cz.cvut.valespe.js.interpreter.model.JsObject
+import cz.cvut.valespe.js.interpreter.model.ReferenceError
 import org.junit.Ignore
 import org.junit.Test
 

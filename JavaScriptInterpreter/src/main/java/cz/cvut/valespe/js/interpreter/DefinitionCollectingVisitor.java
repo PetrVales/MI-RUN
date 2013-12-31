@@ -1,5 +1,6 @@
 package cz.cvut.valespe.js.interpreter;
 
+import cz.cvut.valespe.js.interpreter.model.JsFunction;
 import cz.cvut.valespe.js.parser.JavaScriptParser;
 import cz.cvut.valespe.js.parser.JavaScriptVisitor;
 import org.antlr.v4.runtime.misc.NotNull;

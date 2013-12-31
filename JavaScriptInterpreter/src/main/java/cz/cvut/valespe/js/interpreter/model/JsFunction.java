@@ -1,5 +1,8 @@
-package cz.cvut.valespe.js.interpreter;
+package cz.cvut.valespe.js.interpreter.model;
 
+import cz.cvut.valespe.js.interpreter.InterpreterVisitor;
+import cz.cvut.valespe.js.interpreter.Memory;
+import cz.cvut.valespe.js.interpreter.Scope;
 import cz.cvut.valespe.js.parser.JavaScriptParser;
 
 import java.util.List;

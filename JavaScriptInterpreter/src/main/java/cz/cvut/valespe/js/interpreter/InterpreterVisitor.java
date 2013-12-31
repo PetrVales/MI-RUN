@@ -2,6 +2,8 @@ package cz.cvut.valespe.js.interpreter;
 
 
 import java.lang.Object;
+
+import cz.cvut.valespe.js.interpreter.model.*;
 import cz.cvut.valespe.js.parser.JavaScriptParser;
 import org.antlr.v4.runtime.misc.NotNull;
 import org.antlr.v4.runtime.tree.ErrorNode;
