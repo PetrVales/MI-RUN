@@ -17,6 +17,19 @@ public class JavaScriptBaseListener implements JavaScriptListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterArrayAssignment(@NotNull JavaScriptParser.ArrayAssignmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitArrayAssignment(@NotNull JavaScriptParser.ArrayAssignmentContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterVarAssignment(@NotNull JavaScriptParser.VarAssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -154,6 +167,19 @@ public class JavaScriptBaseListener implements JavaScriptListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitThisExpressionExpression(@NotNull JavaScriptParser.ThisExpressionExpressionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterArrayAccessExpression(@NotNull JavaScriptParser.ArrayAccessExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitArrayAccessExpression(@NotNull JavaScriptParser.ArrayAccessExpressionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -381,6 +407,19 @@ public class JavaScriptBaseListener implements JavaScriptListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterArrayAccess(@NotNull JavaScriptParser.ArrayAccessContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitArrayAccess(@NotNull JavaScriptParser.ArrayAccessContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterDivExpression(@NotNull JavaScriptParser.DivExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -427,6 +466,19 @@ public class JavaScriptBaseListener implements JavaScriptListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitString(@NotNull JavaScriptParser.StringContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterCreateArray(@NotNull JavaScriptParser.CreateArrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitCreateArray(@NotNull JavaScriptParser.CreateArrayContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -492,6 +544,32 @@ public class JavaScriptBaseListener implements JavaScriptListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitFunctionParameter(@NotNull JavaScriptParser.FunctionParameterContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterArrayAssignmentExpression(@NotNull JavaScriptParser.ArrayAssignmentExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitArrayAssignmentExpression(@NotNull JavaScriptParser.ArrayAssignmentExpressionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterArray(@NotNull JavaScriptParser.ArrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitArray(@NotNull JavaScriptParser.ArrayContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

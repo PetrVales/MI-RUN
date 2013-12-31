@@ -9,6 +9,17 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
  */
 public interface JavaScriptListener extends ParseTreeListener {
 	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#arrayAssignment}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayAssignment(@NotNull JavaScriptParser.ArrayAssignmentContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#arrayAssignment}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayAssignment(@NotNull JavaScriptParser.ArrayAssignmentContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#varAssignment}.
 	 * @param ctx the parse tree
 	 */
@@ -128,6 +139,17 @@ public interface JavaScriptListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitThisExpressionExpression(@NotNull JavaScriptParser.ThisExpressionExpressionContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#arrayAccessExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayAccessExpression(@NotNull JavaScriptParser.ArrayAccessExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#arrayAccessExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayAccessExpression(@NotNull JavaScriptParser.ArrayAccessExpressionContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#createInstanceExpression}.
@@ -317,6 +339,17 @@ public interface JavaScriptListener extends ParseTreeListener {
 	void exitCreateInstance(@NotNull JavaScriptParser.CreateInstanceContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#arrayAccess}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayAccess(@NotNull JavaScriptParser.ArrayAccessContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#arrayAccess}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayAccess(@NotNull JavaScriptParser.ArrayAccessContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#divExpression}.
 	 * @param ctx the parse tree
 	 */
@@ -359,6 +392,17 @@ public interface JavaScriptListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitString(@NotNull JavaScriptParser.StringContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#createArray}.
+	 * @param ctx the parse tree
+	 */
+	void enterCreateArray(@NotNull JavaScriptParser.CreateArrayContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#createArray}.
+	 * @param ctx the parse tree
+	 */
+	void exitCreateArray(@NotNull JavaScriptParser.CreateArrayContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#functionCallExpression}.
@@ -414,4 +458,26 @@ public interface JavaScriptListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunctionParameter(@NotNull JavaScriptParser.FunctionParameterContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#arrayAssignmentExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterArrayAssignmentExpression(@NotNull JavaScriptParser.ArrayAssignmentExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#arrayAssignmentExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitArrayAssignmentExpression(@NotNull JavaScriptParser.ArrayAssignmentExpressionContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#array}.
+	 * @param ctx the parse tree
+	 */
+	void enterArray(@NotNull JavaScriptParser.ArrayContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#array}.
+	 * @param ctx the parse tree
+	 */
+	void exitArray(@NotNull JavaScriptParser.ArrayContext ctx);
 }

@@ -12,6 +12,13 @@ import org.antlr.v4.runtime.tree.ParseTreeVisitor;
  */
 public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#arrayAssignment}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayAssignment(@NotNull JavaScriptParser.ArrayAssignmentContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#varAssignment}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -87,6 +94,13 @@ public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitThisExpressionExpression(@NotNull JavaScriptParser.ThisExpressionExpressionContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#arrayAccessExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayAccessExpression(@NotNull JavaScriptParser.ArrayAccessExpressionContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#createInstanceExpression}.
@@ -208,6 +222,13 @@ public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	T visitCreateInstance(@NotNull JavaScriptParser.CreateInstanceContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#arrayAccess}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayAccess(@NotNull JavaScriptParser.ArrayAccessContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#divExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -234,6 +255,13 @@ public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitString(@NotNull JavaScriptParser.StringContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#createArray}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCreateArray(@NotNull JavaScriptParser.CreateArrayContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#functionCallExpression}.
@@ -269,4 +297,18 @@ public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitFunctionParameter(@NotNull JavaScriptParser.FunctionParameterContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#arrayAssignmentExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArrayAssignmentExpression(@NotNull JavaScriptParser.ArrayAssignmentExpressionContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#array}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitArray(@NotNull JavaScriptParser.ArrayContext ctx);
 }

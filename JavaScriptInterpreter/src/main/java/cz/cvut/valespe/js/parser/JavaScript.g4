@@ -27,9 +27,12 @@ expression
     | createInstance #createInstanceExpression
     | thisExpression #thisExpressionExpression
     | messageToInstance #messageToInstanceExpression
+    | arrayAccess #arrayAccessExpression
     | ID #id
     | INT #int
     | STRING #string
+    | arrayAssignment #arrayAssignmentExpression
+    | createArray #array
     | prototypeAssignmentExpression #prototypeAssignmentExpressionExpression
     | assignmentExpression #assignmentExpressionExpression
     | anonymousFunction #anonymousFunctionExpression
@@ -76,13 +79,22 @@ assignmentExpression
     |   'var' ID ASSIGNMENT expression #varAssignment
     ;
 
-
 anonymousFunction
     : 'function' '(' functionParameters? ')' functionBody
     ;
 
 varDeclaration
     : 'var' ID
+    ;
+
+createArray
+    : '[' callParams? ']'
+    ;
+arrayAssignment
+    : ID'['INT']' ASSIGNMENT expression
+    ;
+arrayAccess
+    : ID'['INT']'
     ;
 
 ASSIGNMENT:'=';

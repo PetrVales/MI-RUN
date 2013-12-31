@@ -300,6 +300,64 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     }
 
     @Override
+    public Object visitArray(@NotNull JavaScriptParser.ArrayContext ctx) {
+        return ctx.createArray().accept(this);
+    }
+
+    @Override
+    public Object visitArrayAssignmentExpression(@NotNull JavaScriptParser.ArrayAssignmentExpressionContext ctx) {
+        return ctx.arrayAssignment().accept(this);
+    }
+
+    @Override
+    public Object visitArrayAccessExpression(@NotNull JavaScriptParser.ArrayAccessExpressionContext ctx) {
+        return ctx.arrayAccess().accept(this);
+    }
+
+    @Override
+    public Object visitCreateArray(@NotNull JavaScriptParser.CreateArrayContext ctx) {
+        List<Memory.Reference> refs = (List) ctx.callParams().accept(this);
+        List<Memory.Reference> arrayRefs = new ArrayList<Memory.Reference>(refs.size());
+        for (Memory.Reference ref : refs) {
+            final JsObject jsObject = memory.getJsObject(ref);
+            if (jsObject.isSymbol())
+                arrayRefs.add(scope.get((String) jsObject.value()));
+            else
+                arrayRefs.add(ref);
+        }
+        return memory.storeJsObject(new JsArray(arrayRefs));
+    }
+
+    @Override
+    public Object visitArrayAccess(@NotNull JavaScriptParser.ArrayAccessContext ctx) {
+        Memory.Reference idRef = (Memory.Reference) ctx.ID().accept(this);
+        JsObject id = memory.getJsObject(idRef);
+        Memory.Reference arrayRef = scope.get((String) id.value());
+        JsObject array = memory.getJsObject(arrayRef);
+        Memory.Reference indexRef = (Memory.Reference) ctx.INT().accept(this);
+        JsObject index = memory.getJsObject(indexRef);
+        if (array.isJsArray()) {
+            return ((JsArray) array).get((Integer) index.value());
+        }
+        throw new TypeError(id.value() + " is not array.");
+    }
+
+    @Override
+    public Object visitArrayAssignment(@NotNull JavaScriptParser.ArrayAssignmentContext ctx) {
+        Memory.Reference idRef = (Memory.Reference) ctx.ID().accept(this);
+        JsObject id = memory.getJsObject(idRef);
+        Memory.Reference arrayRef = scope.get((String) id.value());
+        JsObject array = memory.getJsObject(arrayRef);
+        Memory.Reference indexRef = (Memory.Reference) ctx.INT().accept(this);
+        JsObject index = memory.getJsObject(indexRef);
+        if (array.isJsArray()) {
+            ((JsArray) array).set((Integer) index.value(), (Memory.Reference) ctx.expression().accept(this));
+            return null;
+        }
+        throw new TypeError(id.value() + " is not array.");
+    }
+
+    @Override
     public Object visitInt(@NotNull JavaScriptParser.IntContext ctx) {
         return ctx.INT().accept(this);
     }

@@ -260,6 +260,42 @@ public class DefinitionCollectingVisitor implements JavaScriptVisitor {
     }
 
     @Override
+    public Object visitArrayAccessExpression(@NotNull JavaScriptParser.ArrayAccessExpressionContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
+    public Object visitArrayAccess(@NotNull JavaScriptParser.ArrayAccessContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
+    public Object visitCreateArray(@NotNull JavaScriptParser.CreateArrayContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
+    public Object visitArray(@NotNull JavaScriptParser.ArrayContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
+    public Object visitArrayAssignmentExpression(@NotNull JavaScriptParser.ArrayAssignmentExpressionContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
+    public Object visitArrayAssignment(@NotNull JavaScriptParser.ArrayAssignmentContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
     public Object visitCallParams(@NotNull JavaScriptParser.CallParamsContext ctx) {
         // Nothing to do
         return null;
