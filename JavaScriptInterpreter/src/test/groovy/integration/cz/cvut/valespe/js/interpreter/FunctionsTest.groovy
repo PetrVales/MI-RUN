@@ -2,6 +2,7 @@ package cz.cvut.valespe.js.interpreter
 
 import cz.cvut.valespe.js.interpreter.model.LoadFunction
 import cz.cvut.valespe.js.interpreter.model.PrintFunction
+import cz.cvut.valespe.js.interpreter.model.ReadFunction
 import org.junit.Before
 import org.junit.Test
 
@@ -44,6 +45,16 @@ class FunctionsTest extends IntegrationTest {
         assert memory.getJsObject(functionRefA).isJsObject()
         assert memory.getJsObject(functionRefB).isJsObject()
         assert memory.getJsObject(functionRefC).isJsObject()
+    }
+
+    @Test
+    public void "read file"() {
+        def readRef = memory.storeJsObject(new ReadFunction())
+        scope.set("read", readRef)
+
+        runScript("/Read.js")
+
+        assertValueOfVariable("x", "var x = read(\"/Read.js\")")
     }
 
 }
