@@ -7,7 +7,7 @@ import java.util.List;
 
 public class JsInstance extends JsObject {
 
-    private Scope objectScope;
+    protected Scope objectScope;
 
     public JsInstance(Scope objectScope) {
         this.objectScope = objectScope;

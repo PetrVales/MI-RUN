@@ -3,17 +3,27 @@ package cz.cvut.valespe.js.interpreter.model;
 import cz.cvut.valespe.js.interpreter.Memory;
 import cz.cvut.valespe.js.interpreter.Scope;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * TODO javadoc
+ * Runtime representation of Integer
  */
-public class JsInt extends JsObject {
+public class JsInt extends JsInstance {
 
     private final Integer value;
+    private Map<String, JsFunction> methods = new HashMap<String, JsFunction>();
 
     public JsInt(Integer value) {
+        super(new Scope());
         this.value = value;
+        methods.put("+", new PlusFunction());
+        methods.put("-", new MinusFunction());
+        methods.put("*", new MulFunction());
+        methods.put("/", new DivFunction());
+        methods.put("%", new ModFunction());
     }
 
     @Override
@@ -21,45 +31,10 @@ public class JsInt extends JsObject {
         return true;
     }
 
-    public JsInt plus(JsInt other) {
-        return new JsInt(this.value + other.value);
-    }
-
-    public JsInt minus(JsInt other) {
-        return new JsInt(this.value - other.value);
-    }
-
-    public JsInt mul(JsInt other) {
-        return new JsInt(this.value * other.value);
-    }
-
-    public JsInt div(JsInt other) {
-        return new JsInt(this.value / other.value);
-    }
-
-    public JsInt mod(JsInt other) {
-        return new JsInt(this.value % other.value);
-    }
-
     @Override
     public Memory.Reference invoke(String function, List<Memory.Reference> args, Scope invokeScope, Memory memory) {
-        JsObject that = memory.getJsObject(args.get(0));
-        JsInt result = null;
-        if (!that.isJsInt())
-            throw new TypeError("Can't call " + function + " with non Int arg.");
-        else if ("+".equals(function))
-            result = plus((JsInt) that);
-        else if ("-".equals(function))
-            result = minus((JsInt) that);
-        else if ("*".equals(function))
-            result = mul((JsInt) that);
-        else if ("/".equals(function))
-            result = div((JsInt) that);
-        else if ("%".equals(function))
-            result = mod((JsInt) that);
-        else
-            throw new TypeError("Unknown function: " + function + " for type Int.");
-        return memory.storeJsObject(result);
+        final JsFunction jsFunction = methods.get(function);
+        return jsFunction.invoke(args, invokeScope, memory);
     }
 
     @Override
@@ -76,4 +51,90 @@ public class JsInt extends JsObject {
     public Object value() {
         return value;
     }
+
+    private class PlusFunction extends JsFunction {
+
+        public PlusFunction() {
+            super("+", Arrays.asList("other"), null, null);
+        }
+
+        @Override
+        public Memory.Reference invoke(List<Memory.Reference> args, Scope invokeScope, Memory memory) {
+            JsObject other = memory.getJsObject(args.get(0));
+            if (other.isJsInt()) {
+                return memory.storeJsObject(new JsInt(value + ((JsInt) other).value));
+            }
+            throw new TypeError("Cant't + non Int object.");
+        }
+
+    }
+
+    private class MinusFunction extends JsFunction {
+
+        public MinusFunction() {
+            super("-", Arrays.asList("other"), null, null);
+        }
+
+        @Override
+        public Memory.Reference invoke(List<Memory.Reference> args, Scope invokeScope, Memory memory) {
+            JsObject other = memory.getJsObject(args.get(0));
+            if (other.isJsInt()) {
+                return memory.storeJsObject(new JsInt(value - ((JsInt) other).value));
+            }
+            throw new TypeError("Cant't - non Int object.");
+        }
+
+    }
+
+    private class MulFunction extends JsFunction {
+
+        public MulFunction() {
+            super("*", Arrays.asList("other"), null, null);
+        }
+
+        @Override
+        public Memory.Reference invoke(List<Memory.Reference> args, Scope invokeScope, Memory memory) {
+            JsObject other = memory.getJsObject(args.get(0));
+            if (other.isJsInt()) {
+                return memory.storeJsObject(new JsInt(value * ((JsInt) other).value));
+            }
+            throw new TypeError("Cant't * non Int object.");
+        }
+
+    }
+
+    private class DivFunction extends JsFunction {
+
+        public DivFunction() {
+            super("/", Arrays.asList("other"), null, null);
+        }
+
+        @Override
+        public Memory.Reference invoke(List<Memory.Reference> args, Scope invokeScope, Memory memory) {
+            JsObject other = memory.getJsObject(args.get(0));
+            if (other.isJsInt()) {
+                return memory.storeJsObject(new JsInt(value / ((JsInt) other).value));
+            }
+            throw new TypeError("Cant't / non Int object.");
+        }
+
+    }
+
+    private class ModFunction extends JsFunction {
+
+        public ModFunction() {
+            super("%", Arrays.asList("other"), null, null);
+        }
+
+        @Override
+        public Memory.Reference invoke(List<Memory.Reference> args, Scope invokeScope, Memory memory) {
+            JsObject other = memory.getJsObject(args.get(0));
+            if (other.isJsInt()) {
+                return memory.storeJsObject(new JsInt(value % ((JsInt) other).value));
+            }
+            throw new TypeError("Cant't % non Int object.");
+        }
+
+    }
+
 }
