@@ -180,38 +180,38 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     public Object visitPlusExpression(@NotNull JavaScriptParser.PlusExpressionContext ctx) {
         Memory.Reference firstRef = (Memory.Reference) ctx.expression(0).accept(this);
         Memory.Reference secondRef = (Memory.Reference) ctx.expression(1).accept(this);
-        return invokeBinaryOperationOnInt(firstRef, secondRef, "+");
+        return invokeBinaryOperation(firstRef, secondRef, "+");
     }
 
     @Override
     public Object visitMinusExpression(@NotNull JavaScriptParser.MinusExpressionContext ctx) {
         Memory.Reference firstRef = (Memory.Reference) ctx.expression(0).accept(this);
         Memory.Reference secondRef = (Memory.Reference) ctx.expression(1).accept(this);
-        return invokeBinaryOperationOnInt(firstRef, secondRef, "-");
+        return invokeBinaryOperation(firstRef, secondRef, "-");
     }
 
     @Override
     public Object visitMulExpression(@NotNull JavaScriptParser.MulExpressionContext ctx) {
         Memory.Reference firstRef = (Memory.Reference) ctx.expression(0).accept(this);
         Memory.Reference secondRef = (Memory.Reference) ctx.expression(1).accept(this);
-        return invokeBinaryOperationOnInt(firstRef, secondRef, "*");
+        return invokeBinaryOperation(firstRef, secondRef, "*");
     }
 
     @Override
     public Object visitDivExpression(@NotNull JavaScriptParser.DivExpressionContext ctx) {
         Memory.Reference firstRef = (Memory.Reference) ctx.expression(0).accept(this);
         Memory.Reference secondRef = (Memory.Reference) ctx.expression(1).accept(this);
-        return invokeBinaryOperationOnInt(firstRef, secondRef, "/");
+        return invokeBinaryOperation(firstRef, secondRef, "/");
     }
 
     @Override
     public Object visitModExpression(@NotNull JavaScriptParser.ModExpressionContext ctx) {
         Memory.Reference firstRef = (Memory.Reference) ctx.expression(0).accept(this);
         Memory.Reference secondRef = (Memory.Reference) ctx.expression(1).accept(this);
-        return invokeBinaryOperationOnInt(firstRef, secondRef, "%");
+        return invokeBinaryOperation(firstRef, secondRef, "%");
     }
 
-    private Object invokeBinaryOperationOnInt(Memory.Reference firstRef, Memory.Reference secondRef, String operation) {
+    private Object invokeBinaryOperation(Memory.Reference firstRef, Memory.Reference secondRef, String operation) {
         JsObject first = memory.getJsObject(firstRef);
         JsObject second = memory.getJsObject(secondRef);
         if (first.isSymbol())
@@ -219,6 +219,39 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
         if (second.isSymbol())
             secondRef = scope.get((String) second.value());
         return first.invoke(operation, Arrays.asList(secondRef), scope, memory);
+    }
+
+    @Override
+    public Object visitOrExpression(@NotNull JavaScriptParser.OrExpressionContext ctx) {
+        Memory.Reference firstRef = (Memory.Reference) ctx.expression(0).accept(this);
+        Memory.Reference secondRef = (Memory.Reference) ctx.expression(1).accept(this);
+        return invokeBinaryOperation(firstRef, secondRef, "||");
+    }
+
+    @Override
+    public Object visitAndExpression(@NotNull JavaScriptParser.AndExpressionContext ctx) {
+        Memory.Reference firstRef = (Memory.Reference) ctx.expression(0).accept(this);
+        Memory.Reference secondRef = (Memory.Reference) ctx.expression(1).accept(this);
+        return invokeBinaryOperation(firstRef, secondRef, "&&");
+    }
+
+    @Override
+    public Object visitNotExpression(@NotNull JavaScriptParser.NotExpressionContext ctx) {
+        Memory.Reference firstRef = (Memory.Reference) ctx.expression().accept(this);
+        JsObject first = memory.getJsObject(firstRef);
+        if (first.isSymbol())
+            first = memory.getJsObject(scope.get((String) first.value()));
+        return first.invoke("!", Collections.<Memory.Reference>emptyList(), scope, memory);
+    }
+
+    @Override
+    public Object visitFalse(@NotNull JavaScriptParser.FalseContext ctx) {
+        return ctx.FALSE().accept(this);
+    }
+
+    @Override
+    public Object visitTrue(@NotNull JavaScriptParser.TrueContext ctx) {
+        return ctx.TRUE().accept(this);
     }
 
     @Override
@@ -383,6 +416,12 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
                 break;
             case JavaScriptParser.STRING:
                 terminal =  new JsString(node.getText().replace("\"", ""));
+                break;
+            case JavaScriptParser.TRUE:
+                terminal =  new JsBoolean(Boolean.TRUE);
+                break;
+            case JavaScriptParser.FALSE:
+                terminal =  new JsBoolean(Boolean.FALSE);
                 break;
             default: throw new IllegalStateException("Unknown terminal node");
         }

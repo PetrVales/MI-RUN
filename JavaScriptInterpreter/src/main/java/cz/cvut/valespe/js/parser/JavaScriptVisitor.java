@@ -54,6 +54,13 @@ public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	T visitAnonymousFunctionExpression(@NotNull JavaScriptParser.AnonymousFunctionExpressionContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#orExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitOrExpression(@NotNull JavaScriptParser.OrExpressionContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#messageToInstanceExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -66,6 +73,13 @@ public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitPrototypeAssignmentExpressionExpression(@NotNull JavaScriptParser.PrototypeAssignmentExpressionExpressionContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#andExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAndExpression(@NotNull JavaScriptParser.AndExpressionContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#id}.
@@ -129,6 +143,13 @@ public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitThisGetterExpression(@NotNull JavaScriptParser.ThisGetterExpressionContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#false}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFalse(@NotNull JavaScriptParser.FalseContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#anonymousFunction}.
@@ -201,11 +222,25 @@ public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	T visitMulExpression(@NotNull JavaScriptParser.MulExpressionContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#notExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitNotExpression(@NotNull JavaScriptParser.NotExpressionContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#functionBody}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitFunctionBody(@NotNull JavaScriptParser.FunctionBodyContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#true}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTrue(@NotNull JavaScriptParser.TrueContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#callMethodOnInstance}.

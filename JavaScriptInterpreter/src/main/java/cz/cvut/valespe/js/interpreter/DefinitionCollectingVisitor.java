@@ -354,4 +354,33 @@ public class DefinitionCollectingVisitor implements JavaScriptVisitor {
         return null;
     }
 
+    @Override
+    public Object visitOrExpression(@NotNull JavaScriptParser.OrExpressionContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
+    public Object visitAndExpression(@NotNull JavaScriptParser.AndExpressionContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
+    public Object visitFalse(@NotNull JavaScriptParser.FalseContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
+    public Object visitNotExpression(@NotNull JavaScriptParser.NotExpressionContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
+    public Object visitTrue(@NotNull JavaScriptParser.TrueContext ctx) {
+        // Nothing to do
+        return null;
+    }
 }

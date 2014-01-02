@@ -28,6 +28,8 @@ expression
     | thisExpression #thisExpressionExpression
     | messageToInstance #messageToInstanceExpression
     | arrayAccess #arrayAccessExpression
+    | TRUE #true
+    | FALSE #false
     | ID #id
     | INT #int
     | STRING #string
@@ -42,6 +44,9 @@ expression
     | expression MOD expression #modExpression
     | expression PLUS expression #plusExpression
     | expression MINUS expression #minusExpression
+    | expression AND expression #andExpression
+    | expression OR expression #orExpression
+    | '!' expression #notExpression
     ;
 
 functionCall
@@ -103,7 +108,11 @@ MINUS: '-';
 MUL: '*';
 DIV: '/';
 MOD: '%';
+AND: '&&';
+OR: '||';
 INT: '-'? [0-9]+;
+TRUE: 'true';
+FALSE: 'false';
 ID: [a-zA-Z$_][a-zA-Z0-9$_]*;
 STRING: '"' [a-zA-Z0-9,./?!+-*$_]* '"';
 WS: [ \t\r\n]+ -> skip;

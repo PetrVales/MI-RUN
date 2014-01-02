@@ -40,6 +40,10 @@ public abstract class JsObject {
         return false;
     }
 
+    public boolean isJsBoolean() {
+        return false;
+    }
+
     public abstract Memory.Reference invoke(String function, List<Memory.Reference> args, Scope invokeScope, Memory memory);
 
     public abstract Memory.Reference invoke(List<Memory.Reference> args, Scope invokeScope, Memory memory);

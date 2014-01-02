@@ -75,6 +75,17 @@ public interface JavaScriptListener extends ParseTreeListener {
 	void exitAnonymousFunctionExpression(@NotNull JavaScriptParser.AnonymousFunctionExpressionContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#orExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterOrExpression(@NotNull JavaScriptParser.OrExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#orExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitOrExpression(@NotNull JavaScriptParser.OrExpressionContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#messageToInstanceExpression}.
 	 * @param ctx the parse tree
 	 */
@@ -95,6 +106,17 @@ public interface JavaScriptListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPrototypeAssignmentExpressionExpression(@NotNull JavaScriptParser.PrototypeAssignmentExpressionExpressionContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#andExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterAndExpression(@NotNull JavaScriptParser.AndExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#andExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitAndExpression(@NotNull JavaScriptParser.AndExpressionContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#id}.
@@ -194,6 +216,17 @@ public interface JavaScriptListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitThisGetterExpression(@NotNull JavaScriptParser.ThisGetterExpressionContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#false}.
+	 * @param ctx the parse tree
+	 */
+	void enterFalse(@NotNull JavaScriptParser.FalseContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#false}.
+	 * @param ctx the parse tree
+	 */
+	void exitFalse(@NotNull JavaScriptParser.FalseContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#anonymousFunction}.
@@ -306,6 +339,17 @@ public interface JavaScriptListener extends ParseTreeListener {
 	void exitMulExpression(@NotNull JavaScriptParser.MulExpressionContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#notExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterNotExpression(@NotNull JavaScriptParser.NotExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#notExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitNotExpression(@NotNull JavaScriptParser.NotExpressionContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#functionBody}.
 	 * @param ctx the parse tree
 	 */
@@ -315,6 +359,17 @@ public interface JavaScriptListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitFunctionBody(@NotNull JavaScriptParser.FunctionBodyContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#true}.
+	 * @param ctx the parse tree
+	 */
+	void enterTrue(@NotNull JavaScriptParser.TrueContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#true}.
+	 * @param ctx the parse tree
+	 */
+	void exitTrue(@NotNull JavaScriptParser.TrueContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#callMethodOnInstance}.
