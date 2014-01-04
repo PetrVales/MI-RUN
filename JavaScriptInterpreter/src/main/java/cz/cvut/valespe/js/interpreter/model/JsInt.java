@@ -24,6 +24,7 @@ public class JsInt extends JsInstance {
         methods.put("*", new MulFunction());
         methods.put("/", new DivFunction());
         methods.put("%", new ModFunction());
+        methods.put("==", new EqualsFunction());
     }
 
     @Override
@@ -131,6 +132,23 @@ public class JsInt extends JsInstance {
             JsObject other = memory.getJsObject(args.get(0));
             if (other.isJsInt()) {
                 return memory.storeJsObject(new JsInt(value % ((JsInt) other).value));
+            }
+            throw new TypeError("Cant't % non Int object.");
+        }
+
+    }
+
+    private class EqualsFunction extends JsFunction {
+
+        public EqualsFunction() {
+            super("==", Arrays.asList("other"), null, null);
+        }
+
+        @Override
+        public Memory.Reference invoke(List<Memory.Reference> args, Scope invokeScope, Memory memory) {
+            JsObject other = memory.getJsObject(args.get(0));
+            if (other.isJsInt()) {
+                return memory.storeJsObject(new JsBoolean(value.equals(other.value())));
             }
             throw new TypeError("Cant't % non Int object.");
         }

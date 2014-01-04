@@ -28,6 +28,7 @@ expression
     | thisExpression #thisExpressionExpression
     | messageToInstance #messageToInstanceExpression
     | arrayAccess #arrayAccessExpression
+    | ifStatement #ifExpression
     | TRUE #true
     | FALSE #false
     | ID #id
@@ -39,14 +40,16 @@ expression
     | assignmentExpression #assignmentExpressionExpression
     | anonymousFunction #anonymousFunctionExpression
     | '(' expression ')' #parenthesesExpression
+    | '!' expression #notExpression
+    | '-' expression #unaryMinusExpression
     | expression MUL expression #mulExpression
     | expression DIV expression #divExpression
     | expression MOD expression #modExpression
     | expression PLUS expression #plusExpression
     | expression MINUS expression #minusExpression
+    | expression '==' expression #equalsExpression
     | expression AND expression #andExpression
     | expression OR expression #orExpression
-    | '!' expression #notExpression
     ;
 
 functionCall
@@ -100,6 +103,10 @@ arrayAssignment
     ;
 arrayAccess
     : ID'['INT']'
+    ;
+
+ifStatement
+    : 'if''('expression')' functionBody 'else' functionBody
     ;
 
 ASSIGNMENT:'=';

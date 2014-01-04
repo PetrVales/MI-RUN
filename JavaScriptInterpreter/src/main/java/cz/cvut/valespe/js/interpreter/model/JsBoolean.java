@@ -18,6 +18,7 @@ public class JsBoolean extends JsInstance {
         this.value = value;
         methods.put("&&", new AndFunction());
         methods.put("||", new OrFunction());
+        methods.put("==", new EqualsFunction());
         methods.put("!", new NotFunction());
     }
 
@@ -80,6 +81,23 @@ public class JsBoolean extends JsInstance {
         @Override
         public Memory.Reference invoke(List<Memory.Reference> args, Scope invokeScope, Memory memory) {
             return memory.storeJsObject(new JsBoolean(!value));
+        }
+
+    }
+
+    private class EqualsFunction extends JsFunction {
+
+        public EqualsFunction() {
+            super("==", Arrays.asList("other"), null, null);
+        }
+
+        @Override
+        public Memory.Reference invoke(List<Memory.Reference> args, Scope invokeScope, Memory memory) {
+            JsObject other = memory.getJsObject(args.get(0));
+            if (other.isJsInt()) {
+                return memory.storeJsObject(new JsBoolean(value.equals(other.value())));
+            }
+            throw new TypeError("Cant't % non Int object.");
         }
 
     }

@@ -2,7 +2,6 @@ package cz.cvut.valespe.js.interpreter.model;
 
 import cz.cvut.valespe.js.interpreter.Memory;
 import cz.cvut.valespe.js.interpreter.Scope;
-import cz.cvut.valespe.js.parser.JavaScriptParser;
 
 import java.util.*;
 
@@ -18,11 +17,13 @@ public class JsString extends JsInstance {
         this.text = text;
         methods.put("split", new SplitFunction());
         methods.put("length", new LengthFunction());
+        methods.put("==", new EqualsFunction());
     }
 
     @Override
     public Memory.Reference invoke(String function, List<Memory.Reference> args, Scope invokeScope, Memory memory) {
-        return null;
+        final JsFunction jsFunction = methods.get(function);
+        return jsFunction.invoke(args, invokeScope, memory);
     }
 
     @Override
@@ -62,4 +63,22 @@ public class JsString extends JsInstance {
             return memory.storeJsObject(new JsInt(text.length()));
         }
     }
+
+    private class EqualsFunction extends JsFunction {
+
+        public EqualsFunction() {
+            super("==", Arrays.asList("other"), null, null);
+        }
+
+        @Override
+        public Memory.Reference invoke(List<Memory.Reference> args, Scope invokeScope, Memory memory) {
+            JsObject other = memory.getJsObject(args.get(0));
+            if (other.isJsInt()) {
+                return memory.storeJsObject(new JsBoolean(value().equals(other.value())));
+            }
+            throw new TypeError("Cant't % non Int object.");
+        }
+
+    }
+
 }

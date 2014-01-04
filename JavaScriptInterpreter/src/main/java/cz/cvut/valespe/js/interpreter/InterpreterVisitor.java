@@ -236,12 +236,28 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     }
 
     @Override
+    public Object visitEqualsExpression(@NotNull JavaScriptParser.EqualsExpressionContext ctx) {
+        Memory.Reference firstRef = (Memory.Reference) ctx.expression(0).accept(this);
+        Memory.Reference secondRef = (Memory.Reference) ctx.expression(1).accept(this);
+        return invokeBinaryOperation(firstRef, secondRef, "==");
+    }
+
+    @Override
     public Object visitNotExpression(@NotNull JavaScriptParser.NotExpressionContext ctx) {
         Memory.Reference firstRef = (Memory.Reference) ctx.expression().accept(this);
         JsObject first = memory.getJsObject(firstRef);
         if (first.isSymbol())
             first = memory.getJsObject(scope.get((String) first.value()));
         return first.invoke("!", Collections.<Memory.Reference>emptyList(), scope, memory);
+    }
+
+    @Override
+    public Object visitUnaryMinusExpression(@NotNull JavaScriptParser.UnaryMinusExpressionContext ctx) {
+        Memory.Reference firstRef = (Memory.Reference) ctx.expression().accept(this);
+        JsObject first = memory.getJsObject(firstRef);
+        if (first.isSymbol())
+            first = memory.getJsObject(scope.get((String) first.value()));
+        return first.invoke("-", Collections.<Memory.Reference>emptyList(), scope, memory);
     }
 
     @Override
@@ -402,6 +418,27 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     @Override
     public Object visitString(@NotNull JavaScriptParser.StringContext ctx) {
         return ctx.STRING().accept(this);
+    }
+
+    @Override
+    public Object visitIfExpression(@NotNull JavaScriptParser.IfExpressionContext ctx) {
+        return ctx.ifStatement().accept(this);
+    }
+
+    @Override
+    public Object visitIfStatement(@NotNull JavaScriptParser.IfStatementContext ctx) {
+        Memory.Reference conditionRef = (Memory.Reference) ctx.expression().accept(this);
+        JsObject condition = memory.getJsObject(conditionRef);
+        if (condition.isSymbol())
+            condition = memory.getJsObject(scope.get((String) condition.value()));
+        if (!condition.isJsBoolean())
+            throw new TypeError("Not boolean expression");
+        if ((Boolean) condition.value()) {
+            ctx.functionBody(0).accept(this);
+        } else {
+            ctx.functionBody(1).accept(this);
+        }
+        return null;
     }
 
     @Override
