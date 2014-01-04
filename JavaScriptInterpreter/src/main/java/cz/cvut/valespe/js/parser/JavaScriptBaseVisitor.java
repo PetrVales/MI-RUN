@@ -218,6 +218,14 @@ public class JavaScriptBaseVisitor<T> extends AbstractParseTreeVisitor<T> implem
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitCompareExpression(@NotNull JavaScriptParser.CompareExpressionContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitPrototypeAssignment(@NotNull JavaScriptParser.PrototypeAssignmentContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -314,14 +322,6 @@ public class JavaScriptBaseVisitor<T> extends AbstractParseTreeVisitor<T> implem
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
-	@Override public T visitCallParams(@NotNull JavaScriptParser.CallParamsContext ctx) { return visitChildren(ctx); }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation returns the result of calling
-	 * {@link #visitChildren} on {@code ctx}.
-	 */
 	@Override public T visitAnonymousFunction(@NotNull JavaScriptParser.AnonymousFunctionContext ctx) { return visitChildren(ctx); }
 
 	/**
@@ -330,7 +330,23 @@ public class JavaScriptBaseVisitor<T> extends AbstractParseTreeVisitor<T> implem
 	 * The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
+	@Override public T visitCallParams(@NotNull JavaScriptParser.CallParamsContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
 	@Override public T visitPlusExpression(@NotNull JavaScriptParser.PlusExpressionContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitWhileExpression(@NotNull JavaScriptParser.WhileExpressionContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}
@@ -387,6 +403,14 @@ public class JavaScriptBaseVisitor<T> extends AbstractParseTreeVisitor<T> implem
 	 * {@link #visitChildren} on {@code ctx}.
 	 */
 	@Override public T visitAssignment(@NotNull JavaScriptParser.AssignmentContext ctx) { return visitChildren(ctx); }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.
+	 */
+	@Override public T visitWhileStatement(@NotNull JavaScriptParser.WhileStatementContext ctx) { return visitChildren(ctx); }
 
 	/**
 	 * {@inheritDoc}

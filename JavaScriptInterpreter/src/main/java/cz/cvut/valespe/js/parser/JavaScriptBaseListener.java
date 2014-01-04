@@ -342,6 +342,19 @@ public class JavaScriptBaseListener implements JavaScriptListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterCompareExpression(@NotNull JavaScriptParser.CompareExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitCompareExpression(@NotNull JavaScriptParser.CompareExpressionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterPrototypeAssignment(@NotNull JavaScriptParser.PrototypeAssignmentContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -498,19 +511,6 @@ public class JavaScriptBaseListener implements JavaScriptListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
-	@Override public void enterCallParams(@NotNull JavaScriptParser.CallParamsContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
-	@Override public void exitCallParams(@NotNull JavaScriptParser.CallParamsContext ctx) { }
-
-	/**
-	 * {@inheritDoc}
-	 * <p/>
-	 * The default implementation does nothing.
-	 */
 	@Override public void enterAnonymousFunction(@NotNull JavaScriptParser.AnonymousFunctionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -524,6 +524,19 @@ public class JavaScriptBaseListener implements JavaScriptListener {
 	 * <p/>
 	 * The default implementation does nothing.
 	 */
+	@Override public void enterCallParams(@NotNull JavaScriptParser.CallParamsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitCallParams(@NotNull JavaScriptParser.CallParamsContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
 	@Override public void enterPlusExpression(@NotNull JavaScriptParser.PlusExpressionContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -531,6 +544,19 @@ public class JavaScriptBaseListener implements JavaScriptListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitPlusExpression(@NotNull JavaScriptParser.PlusExpressionContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterWhileExpression(@NotNull JavaScriptParser.WhileExpressionContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitWhileExpression(@NotNull JavaScriptParser.WhileExpressionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
@@ -622,6 +648,19 @@ public class JavaScriptBaseListener implements JavaScriptListener {
 	 * The default implementation does nothing.
 	 */
 	@Override public void exitAssignment(@NotNull JavaScriptParser.AssignmentContext ctx) { }
+
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void enterWhileStatement(@NotNull JavaScriptParser.WhileStatementContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 * <p/>
+	 * The default implementation does nothing.
+	 */
+	@Override public void exitWhileStatement(@NotNull JavaScriptParser.WhileStatementContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

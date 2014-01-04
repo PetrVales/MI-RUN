@@ -29,6 +29,7 @@ expression
     | messageToInstance #messageToInstanceExpression
     | arrayAccess #arrayAccessExpression
     | ifStatement #ifExpression
+    | whileStatement #whileExpression
     | TRUE #true
     | FALSE #false
     | ID #id
@@ -47,6 +48,7 @@ expression
     | expression MOD expression #modExpression
     | expression PLUS expression #plusExpression
     | expression MINUS expression #minusExpression
+    | expression COMPARE_OPERATORS expression #compareExpression
     | expression '==' expression #equalsExpression
     | expression AND expression #andExpression
     | expression OR expression #orExpression
@@ -109,6 +111,10 @@ ifStatement
     : 'if''('expression')' functionBody 'else' functionBody
     ;
 
+whileStatement
+    : 'while''('expression')' functionBody
+    ;
+
 ASSIGNMENT:'=';
 PLUS: '+';
 MINUS: '-';
@@ -120,6 +126,10 @@ OR: '||';
 INT: '-'? [0-9]+;
 TRUE: 'true';
 FALSE: 'false';
+COMPARE_OPERATORS
+    : '<'
+    | '>'
+    ;
 ID: [a-zA-Z$_][a-zA-Z0-9$_]*;
 STRING: '"' [a-zA-Z0-9,./?!+-*$_]* '"';
 WS: [ \t\r\n]+ -> skip;

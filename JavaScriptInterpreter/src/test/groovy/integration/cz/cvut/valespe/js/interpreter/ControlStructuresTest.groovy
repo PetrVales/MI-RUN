@@ -2,14 +2,21 @@ package cz.cvut.valespe.js.interpreter
 
 import org.junit.Test
 
-class IfTest extends IntegrationTest {
+class ControlStructuresTest extends IntegrationTest {
 
     @Test
-    public void "perform if"() {
+    public void "can do if"() {
         runScript("/If.js")
 
         assertValueOfVariable("x", 1)
         assertValueOfVariable("y", 2)
         assertValueOfVariable("z", 1)
+    }
+
+    @Test
+    public void "can do while"() {
+        runScript("/While.js")
+
+        assertValueOfVariable("i", 10)
     }
 }

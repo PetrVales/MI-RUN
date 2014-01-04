@@ -408,4 +408,22 @@ public class DefinitionCollectingVisitor implements JavaScriptVisitor {
         return null;
     }
 
+    @Override
+    public Object visitWhileExpression(@NotNull JavaScriptParser.WhileExpressionContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
+    public Object visitWhileStatement(@NotNull JavaScriptParser.WhileStatementContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
+    @Override
+    public Object visitCompareExpression(@NotNull JavaScriptParser.CompareExpressionContext ctx) {
+        // Nothing to do
+        return null;
+    }
+
 }

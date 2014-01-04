@@ -243,6 +243,13 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     }
 
     @Override
+    public Object visitCompareExpression(@NotNull JavaScriptParser.CompareExpressionContext ctx) {
+        Memory.Reference firstRef = (Memory.Reference) ctx.expression(0).accept(this);
+        Memory.Reference secondRef = (Memory.Reference) ctx.expression(1).accept(this);
+        return invokeBinaryOperation(firstRef, secondRef, ctx.COMPARE_OPERATORS().getText());
+    }
+
+    @Override
     public Object visitNotExpression(@NotNull JavaScriptParser.NotExpressionContext ctx) {
         Memory.Reference firstRef = (Memory.Reference) ctx.expression().accept(this);
         JsObject first = memory.getJsObject(firstRef);
@@ -437,6 +444,29 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
             ctx.functionBody(0).accept(this);
         } else {
             ctx.functionBody(1).accept(this);
+        }
+        return null;
+    }
+
+    @Override
+    public Object visitWhileExpression(@NotNull JavaScriptParser.WhileExpressionContext ctx) {
+        return ctx.whileStatement().accept(this);
+    }
+
+    @Override
+    public Object visitWhileStatement(@NotNull JavaScriptParser.WhileStatementContext ctx) {
+        Memory.Reference conditionRef = (Memory.Reference) ctx.expression().accept(this);
+        JsObject condition = memory.getJsObject(conditionRef);
+        if (condition.isSymbol())
+            condition = memory.getJsObject(scope.get((String) condition.value()));
+        if (!condition.isJsBoolean())
+            throw new TypeError("Not boolean expression");
+        while ((Boolean) condition.value()) {
+            ctx.functionBody().accept(this);
+            conditionRef = (Memory.Reference) ctx.expression().accept(this);
+            condition = memory.getJsObject(conditionRef);
+            if (condition.isSymbol())
+                condition = memory.getJsObject(scope.get((String) condition.value()));
         }
         return null;
     }

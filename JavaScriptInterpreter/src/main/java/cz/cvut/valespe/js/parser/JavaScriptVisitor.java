@@ -187,6 +187,13 @@ public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	T visitArrayAssignmentExpression(@NotNull JavaScriptParser.ArrayAssignmentExpressionContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#compareExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCompareExpression(@NotNull JavaScriptParser.CompareExpressionContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#prototypeAssignment}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -271,13 +278,6 @@ public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	T visitThisGetterExpression(@NotNull JavaScriptParser.ThisGetterExpressionContext ctx);
 
 	/**
-	 * Visit a parse tree produced by {@link JavaScriptParser#callParams}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitCallParams(@NotNull JavaScriptParser.CallParamsContext ctx);
-
-	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#anonymousFunction}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -285,11 +285,25 @@ public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	T visitAnonymousFunction(@NotNull JavaScriptParser.AnonymousFunctionContext ctx);
 
 	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#callParams}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitCallParams(@NotNull JavaScriptParser.CallParamsContext ctx);
+
+	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#plusExpression}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitPlusExpression(@NotNull JavaScriptParser.PlusExpressionContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#whileExpression}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhileExpression(@NotNull JavaScriptParser.WhileExpressionContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#varDeclaration}.
@@ -339,6 +353,13 @@ public interface JavaScriptVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitAssignment(@NotNull JavaScriptParser.AssignmentContext ctx);
+
+	/**
+	 * Visit a parse tree produced by {@link JavaScriptParser#whileStatement}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhileStatement(@NotNull JavaScriptParser.WhileStatementContext ctx);
 
 	/**
 	 * Visit a parse tree produced by {@link JavaScriptParser#unaryMinusExpression}.

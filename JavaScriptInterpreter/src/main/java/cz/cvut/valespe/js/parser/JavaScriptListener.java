@@ -284,6 +284,17 @@ public interface JavaScriptListener extends ParseTreeListener {
 	void exitArrayAssignmentExpression(@NotNull JavaScriptParser.ArrayAssignmentExpressionContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#compareExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterCompareExpression(@NotNull JavaScriptParser.CompareExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#compareExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitCompareExpression(@NotNull JavaScriptParser.CompareExpressionContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#prototypeAssignment}.
 	 * @param ctx the parse tree
 	 */
@@ -416,17 +427,6 @@ public interface JavaScriptListener extends ParseTreeListener {
 	void exitThisGetterExpression(@NotNull JavaScriptParser.ThisGetterExpressionContext ctx);
 
 	/**
-	 * Enter a parse tree produced by {@link JavaScriptParser#callParams}.
-	 * @param ctx the parse tree
-	 */
-	void enterCallParams(@NotNull JavaScriptParser.CallParamsContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link JavaScriptParser#callParams}.
-	 * @param ctx the parse tree
-	 */
-	void exitCallParams(@NotNull JavaScriptParser.CallParamsContext ctx);
-
-	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#anonymousFunction}.
 	 * @param ctx the parse tree
 	 */
@@ -438,6 +438,17 @@ public interface JavaScriptListener extends ParseTreeListener {
 	void exitAnonymousFunction(@NotNull JavaScriptParser.AnonymousFunctionContext ctx);
 
 	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#callParams}.
+	 * @param ctx the parse tree
+	 */
+	void enterCallParams(@NotNull JavaScriptParser.CallParamsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#callParams}.
+	 * @param ctx the parse tree
+	 */
+	void exitCallParams(@NotNull JavaScriptParser.CallParamsContext ctx);
+
+	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#plusExpression}.
 	 * @param ctx the parse tree
 	 */
@@ -447,6 +458,17 @@ public interface JavaScriptListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitPlusExpression(@NotNull JavaScriptParser.PlusExpressionContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#whileExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhileExpression(@NotNull JavaScriptParser.WhileExpressionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#whileExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhileExpression(@NotNull JavaScriptParser.WhileExpressionContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#varDeclaration}.
@@ -524,6 +546,17 @@ public interface JavaScriptListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAssignment(@NotNull JavaScriptParser.AssignmentContext ctx);
+
+	/**
+	 * Enter a parse tree produced by {@link JavaScriptParser#whileStatement}.
+	 * @param ctx the parse tree
+	 */
+	void enterWhileStatement(@NotNull JavaScriptParser.WhileStatementContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaScriptParser#whileStatement}.
+	 * @param ctx the parse tree
+	 */
+	void exitWhileStatement(@NotNull JavaScriptParser.WhileStatementContext ctx);
 
 	/**
 	 * Enter a parse tree produced by {@link JavaScriptParser#unaryMinusExpression}.
