@@ -31,6 +31,11 @@ public class JsString extends JsInstance {
         return text;
     }
 
+    @Override
+    public List<Memory.Reference> getAllReferences() {
+        return Collections.emptyList();
+    }
+
     private class SplitFunction extends JsFunction {
 
         public SplitFunction() {

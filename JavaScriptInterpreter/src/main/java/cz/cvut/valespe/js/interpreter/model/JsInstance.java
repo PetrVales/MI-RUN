@@ -46,4 +46,10 @@ public class JsInstance extends JsObject {
     public Scope getScope() {
         return objectScope;
     }
+
+    @Override
+    public List<Memory.Reference> getAllReferences() {
+        return objectScope.getAllReferences();
+    }
+
 }

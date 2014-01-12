@@ -32,36 +32,4 @@ class MemoryShould  {
         assert memory.getJsObject(ref2)
     }
 
-    @Test(expected = ReferenceError.class)
-    @Ignore
-    public void "gc collect garbage"() {
-        def root = mock(JsObject.class)
-        def rootRef = memory.storeJsObject(root)
-        def ref1 = memory.storeJsObject(mock(JsObject.class))
-        def ref2 = memory.storeJsObject(mock(JsObject.class))
-        def ref3 = memory.storeJsObject(mock(JsObject.class))
-        when(root.getReferences()).thenReturn([ref1, ref3])
-
-        memory.gc([rootRef])
-
-        memory.getJsObject(ref2)
-    }
-
-    @Test
-    @Ignore
-    public void "gc preserve live object"() {
-        def root = mock(JsObject.class)
-        def rootRef = memory.storeJsObject(root)
-        def ref1 = memory.storeJsObject(mock(JsObject.class))
-        def ref2 = memory.storeJsObject(mock(JsObject.class))
-        def ref3 = memory.storeJsObject(mock(JsObject.class))
-        when(root.getReferences()).thenReturn([ref1, ref3])
-
-        memory.gc([rootRef])
-
-        assert memory.getJsObject(rootRef)
-        assert memory.getJsObject(ref1)
-        assert memory.getJsObject(ref3)
-    }
-
 }

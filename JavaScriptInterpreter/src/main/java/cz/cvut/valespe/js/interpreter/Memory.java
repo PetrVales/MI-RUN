@@ -3,7 +3,9 @@ package cz.cvut.valespe.js.interpreter;
 import cz.cvut.valespe.js.interpreter.model.*;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 /**
  * Runtime memory, where objects can be stored and retrieved later. Memory can be cleaned from unused objects.
@@ -12,17 +14,24 @@ public class Memory {
 
     private static final int MEMORY_MAX_SIZE = 1000;
 
-    private List<JsObject> memory = new ArrayList<JsObject>(MEMORY_MAX_SIZE);
-    private int index = 0;
+    private final List<Reference> REFERENCES = new LinkedList<Reference>();
+    private JsObject[] memory = new JsObject[MEMORY_MAX_SIZE];
+    private Queue<Reference> freeReferences = new LinkedList<Reference>();
+
+    public Memory() {
+        for (int i = 0; i < MEMORY_MAX_SIZE; i++)
+            REFERENCES.add(new Reference(i));
+        freeReferences.addAll(REFERENCES);
+    }
 
     /**
      * Retrieve object stored on specified address
      * @param reference into memory, where object is stored
      * @return objected stored on given address
-     * @throws cz.cvut.valespe.js.interpreter.model.ReferenceError when no object is stored on given address
+     * @throws ReferenceError when no object is stored on given address
      */
     public JsObject getJsObject(Reference reference) {
-        final JsObject value = memory.get(reference.address);
+        final JsObject value = memory[reference.address];
         if (value != null)
             return value;
         else
@@ -35,12 +44,12 @@ public class Memory {
      * @return address of stored object
      */
     public Reference storeJsObject(JsObject object) {
-        if  (index < MEMORY_MAX_SIZE)
-            memory.add(index, object);
-        else
+        if  (freeReferences.isEmpty())
             throw new cz.cvut.valespe.js.interpreter.model.OutOfMemoryError();
-        object.setRerence(new Reference(index));
-        return new Reference(index++);
+        final Reference peek = freeReferences.poll();
+        memory[peek.address] = object;
+        object.setSelfReference(peek);
+        return peek;
     }
 
     /**
@@ -48,15 +57,32 @@ public class Memory {
      * @param roots List of address of root object
      */
     public void gc(List<Reference> roots) {
-            // TODO GC
-//        List<JsObject> newMemory = new ArrayList<JsObject>(MEMORY_MAX_SIZE);
-//        gc(newMemory, roots);
+        for (Reference root : roots)
+            mark(root);
+        sweep();
     }
-//        for (Reference reference : references) {
-//            JsObject object = memory.get(reference.address);
-//            newMemory.add(newIndex);
-//        }
-//    }
+
+    private void mark(Reference ref) {
+        final JsObject object = getJsObject(ref);
+        if (object.isMark())
+            return;
+        object.mark();
+        for (Reference reference : object.getAllReferences()) {
+            mark(reference);
+        }
+    }
+
+    private void sweep() {
+        for (Reference reference : REFERENCES) {
+            final JsObject object = memory[reference.address];
+            if (object != null && object.isMark()) {
+                object.unmark();
+            } else {
+                memory[reference.address] = null;
+                freeReferences.add(reference);
+            }
+        }
+    }
 
     /**
      * Address into memory

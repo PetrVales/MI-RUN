@@ -2,9 +2,7 @@ package cz.cvut.valespe.js.interpreter;
 
 import cz.cvut.valespe.js.interpreter.model.ReferenceError;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Variable scope. Everything gets defined in one globally shared namespace.
@@ -56,7 +54,7 @@ public class Scope {
             scope.put(name, reference);
         else if (parent != null)
             parent.set(name, reference);
-        else if (parent == null)
+        else
             scope.put(name, reference);
     }
 
@@ -71,5 +69,15 @@ public class Scope {
 
     public Set<String> getDefinedNames() {
         return scope.keySet();
+    }
+
+    public List<Memory.Reference> getAllReferences() {
+        final List<Memory.Reference> references = new ArrayList<Memory.Reference>(scope.size());
+        for (Memory.Reference ref :  scope.values())
+            if (ref != null)
+                references.add(ref);
+        if (parent != null)
+            references.addAll(parent.getAllReferences());
+        return references;
     }
 }

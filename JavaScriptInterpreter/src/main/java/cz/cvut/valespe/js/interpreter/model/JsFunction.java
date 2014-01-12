@@ -5,6 +5,8 @@ import cz.cvut.valespe.js.interpreter.Memory;
 import cz.cvut.valespe.js.interpreter.Scope;
 import cz.cvut.valespe.js.parser.JavaScriptParser;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -78,6 +80,11 @@ public class JsFunction extends JsObject {
 
     public JavaScriptParser.FunctionBodyContext getBody() {
         return body;
+    }
+
+    @Override
+    public List<Memory.Reference> getAllReferences() {
+        return scope.getAllReferences();
     }
 
 

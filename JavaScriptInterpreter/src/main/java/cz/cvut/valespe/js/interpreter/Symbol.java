@@ -3,6 +3,7 @@ package cz.cvut.valespe.js.interpreter;
 import cz.cvut.valespe.js.interpreter.model.JsObject;
 import cz.cvut.valespe.js.interpreter.model.TypeError;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -39,4 +40,10 @@ public class Symbol extends JsObject {
     public Memory.Reference constructInstance(List<Memory.Reference> args, Scope invokeScope, Memory memory) {
         throw new TypeError("Can't construct instance from symbol.");
     }
+
+    @Override
+    public List<Memory.Reference> getAllReferences() {
+        return Collections.emptyList();
+    }
+
 }

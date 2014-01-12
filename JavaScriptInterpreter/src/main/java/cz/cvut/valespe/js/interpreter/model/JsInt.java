@@ -3,10 +3,7 @@ package cz.cvut.valespe.js.interpreter.model;
 import cz.cvut.valespe.js.interpreter.Memory;
 import cz.cvut.valespe.js.interpreter.Scope;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Runtime representation of Integer
@@ -53,6 +50,11 @@ public class JsInt extends JsInstance {
     @Override
     public Object value() {
         return value;
+    }
+
+    @Override
+    public List<Memory.Reference> getAllReferences() {
+        return Collections.emptyList();
     }
 
     private class PlusFunction extends JsFunction {

@@ -3,6 +3,7 @@ package cz.cvut.valespe.js.interpreter.model;
 import cz.cvut.valespe.js.interpreter.Memory;
 import cz.cvut.valespe.js.interpreter.Scope;
 
+import java.util.Collections;
 import java.util.List;
 
 public class JsArray extends JsInstance {
@@ -24,6 +25,11 @@ public class JsArray extends JsInstance {
 
     @Override
     public Object value() {
+        return array;
+    }
+
+    @Override
+    public List<Memory.Reference> getAllReferences() {
         return array;
     }
 

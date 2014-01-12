@@ -38,6 +38,11 @@ public class JsBoolean extends JsInstance {
         return jsFunction.invoke(args, invokeScope, memory);
     }
 
+    @Override
+    public List<Memory.Reference> getAllReferences() {
+        return Collections.emptyList();
+    }
+
     private class AndFunction extends JsFunction {
 
         public AndFunction() {

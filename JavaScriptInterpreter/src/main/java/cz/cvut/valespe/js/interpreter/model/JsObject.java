@@ -13,6 +13,7 @@ public abstract class JsObject {
 
     protected Memory.Reference selfRef;
     protected Memory.Reference prototype;
+    private boolean mark = false;
 
     public abstract Object value();
 
@@ -54,12 +55,12 @@ public abstract class JsObject {
         return new Scope();
     }
 
-    public Memory.Reference getRerence() {
+    public Memory.Reference getSelfReference() {
         return this.selfRef;
     }
 
-    public void setRerence(Memory.Reference rerence) {
-        selfRef = rerence;
+    public void setSelfReference(Memory.Reference reference) {
+        selfRef = reference;
     }
 
     public Memory.Reference getPrototype() {
@@ -68,5 +69,21 @@ public abstract class JsObject {
 
     public void setPrototype(Memory.Reference prototype) {
         this.prototype = prototype;
+    }
+
+    public boolean isMark() {
+        return mark;
+    }
+
+    public void mark() {
+        mark = true;
+    }
+
+    public void unmark() {
+        mark = false;
+    }
+
+    public List<Memory.Reference> getAllReferences() {
+        return Collections.emptyList();
     }
 }
