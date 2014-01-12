@@ -1,5 +1,6 @@
 package cz.cvut.valespe.js.interpreter
 
+import cz.cvut.valespe.js.BootstrapService
 import cz.cvut.valespe.js.parser.JavaScriptLexer
 import cz.cvut.valespe.js.parser.JavaScriptParser
 import org.antlr.v4.runtime.ANTLRInputStream
@@ -8,8 +9,9 @@ import org.antlr.v4.runtime.CommonTokenStream
 
 class IntegrationTest {
 
-    protected Memory memory = new Memory()
-    protected Scope scope = new Scope()
+    protected BootstrapService bootstrapService = new BootstrapService()
+    protected Memory memory = bootstrapService.memory
+    protected Scope scope = bootstrapService.scope
 
     def protected runScript(String script) {
         def stream = InterpretSimpleExpressionsTest.class.getResourceAsStream(script)

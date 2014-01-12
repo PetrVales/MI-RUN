@@ -1,5 +1,6 @@
 package cz.cvut.valespe.js.interpreter;
 
+import cz.cvut.valespe.js.BootstrapService;
 import cz.cvut.valespe.js.interpreter.model.*;
 
 import java.util.ArrayList;
@@ -17,11 +18,13 @@ public class Memory {
     private final List<Reference> REFERENCES = new LinkedList<Reference>();
     private JsObject[] memory = new JsObject[MEMORY_MAX_SIZE];
     private Queue<Reference> freeReferences = new LinkedList<Reference>();
+    private BootstrapService bootstrapService;
 
-    public Memory() {
+    public Memory(BootstrapService bootstrapService) {
         for (int i = 0; i < MEMORY_MAX_SIZE; i++)
             REFERENCES.add(new Reference(i));
         freeReferences.addAll(REFERENCES);
+        this.bootstrapService = bootstrapService;
     }
 
     /**
@@ -44,8 +47,12 @@ public class Memory {
      * @return address of stored object
      */
     public Reference storeJsObject(JsObject object) {
-        if  (freeReferences.isEmpty())
-            throw new cz.cvut.valespe.js.interpreter.model.OutOfMemoryError();
+        if  (freeReferences.isEmpty()) {
+            bootstrapService.outOfMemory();
+            if  (freeReferences.isEmpty()) {
+                throw new cz.cvut.valespe.js.interpreter.model.OutOfMemoryError();
+            }
+        }
         final Reference peek = freeReferences.poll();
         memory[peek.address] = object;
         object.setSelfReference(peek);

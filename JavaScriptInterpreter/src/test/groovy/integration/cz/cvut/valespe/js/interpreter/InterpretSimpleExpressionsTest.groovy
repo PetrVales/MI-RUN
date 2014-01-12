@@ -6,6 +6,8 @@ class InterpretSimpleExpressionsTest extends IntegrationTest {
 
     @Test
     public void "interpret simple expression file"() {
+        scope = new Scope()
+
         runScript("/ExpressionsSimplified.js")
 
         assert scope.getDefinedNames() == ["a", "b", "c", "d"] as Set
@@ -17,6 +19,8 @@ class InterpretSimpleExpressionsTest extends IntegrationTest {
 
     @Test
     public void "interpret invoke function file"() {
+        scope = new Scope()
+
         runScript("/InvokeFunction.js")
 
         assert scope.get("a") == null

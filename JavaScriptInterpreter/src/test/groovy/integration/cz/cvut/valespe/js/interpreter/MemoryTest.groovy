@@ -28,4 +28,16 @@ class MemoryTest extends IntegrationTest {
             assert memory.getJsObject(ref) != null
     }
 
+
+    @Test
+    public void "gc when out of memory"() {
+        for (int x = 0; x < 1000; x++)
+            memory.storeJsObject(new JsInt(1))
+
+        def intRef = memory.storeJsObject(new JsInt(99))
+
+        assert memory.getJsObject(intRef) != null
+        assert memory.getJsObject(intRef).value() == 99
+    }
+
 }

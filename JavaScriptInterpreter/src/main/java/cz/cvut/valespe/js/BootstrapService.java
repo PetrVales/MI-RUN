@@ -21,7 +21,7 @@ import java.util.List;
 
 public class BootstrapService {
 
-    private final Memory memory = new Memory();
+    private final Memory memory = new Memory(this);
     private final Scope scope = new Scope();
 
     public BootstrapService() {
@@ -93,6 +93,10 @@ public class BootstrapService {
     private void addReadFunction() {
         Memory.Reference printRef = memory.storeJsObject(new ReadFunction());
         scope.set("read", printRef);
+    }
+
+    public void outOfMemory() {
+        memory.gc(scope.getAllReferences());
     }
 
 }

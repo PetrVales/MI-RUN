@@ -13,6 +13,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class LoadFunction extends JsFunction {
@@ -32,6 +33,11 @@ public class LoadFunction extends JsFunction {
         String code = loadFile(uri);
         collectDefinitions(parseCode(code), invokeScope, memory);
         return null;
+    }
+
+    @Override
+    public List<Memory.Reference> getAllReferences() {
+        return Collections.emptyList();
     }
 
     private String loadFile(String uri) {

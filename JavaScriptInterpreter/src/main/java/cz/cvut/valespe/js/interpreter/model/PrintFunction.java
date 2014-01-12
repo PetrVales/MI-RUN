@@ -7,6 +7,7 @@ import cz.cvut.valespe.js.interpreter.model.JsObject;
 
 import java.io.PrintStream;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class PrintFunction extends JsFunction {
@@ -16,6 +17,11 @@ public class PrintFunction extends JsFunction {
     public PrintFunction(PrintStream printStream) {
         super("print", Arrays.asList("text"), null, null);
         this.printStream = printStream;
+    }
+
+    @Override
+    public List<Memory.Reference> getAllReferences() {
+        return Collections.emptyList();
     }
 
     @Override

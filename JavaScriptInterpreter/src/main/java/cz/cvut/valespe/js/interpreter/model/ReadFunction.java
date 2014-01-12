@@ -7,6 +7,7 @@ import org.apache.commons.io.IOUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class ReadFunction extends JsFunction {
@@ -25,6 +26,11 @@ public class ReadFunction extends JsFunction {
         String uri = (String) jsObject.value();
         String text = loadFile(uri);
         return memory.storeJsObject(new JsString(text));
+    }
+
+    @Override
+    public List<Memory.Reference> getAllReferences() {
+        return Collections.emptyList();
     }
 
     private String loadFile(String uri) {
