@@ -53,6 +53,13 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
         return instance.invoke(methodName, paramRefs, scope, memory);
     }
 
+    @Override
+    public Object visitGetPropertyOnInstance(@NotNull JavaScriptParser.GetPropertyOnInstanceContext ctx) {
+        JsObject instance = resolveSymbolToJsObject(ctx.ID(0).accept(this));
+        String methodName = resolveSymbolName(ctx.ID(1).accept(this));
+        return instance.invoke(methodName, null, scope, memory);
+    }
+
     private JsObject resolveSymbolToJsObject(Object id) {
         final String symbol = resolveSymbolName(id);
         Memory.Reference instanceRed = scope.get(symbol);
@@ -62,17 +69,6 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     private String resolveSymbolName(Object nameRef) {
         Symbol instanceName = (Symbol) memory.getJsObject((Memory.Reference) nameRef);
         return (String) instanceName.value();
-    }
-
-    @Override
-    public Object visitGetPropertyOnInstance(@NotNull JavaScriptParser.GetPropertyOnInstanceContext ctx) {
-        Memory.Reference nameRef = (Memory.Reference) ctx.ID(0).accept(this);
-        Symbol instanceName = (Symbol) memory.getJsObject(nameRef);
-        Memory.Reference instanceRed = scope.get((String) instanceName.value());
-        JsObject instance = memory.getJsObject(instanceRed);
-        Memory.Reference methodRef = (Memory.Reference) ctx.ID(1).accept(this);
-        Symbol methodName = (Symbol) memory.getJsObject(methodRef);
-        return instance.invoke((String) methodName.value(), null, scope, memory);
     }
 
     @Override
