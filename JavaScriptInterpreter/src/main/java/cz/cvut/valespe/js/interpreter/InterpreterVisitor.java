@@ -46,8 +46,7 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     public Object visitCallMethodOnInstance(@NotNull JavaScriptParser.CallMethodOnInstanceContext ctx) {
         final JsObject instance = resolveSymbolToJsObject(ctx.ID(0).accept(this));
         final String methodName = resolveSymbolName(ctx.ID(1).accept(this));
-        final List<Memory.Reference> paramRefs =
-                ctx.callParams() == null ?
+        final List<Memory.Reference> paramRefs = ctx.callParams() == null ?
                         Collections.<Memory.Reference>emptyList() :
                         (List<Memory.Reference>) ctx.callParams().accept(this);
         return instance.invoke(methodName, paramRefs, scope, memory);
@@ -68,17 +67,6 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
         return instance.invoke(methodName, paramRefs, scope, memory);
     }
 
-    private JsObject resolveSymbolToJsObject(Object id) {
-        final String symbol = resolveSymbolName(id);
-        Memory.Reference instanceRed = scope.get(symbol);
-        return memory.getJsObject(instanceRed);
-    }
-
-    private String resolveSymbolName(Object nameRef) {
-        Symbol instanceName = (Symbol) memory.getJsObject((Memory.Reference) nameRef);
-        return (String) instanceName.value();
-    }
-
     @Override
     public Object visitThisExpressionExpression(@NotNull JavaScriptParser.ThisExpressionExpressionContext ctx) {
         return ctx.thisExpression().accept(this);
@@ -86,11 +74,30 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
 
     @Override
     public Object visitThisCallMethod(@NotNull JavaScriptParser.ThisCallMethodContext ctx) {
-        Memory.Reference methodRef = (Memory.Reference) ctx.ID().accept(this);
-        Symbol methodName = (Symbol) memory.getJsObject(methodRef);
-        JsObject method = memory.getJsObject(thisScope.get((String) methodName.value()));
-        List<Memory.Reference> paramRefs = ctx.callParams() == null ? Collections.emptyList() : (List) ctx.callParams().accept(this);
+        JsObject method = resolveSymbolToJsObjectFromThisScope(ctx.ID().accept(this));
+        List<Memory.Reference> paramRefs = ctx.callParams() == null ?
+                        Collections.<Memory.Reference>emptyList() :
+                        (List<Memory.Reference>) ctx.callParams().accept(this);
         return method.invoke(paramRefs, thisScope, memory);
+    }
+
+    private JsObject resolveSymbolToJsObjectFromThisScope(Object id) {
+        return resolveSymbolToJsObjectFromScope(id, thisScope);
+    }
+
+    private JsObject resolveSymbolToJsObject(Object id) {
+        return resolveSymbolToJsObjectFromScope(id, scope);
+    }
+
+    private JsObject resolveSymbolToJsObjectFromScope(Object id, Scope scopeToUse) {
+        final String symbol = resolveSymbolName(id);
+        final Memory.Reference instanceRed = scopeToUse.get(symbol);
+        return memory.getJsObject(instanceRed);
+    }
+
+    private String resolveSymbolName(Object nameRef) {
+        final Symbol instanceName = (Symbol) memory.getJsObject((Memory.Reference) nameRef);
+        return (String) instanceName.value();
     }
 
     @Override
