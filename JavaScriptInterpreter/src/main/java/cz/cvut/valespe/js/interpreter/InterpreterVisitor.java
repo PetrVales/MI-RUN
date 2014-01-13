@@ -44,14 +44,24 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
 
     @Override
     public Object visitCallMethodOnInstance(@NotNull JavaScriptParser.CallMethodOnInstanceContext ctx) {
-        Memory.Reference nameRef = (Memory.Reference) ctx.ID(0).accept(this);
-        Symbol instanceName = (Symbol) memory.getJsObject(nameRef);
-        Memory.Reference instanceRed = scope.get((String) instanceName.value());
-        JsObject instance = memory.getJsObject(instanceRed);
-        Memory.Reference methodRef = (Memory.Reference) ctx.ID(1).accept(this);
-        Symbol methodName = (Symbol) memory.getJsObject(methodRef);
-        List<Memory.Reference> paramRefs = ctx.callParams() == null ? Collections.emptyList() : (List) ctx.callParams().accept(this);
-        return instance.invoke((String) methodName.value(), paramRefs, scope, memory);
+        final JsObject instance = resolveSymbolToJsObject(ctx.ID(0).accept(this));
+        final String methodName = resolveSymbolName(ctx.ID(1).accept(this));
+        final List<Memory.Reference> paramRefs =
+                ctx.callParams() == null ?
+                        Collections.<Memory.Reference>emptyList() :
+                        (List<Memory.Reference>) ctx.callParams().accept(this);
+        return instance.invoke(methodName, paramRefs, scope, memory);
+    }
+
+    private JsObject resolveSymbolToJsObject(Object id) {
+        final String symbol = resolveSymbolName(id);
+        Memory.Reference instanceRed = scope.get(symbol);
+        return memory.getJsObject(instanceRed);
+    }
+
+    private String resolveSymbolName(Object nameRef) {
+        Symbol instanceName = (Symbol) memory.getJsObject((Memory.Reference) nameRef);
+        return (String) instanceName.value();
     }
 
     @Override
