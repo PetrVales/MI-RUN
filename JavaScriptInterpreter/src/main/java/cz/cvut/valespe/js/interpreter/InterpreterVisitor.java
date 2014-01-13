@@ -81,6 +81,11 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
         return method.invoke(paramRefs, thisScope, memory);
     }
 
+    @Override
+    public Object visitThisGetterExpression(@NotNull JavaScriptParser.ThisGetterExpressionContext ctx) {
+        return thisScope.get(resolveSymbolName(ctx.ID().accept(this)));
+    }
+
     private JsObject resolveSymbolToJsObjectFromThisScope(Object id) {
         return resolveSymbolToJsObjectFromScope(id, thisScope);
     }
@@ -98,12 +103,6 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     private String resolveSymbolName(Object nameRef) {
         final Symbol instanceName = (Symbol) memory.getJsObject((Memory.Reference) nameRef);
         return (String) instanceName.value();
-    }
-
-    @Override
-    public Object visitThisGetterExpression(@NotNull JavaScriptParser.ThisGetterExpressionContext ctx) {
-        Memory.Reference nameRef = (Memory.Reference) ctx.ID().accept(this);
-        return thisScope.get((String) memory.getJsObject(nameRef).value());
     }
 
     @Override
