@@ -86,6 +86,22 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
         return thisScope.get(resolveSymbolName(ctx.ID().accept(this)));
     }
 
+    @Override
+    public Object visitThisSetterExpression(@NotNull JavaScriptParser.ThisSetterExpressionContext ctx) {
+        String propertyName = resolveSymbolName(ctx.ID().accept(this));
+        Memory.Reference resultRef = getReferenceOfJsObject(ctx.expression().accept(this));
+        thisScope.define(propertyName);
+        thisScope.set(propertyName, resultRef);
+        return null;
+    }
+
+    private Memory.Reference getReferenceOfJsObject(Object ref) {
+        Memory.Reference resultRef = (Memory.Reference) ref;
+        if (resultRef != null && memory.getJsObject(resultRef).isSymbol())
+            resultRef = scope.get((String) memory.getJsObject(resultRef).value());
+        return resultRef;
+    }
+
     private JsObject resolveSymbolToJsObjectFromThisScope(Object id) {
         return resolveSymbolToJsObjectFromScope(id, thisScope);
     }
@@ -103,17 +119,6 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     private String resolveSymbolName(Object nameRef) {
         final Symbol instanceName = (Symbol) memory.getJsObject((Memory.Reference) nameRef);
         return (String) instanceName.value();
-    }
-
-    @Override
-    public Object visitThisSetterExpression(@NotNull JavaScriptParser.ThisSetterExpressionContext ctx) {
-        Memory.Reference nameRef = (Memory.Reference) ctx.ID().accept(this);
-        Memory.Reference resultRef = (Memory.Reference) ctx.expression().accept(this);
-        if (resultRef != null && memory.getJsObject(resultRef).isSymbol())
-            resultRef = scope.get((String) memory.getJsObject(resultRef).value());
-        thisScope.define((String) memory.getJsObject(nameRef).value());
-        thisScope.set((String) memory.getJsObject(nameRef).value(), resultRef);
-        return null;
     }
 
     @Override
