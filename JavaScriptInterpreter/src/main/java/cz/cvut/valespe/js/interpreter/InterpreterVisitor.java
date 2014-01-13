@@ -95,6 +95,25 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
         return null;
     }
 
+    @Override
+    public Object visitParenthesesExpression(@NotNull JavaScriptParser.ParenthesesExpressionContext ctx) {
+        return ctx.expression().accept(this);
+    }
+
+    @Override
+    public Object visitFunctionCallExpression(@NotNull JavaScriptParser.FunctionCallExpressionContext ctx) {
+        return ctx.functionCall().accept(this);
+    }
+
+    @Override
+    public Object visitFunctionCall(@NotNull JavaScriptParser.FunctionCallContext ctx) {
+        Memory.Reference nameRef = (Memory.Reference) ctx.ID().accept(this);
+        Memory.Reference funRef = scope.get((String) memory.getJsObject(nameRef).value());
+        JsFunction function = (JsFunction) memory.getJsObject(funRef);
+        List<Memory.Reference> paramRefs = ctx.callParams() == null ? Collections.emptyList() : (List) ctx.callParams().accept(this);
+        return function.invoke(paramRefs, scope, memory);
+    }
+
     private Memory.Reference getReferenceOfJsObject(Object ref) {
         Memory.Reference resultRef = (Memory.Reference) ref;
         if (resultRef != null && memory.getJsObject(resultRef).isSymbol())
@@ -119,25 +138,6 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     private String resolveSymbolName(Object nameRef) {
         final Symbol instanceName = (Symbol) memory.getJsObject((Memory.Reference) nameRef);
         return (String) instanceName.value();
-    }
-
-    @Override
-    public Object visitParenthesesExpression(@NotNull JavaScriptParser.ParenthesesExpressionContext ctx) {
-        return ctx.expression().accept(this);
-    }
-
-    @Override
-    public Object visitFunctionCallExpression(@NotNull JavaScriptParser.FunctionCallExpressionContext ctx) {
-        return ctx.functionCall().accept(this);
-    }
-
-    @Override
-    public Object visitFunctionCall(@NotNull JavaScriptParser.FunctionCallContext ctx) {
-        Memory.Reference nameRef = (Memory.Reference) ctx.ID().accept(this);
-        Memory.Reference funRef = scope.get((String) memory.getJsObject(nameRef).value());
-        JsFunction function = (JsFunction) memory.getJsObject(funRef);
-        List<Memory.Reference> paramRefs = ctx.callParams() == null ? Collections.emptyList() : (List) ctx.callParams().accept(this);
-        return function.invoke(paramRefs, scope, memory);
     }
 
     @Override
