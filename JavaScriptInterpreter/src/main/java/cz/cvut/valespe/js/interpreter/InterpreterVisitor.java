@@ -114,32 +114,6 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
         return function.invoke(paramRefs, scope, memory);
     }
 
-    private Memory.Reference getReferenceOfJsObject(Object ref) {
-        Memory.Reference resultRef = (Memory.Reference) ref;
-        if (resultRef != null && memory.getJsObject(resultRef).isSymbol())
-            resultRef = scope.get((String) memory.getJsObject(resultRef).value());
-        return resultRef;
-    }
-
-    private JsObject resolveSymbolToJsObjectFromThisScope(Object id) {
-        return resolveSymbolToJsObjectFromScope(id, thisScope);
-    }
-
-    private JsObject resolveSymbolToJsObject(Object id) {
-        return resolveSymbolToJsObjectFromScope(id, scope);
-    }
-
-    private JsObject resolveSymbolToJsObjectFromScope(Object id, Scope scopeToUse) {
-        final String symbol = resolveSymbolName(id);
-        final Memory.Reference instanceRed = scopeToUse.get(symbol);
-        return memory.getJsObject(instanceRed);
-    }
-
-    private String resolveSymbolName(Object nameRef) {
-        final Symbol instanceName = (Symbol) memory.getJsObject((Memory.Reference) nameRef);
-        return (String) instanceName.value();
-    }
-
     @Override
     public Object visitCallParams(@NotNull JavaScriptParser.CallParamsContext ctx) {
         List<Memory.Reference> params = new ArrayList<Memory.Reference>();
@@ -168,16 +142,41 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
 
     @Override
     public Object visitCreateInstance(@NotNull JavaScriptParser.CreateInstanceContext ctx) {
-        Memory.Reference nameRef = (Memory.Reference) ctx.ID().accept(this);
-        Symbol functionName = (Symbol) memory.getJsObject(nameRef);
-        Memory.Reference constructorRef = scope.get((String) functionName.value());
-        final JsObject jsObject = memory.getJsObject(constructorRef);
+        final JsObject jsObject = resolveSymbolToJsObject(ctx.ID().accept(this));
         if (jsObject.isJsFunction()) {
             JsFunction constructor = (JsFunction) jsObject;
-            List<Memory.Reference> paramRefs = ctx.callParams() == null ? Collections.emptyList() : (List) ctx.callParams().accept(this);
+            List<Memory.Reference> paramRefs = ctx.callParams() == null ?
+                    Collections.<Memory.Reference>emptyList() :
+                    (List<Memory.Reference>) ctx.callParams().accept(this);
             return constructor.constructInstance(paramRefs, scope, memory);
         }
-        return null;
+        throw new TypeError(resolveSymbolName(ctx.ID().accept(this)) + " is not function");
+    }
+
+    private Memory.Reference getReferenceOfJsObject(Object ref) {
+        Memory.Reference resultRef = (Memory.Reference) ref;
+        if (resultRef != null && memory.getJsObject(resultRef).isSymbol())
+            resultRef = scope.get((String) memory.getJsObject(resultRef).value());
+        return resultRef;
+    }
+
+    private JsObject resolveSymbolToJsObjectFromThisScope(Object id) {
+        return resolveSymbolToJsObjectFromScope(id, thisScope);
+    }
+
+    private JsObject resolveSymbolToJsObject(Object id) {
+        return resolveSymbolToJsObjectFromScope(id, scope);
+    }
+
+    private JsObject resolveSymbolToJsObjectFromScope(Object id, Scope scopeToUse) {
+        final String symbol = resolveSymbolName(id);
+        final Memory.Reference instanceRed = scopeToUse.get(symbol);
+        return memory.getJsObject(instanceRed);
+    }
+
+    private String resolveSymbolName(Object nameRef) {
+        final Symbol instanceName = (Symbol) memory.getJsObject((Memory.Reference) nameRef);
+        return (String) instanceName.value();
     }
 
     @Override
