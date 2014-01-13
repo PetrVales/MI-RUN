@@ -107,10 +107,10 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
 
     @Override
     public Object visitFunctionCall(@NotNull JavaScriptParser.FunctionCallContext ctx) {
-        Memory.Reference nameRef = (Memory.Reference) ctx.ID().accept(this);
-        Memory.Reference funRef = scope.get((String) memory.getJsObject(nameRef).value());
-        JsFunction function = (JsFunction) memory.getJsObject(funRef);
-        List<Memory.Reference> paramRefs = ctx.callParams() == null ? Collections.emptyList() : (List) ctx.callParams().accept(this);
+        JsObject function = resolveSymbolToJsObject(ctx.ID().accept(this));
+        List<Memory.Reference> paramRefs = ctx.callParams() == null ?
+                Collections.<Memory.Reference>emptyList() :
+                (List<Memory.Reference>) ctx.callParams().accept(this);
         return function.invoke(paramRefs, scope, memory);
     }
 
