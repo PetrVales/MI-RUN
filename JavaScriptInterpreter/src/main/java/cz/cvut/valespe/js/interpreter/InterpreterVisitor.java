@@ -239,6 +239,12 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
         return first.invoke("!", Collections.<Memory.Reference>emptyList(), scope, memory);
     }
 
+    @Override
+    public Object visitUnaryMinusExpression(@NotNull JavaScriptParser.UnaryMinusExpressionContext ctx) {
+        JsObject first = ensureObject(ctx.expression().accept(this));
+        return first.invoke("-", Collections.<Memory.Reference>emptyList(), scope, memory);
+    }
+
     private JsObject ensureObject(Object ref) {
         JsObject object = memory.getJsObject((Memory.Reference) ref);
         if (object.isSymbol())
@@ -270,15 +276,6 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     private String resolveSymbolName(Object nameRef) {
         final Symbol instanceName = (Symbol) memory.getJsObject((Memory.Reference) nameRef);
         return (String) instanceName.value();
-    }
-
-    @Override
-    public Object visitUnaryMinusExpression(@NotNull JavaScriptParser.UnaryMinusExpressionContext ctx) {
-        Memory.Reference firstRef = (Memory.Reference) ctx.expression().accept(this);
-        JsObject first = memory.getJsObject(firstRef);
-        if (first.isSymbol())
-            first = memory.getJsObject(scope.get((String) first.value()));
-        return first.invoke("-", Collections.<Memory.Reference>emptyList(), scope, memory);
     }
 
     @Override
