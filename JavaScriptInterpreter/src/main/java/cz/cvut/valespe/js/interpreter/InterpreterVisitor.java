@@ -366,6 +366,18 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
         throw new TypeError(name + " is not array.");
     }
 
+    @Override
+    public Object visitArrayAssignment(@NotNull JavaScriptParser.ArrayAssignmentContext ctx) {
+        String name = resolveSymbolName(ctx.ID().accept(this));
+        JsObject array = resolveSymbolToJsObject(ctx.ID().accept(this));
+        JsObject index = loadJsObjectFromMemory(ctx.INT().accept(this));
+        if (array.isJsArray()) {
+            ((JsArray) array).set((Integer) index.value(), (Memory.Reference) ctx.expression().accept(this));
+            return null;
+        }
+        throw new TypeError(name + " is not array.");
+    }
+
     private JsObject loadJsObjectFromMemory(Object ref) {
         return memory.getJsObject((Memory.Reference) ref);
     }
@@ -401,21 +413,6 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     private String resolveSymbolName(Object nameRef) {
         final Symbol instanceName = (Symbol) memory.getJsObject((Memory.Reference) nameRef);
         return (String) instanceName.value();
-    }
-
-    @Override
-    public Object visitArrayAssignment(@NotNull JavaScriptParser.ArrayAssignmentContext ctx) {
-        Memory.Reference idRef = (Memory.Reference) ctx.ID().accept(this);
-        JsObject id = memory.getJsObject(idRef);
-        Memory.Reference arrayRef = scope.get((String) id.value());
-        JsObject array = memory.getJsObject(arrayRef);
-        Memory.Reference indexRef = (Memory.Reference) ctx.INT().accept(this);
-        JsObject index = memory.getJsObject(indexRef);
-        if (array.isJsArray()) {
-            ((JsArray) array).set((Integer) index.value(), (Memory.Reference) ctx.expression().accept(this));
-            return null;
-        }
-        throw new TypeError(id.value() + " is not array.");
     }
 
     @Override
