@@ -290,39 +290,6 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
         return null;
     }
 
-    private JsObject ensureObject(Object ref) {
-        JsObject object = memory.getJsObject((Memory.Reference) ref);
-        if (object.isSymbol())
-            object = memory.getJsObject(scope.get((String) object.value()));
-        return object;
-    }
-
-    private Memory.Reference getReferenceOfJsObject(Object ref) {
-        Memory.Reference resultRef = (Memory.Reference) ref;
-        if (resultRef != null && memory.getJsObject(resultRef).isSymbol())
-            resultRef = scope.get((String) memory.getJsObject(resultRef).value());
-        return resultRef;
-    }
-
-    private JsObject resolveSymbolToJsObjectFromThisScope(Object id) {
-        return resolveSymbolToJsObjectFromScope(id, thisScope);
-    }
-
-    private JsObject resolveSymbolToJsObject(Object id) {
-        return resolveSymbolToJsObjectFromScope(id, scope);
-    }
-
-    private JsObject resolveSymbolToJsObjectFromScope(Object id, Scope scopeToUse) {
-        final String symbol = resolveSymbolName(id);
-        final Memory.Reference instanceRed = scopeToUse.get(symbol);
-        return memory.getJsObject(instanceRed);
-    }
-
-    private String resolveSymbolName(Object nameRef) {
-        final Symbol instanceName = (Symbol) memory.getJsObject((Memory.Reference) nameRef);
-        return (String) instanceName.value();
-    }
-
     @Override
     public Object visitAnonymousFunctionExpression(@NotNull JavaScriptParser.AnonymousFunctionExpressionContext ctx) {
         return ctx.anonymousFunction().accept(new DefinitionCollectingVisitor(memory, scope));
@@ -390,16 +357,50 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
 
     @Override
     public Object visitArrayAccess(@NotNull JavaScriptParser.ArrayAccessContext ctx) {
-        Memory.Reference idRef = (Memory.Reference) ctx.ID().accept(this);
-        JsObject id = memory.getJsObject(idRef);
-        Memory.Reference arrayRef = scope.get((String) id.value());
-        JsObject array = memory.getJsObject(arrayRef);
-        Memory.Reference indexRef = (Memory.Reference) ctx.INT().accept(this);
-        JsObject index = memory.getJsObject(indexRef);
+        String name = resolveSymbolName(ctx.ID().accept(this));
+        JsObject array = resolveSymbolToJsObject(ctx.ID().accept(this));
+        JsObject index = loadJsObjectFromMemory(ctx.INT().accept(this));
         if (array.isJsArray()) {
             return ((JsArray) array).get((Integer) index.value());
         }
-        throw new TypeError(id.value() + " is not array.");
+        throw new TypeError(name + " is not array.");
+    }
+
+    private JsObject loadJsObjectFromMemory(Object ref) {
+        return memory.getJsObject((Memory.Reference) ref);
+    }
+
+    private JsObject ensureObject(Object ref) {
+        JsObject object = memory.getJsObject((Memory.Reference) ref);
+        if (object.isSymbol())
+            object = memory.getJsObject(scope.get((String) object.value()));
+        return object;
+    }
+
+    private Memory.Reference getReferenceOfJsObject(Object ref) {
+        Memory.Reference resultRef = (Memory.Reference) ref;
+        if (resultRef != null && memory.getJsObject(resultRef).isSymbol())
+            resultRef = scope.get((String) memory.getJsObject(resultRef).value());
+        return resultRef;
+    }
+
+    private JsObject resolveSymbolToJsObjectFromThisScope(Object id) {
+        return resolveSymbolToJsObjectFromScope(id, thisScope);
+    }
+
+    private JsObject resolveSymbolToJsObject(Object id) {
+        return resolveSymbolToJsObjectFromScope(id, scope);
+    }
+
+    private JsObject resolveSymbolToJsObjectFromScope(Object id, Scope scopeToUse) {
+        final String symbol = resolveSymbolName(id);
+        final Memory.Reference instanceRed = scopeToUse.get(symbol);
+        return memory.getJsObject(instanceRed);
+    }
+
+    private String resolveSymbolName(Object nameRef) {
+        final Symbol instanceName = (Symbol) memory.getJsObject((Memory.Reference) nameRef);
+        return (String) instanceName.value();
     }
 
     @Override
