@@ -411,6 +411,49 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
         return null;
     }
 
+    @Override
+    public Object visitWhileExpression(@NotNull JavaScriptParser.WhileExpressionContext ctx) {
+        return ctx.whileStatement().accept(this);
+    }
+
+    @Override
+    public Object visitWhileStatement(@NotNull JavaScriptParser.WhileStatementContext ctx) {
+        JsObject condition = ensureObject(ctx.expression().accept(this));
+        if (!condition.isJsBoolean())
+            throw new TypeError("Not boolean expression");
+        while ((Boolean) condition.value()) {
+            ctx.functionBody().accept(this);
+            condition = ensureObject(ctx.expression().accept(this));
+            if (!condition.isJsBoolean())
+                throw new TypeError("Not boolean expression");
+        }
+        return null;
+    }
+
+    @Override
+    public Memory.Reference visitTerminal(@NotNull TerminalNode node) {
+        JsObject terminal = null;
+        switch (node.getSymbol().getType()) {
+            case JavaScriptParser.INT:
+                terminal = new JsInt(Integer.parseInt(node.getText()));
+                break;
+            case JavaScriptParser.ID:
+                terminal =  new Symbol(node.getText());
+                break;
+            case JavaScriptParser.STRING:
+                terminal =  new JsString(node.getText().replace("\"", ""));
+                break;
+            case JavaScriptParser.TRUE:
+                terminal =  new JsBoolean(Boolean.TRUE);
+                break;
+            case JavaScriptParser.FALSE:
+                terminal =  new JsBoolean(Boolean.FALSE);
+                break;
+            default: throw new IllegalStateException("Unknown terminal node");
+        }
+        return memory.storeJsObject(terminal);
+    }
+
     private JsObject loadJsObjectFromMemory(Object ref) {
         return memory.getJsObject((Memory.Reference) ref);
     }
@@ -446,53 +489,6 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     private String resolveSymbolName(Object nameRef) {
         final Symbol instanceName = (Symbol) memory.getJsObject((Memory.Reference) nameRef);
         return (String) instanceName.value();
-    }
-
-    @Override
-    public Object visitWhileExpression(@NotNull JavaScriptParser.WhileExpressionContext ctx) {
-        return ctx.whileStatement().accept(this);
-    }
-
-    @Override
-    public Object visitWhileStatement(@NotNull JavaScriptParser.WhileStatementContext ctx) {
-        Memory.Reference conditionRef = (Memory.Reference) ctx.expression().accept(this);
-        JsObject condition = memory.getJsObject(conditionRef);
-        if (condition.isSymbol())
-            condition = memory.getJsObject(scope.get((String) condition.value()));
-        if (!condition.isJsBoolean())
-            throw new TypeError("Not boolean expression");
-        while ((Boolean) condition.value()) {
-            ctx.functionBody().accept(this);
-            conditionRef = (Memory.Reference) ctx.expression().accept(this);
-            condition = memory.getJsObject(conditionRef);
-            if (condition.isSymbol())
-                condition = memory.getJsObject(scope.get((String) condition.value()));
-        }
-        return null;
-    }
-
-    @Override
-    public Memory.Reference visitTerminal(@NotNull TerminalNode node) {
-        JsObject terminal = null;
-        switch (node.getSymbol().getType()) {
-            case JavaScriptParser.INT:
-                terminal = new JsInt(Integer.parseInt(node.getText()));
-                break;
-            case JavaScriptParser.ID:
-                terminal =  new Symbol(node.getText());
-                break;
-            case JavaScriptParser.STRING:
-                terminal =  new JsString(node.getText().replace("\"", ""));
-                break;
-            case JavaScriptParser.TRUE:
-                terminal =  new JsBoolean(Boolean.TRUE);
-                break;
-            case JavaScriptParser.FALSE:
-                terminal =  new JsBoolean(Boolean.FALSE);
-                break;
-            default: throw new IllegalStateException("Unknown terminal node");
-        }
-        return memory.storeJsObject(terminal);
     }
 
     @Override
