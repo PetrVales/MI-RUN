@@ -245,6 +245,30 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
         return first.invoke("-", Collections.<Memory.Reference>emptyList(), scope, memory);
     }
 
+    @Override
+    public Object visitFalse(@NotNull JavaScriptParser.FalseContext ctx) {
+        return ctx.FALSE().accept(this);
+    }
+
+    @Override
+    public Object visitTrue(@NotNull JavaScriptParser.TrueContext ctx) {
+        return ctx.TRUE().accept(this);
+    }
+
+    @Override
+    public Object visitAssignmentExpressionExpression(@NotNull JavaScriptParser.AssignmentExpressionExpressionContext ctx) {
+        ctx.assignmentExpression().accept(this);
+        return null;
+    }
+
+    @Override
+    public Object visitVarAssignment(@NotNull JavaScriptParser.VarAssignmentContext ctx) {
+        String name = resolveSymbolName(ctx.ID().accept(this));
+        Memory.Reference resultRef = getReferenceOfJsObject(ctx.expression().accept(this));
+        scope.set(name, resultRef);
+        return null;
+    }
+
     private JsObject ensureObject(Object ref) {
         JsObject object = memory.getJsObject((Memory.Reference) ref);
         if (object.isSymbol())
@@ -276,32 +300,6 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     private String resolveSymbolName(Object nameRef) {
         final Symbol instanceName = (Symbol) memory.getJsObject((Memory.Reference) nameRef);
         return (String) instanceName.value();
-    }
-
-    @Override
-    public Object visitFalse(@NotNull JavaScriptParser.FalseContext ctx) {
-        return ctx.FALSE().accept(this);
-    }
-
-    @Override
-    public Object visitTrue(@NotNull JavaScriptParser.TrueContext ctx) {
-        return ctx.TRUE().accept(this);
-    }
-
-    @Override
-    public Object visitAssignmentExpressionExpression(@NotNull JavaScriptParser.AssignmentExpressionExpressionContext ctx) {
-        ctx.assignmentExpression().accept(this);
-        return null;
-    }
-
-    @Override
-    public Object visitVarAssignment(@NotNull JavaScriptParser.VarAssignmentContext ctx) {
-        Memory.Reference nameRef = (Memory.Reference) ctx.ID().accept(this);
-        Memory.Reference resultRef = (Memory.Reference) ctx.expression().accept(this);
-        if (resultRef != null && memory.getJsObject(resultRef).isSymbol())
-            resultRef = scope.get((String) memory.getJsObject(resultRef).value());
-        scope.set((String) memory.getJsObject(nameRef).value(), resultRef);
-        return null;
     }
 
     @Override
