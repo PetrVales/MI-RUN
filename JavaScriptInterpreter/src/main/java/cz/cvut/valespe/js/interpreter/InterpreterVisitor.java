@@ -378,6 +378,39 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
         throw new TypeError(name + " is not array.");
     }
 
+    @Override
+    public Object visitInt(@NotNull JavaScriptParser.IntContext ctx) {
+        return ctx.INT().accept(this);
+    }
+
+    @Override
+    public Object visitId(@NotNull JavaScriptParser.IdContext ctx) {
+        return ctx.ID().accept(this);
+    }
+
+    @Override
+    public Object visitString(@NotNull JavaScriptParser.StringContext ctx) {
+        return ctx.STRING().accept(this);
+    }
+
+    @Override
+    public Object visitIfExpression(@NotNull JavaScriptParser.IfExpressionContext ctx) {
+        return ctx.ifStatement().accept(this);
+    }
+
+    @Override
+    public Object visitIfStatement(@NotNull JavaScriptParser.IfStatementContext ctx) {
+        JsObject condition = ensureObject(ctx.expression().accept(this));
+        if (!condition.isJsBoolean())
+            throw new TypeError("Not boolean expression");
+        if ((Boolean) condition.value()) {
+            ctx.functionBody(0).accept(this);
+        } else {
+            ctx.functionBody(1).accept(this);
+        }
+        return null;
+    }
+
     private JsObject loadJsObjectFromMemory(Object ref) {
         return memory.getJsObject((Memory.Reference) ref);
     }
@@ -413,42 +446,6 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     private String resolveSymbolName(Object nameRef) {
         final Symbol instanceName = (Symbol) memory.getJsObject((Memory.Reference) nameRef);
         return (String) instanceName.value();
-    }
-
-    @Override
-    public Object visitInt(@NotNull JavaScriptParser.IntContext ctx) {
-        return ctx.INT().accept(this);
-    }
-
-    @Override
-    public Object visitId(@NotNull JavaScriptParser.IdContext ctx) {
-        return ctx.ID().accept(this);
-    }
-
-    @Override
-    public Object visitString(@NotNull JavaScriptParser.StringContext ctx) {
-        return ctx.STRING().accept(this);
-    }
-
-    @Override
-    public Object visitIfExpression(@NotNull JavaScriptParser.IfExpressionContext ctx) {
-        return ctx.ifStatement().accept(this);
-    }
-
-    @Override
-    public Object visitIfStatement(@NotNull JavaScriptParser.IfStatementContext ctx) {
-        Memory.Reference conditionRef = (Memory.Reference) ctx.expression().accept(this);
-        JsObject condition = memory.getJsObject(conditionRef);
-        if (condition.isSymbol())
-            condition = memory.getJsObject(scope.get((String) condition.value()));
-        if (!condition.isJsBoolean())
-            throw new TypeError("Not boolean expression");
-        if ((Boolean) condition.value()) {
-            ctx.functionBody(0).accept(this);
-        } else {
-            ctx.functionBody(1).accept(this);
-        }
-        return null;
     }
 
     @Override
