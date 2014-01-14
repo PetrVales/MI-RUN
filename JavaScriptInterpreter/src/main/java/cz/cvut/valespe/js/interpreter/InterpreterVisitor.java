@@ -205,6 +205,40 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
         return first.invoke(operation, Arrays.asList(secondRef), scope, memory);
     }
 
+    @Override
+    public Object visitOrExpression(@NotNull JavaScriptParser.OrExpressionContext ctx) {
+        Memory.Reference firstRef = (Memory.Reference) ctx.expression(0).accept(this);
+        Memory.Reference secondRef = (Memory.Reference) ctx.expression(1).accept(this);
+        return invokeBinaryOperation(firstRef, secondRef, "||");
+    }
+
+    @Override
+    public Object visitAndExpression(@NotNull JavaScriptParser.AndExpressionContext ctx) {
+        Memory.Reference firstRef = (Memory.Reference) ctx.expression(0).accept(this);
+        Memory.Reference secondRef = (Memory.Reference) ctx.expression(1).accept(this);
+        return invokeBinaryOperation(firstRef, secondRef, "&&");
+    }
+
+    @Override
+    public Object visitEqualsExpression(@NotNull JavaScriptParser.EqualsExpressionContext ctx) {
+        Memory.Reference firstRef = (Memory.Reference) ctx.expression(0).accept(this);
+        Memory.Reference secondRef = (Memory.Reference) ctx.expression(1).accept(this);
+        return invokeBinaryOperation(firstRef, secondRef, "==");
+    }
+
+    @Override
+    public Object visitCompareExpression(@NotNull JavaScriptParser.CompareExpressionContext ctx) {
+        Memory.Reference firstRef = (Memory.Reference) ctx.expression(0).accept(this);
+        Memory.Reference secondRef = (Memory.Reference) ctx.expression(1).accept(this);
+        return invokeBinaryOperation(firstRef, secondRef, ctx.COMPARE_OPERATORS().getText());
+    }
+
+    @Override
+    public Object visitNotExpression(@NotNull JavaScriptParser.NotExpressionContext ctx) {
+        JsObject first = ensureObject(ctx.expression().accept(this));
+        return first.invoke("!", Collections.<Memory.Reference>emptyList(), scope, memory);
+    }
+
     private JsObject ensureObject(Object ref) {
         JsObject object = memory.getJsObject((Memory.Reference) ref);
         if (object.isSymbol())
@@ -236,43 +270,6 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     private String resolveSymbolName(Object nameRef) {
         final Symbol instanceName = (Symbol) memory.getJsObject((Memory.Reference) nameRef);
         return (String) instanceName.value();
-    }
-
-    @Override
-    public Object visitOrExpression(@NotNull JavaScriptParser.OrExpressionContext ctx) {
-        Memory.Reference firstRef = (Memory.Reference) ctx.expression(0).accept(this);
-        Memory.Reference secondRef = (Memory.Reference) ctx.expression(1).accept(this);
-        return invokeBinaryOperation(firstRef, secondRef, "||");
-    }
-
-    @Override
-    public Object visitAndExpression(@NotNull JavaScriptParser.AndExpressionContext ctx) {
-        Memory.Reference firstRef = (Memory.Reference) ctx.expression(0).accept(this);
-        Memory.Reference secondRef = (Memory.Reference) ctx.expression(1).accept(this);
-        return invokeBinaryOperation(firstRef, secondRef, "&&");
-    }
-
-    @Override
-    public Object visitEqualsExpression(@NotNull JavaScriptParser.EqualsExpressionContext ctx) {
-        Memory.Reference firstRef = (Memory.Reference) ctx.expression(0).accept(this);
-        Memory.Reference secondRef = (Memory.Reference) ctx.expression(1).accept(this);
-        return invokeBinaryOperation(firstRef, secondRef, "==");
-    }
-
-    @Override
-    public Object visitCompareExpression(@NotNull JavaScriptParser.CompareExpressionContext ctx) {
-        Memory.Reference firstRef = (Memory.Reference) ctx.expression(0).accept(this);
-        Memory.Reference secondRef = (Memory.Reference) ctx.expression(1).accept(this);
-        return invokeBinaryOperation(firstRef, secondRef, ctx.COMPARE_OPERATORS().getText());
-    }
-
-    @Override
-    public Object visitNotExpression(@NotNull JavaScriptParser.NotExpressionContext ctx) {
-        Memory.Reference firstRef = (Memory.Reference) ctx.expression().accept(this);
-        JsObject first = memory.getJsObject(firstRef);
-        if (first.isSymbol())
-            first = memory.getJsObject(scope.get((String) first.value()));
-        return first.invoke("!", Collections.<Memory.Reference>emptyList(), scope, memory);
     }
 
     @Override
