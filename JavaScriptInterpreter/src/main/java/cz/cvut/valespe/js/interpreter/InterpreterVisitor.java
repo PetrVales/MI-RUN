@@ -269,6 +269,14 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
         return null;
     }
 
+    @Override
+    public Object visitAssignment(@NotNull JavaScriptParser.AssignmentContext ctx) {
+        String name = resolveSymbolName(ctx.ID().accept(this));
+        Memory.Reference resultRef = getReferenceOfJsObject(ctx.expression().accept(this));
+        scope.set(name, resultRef);
+        return null;
+    }
+
     private JsObject ensureObject(Object ref) {
         JsObject object = memory.getJsObject((Memory.Reference) ref);
         if (object.isSymbol())
@@ -300,16 +308,6 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     private String resolveSymbolName(Object nameRef) {
         final Symbol instanceName = (Symbol) memory.getJsObject((Memory.Reference) nameRef);
         return (String) instanceName.value();
-    }
-
-    @Override
-    public Object visitAssignment(@NotNull JavaScriptParser.AssignmentContext ctx) {
-        Memory.Reference nameRef = (Memory.Reference) ctx.ID().accept(this);
-        Memory.Reference resultRef = (Memory.Reference) ctx.expression().accept(this);
-        if (resultRef != null && memory.getJsObject(resultRef).isSymbol())
-            resultRef = scope.get((String) memory.getJsObject(resultRef).value());
-        scope.set((String) memory.getJsObject(nameRef).value(), resultRef);
-        return null;
     }
 
     @Override
