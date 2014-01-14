@@ -277,6 +277,19 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
         return null;
     }
 
+    @Override
+    public Object visitPrototypeAssignmentExpressionExpression(@NotNull JavaScriptParser.PrototypeAssignmentExpressionExpressionContext ctx) {
+        ctx.prototypeAssignmentExpression().accept(this);
+        return null;
+    }
+
+    @Override
+    public Object visitPrototypeAssignment(@NotNull JavaScriptParser.PrototypeAssignmentContext ctx) {
+        final JsObject jsObject = resolveSymbolToJsObject(ctx.ID().accept(this));
+        jsObject.setPrototype((Memory.Reference) ctx.expression().accept(this));
+        return null;
+    }
+
     private JsObject ensureObject(Object ref) {
         JsObject object = memory.getJsObject((Memory.Reference) ref);
         if (object.isSymbol())
@@ -308,21 +321,6 @@ public class InterpreterVisitor implements cz.cvut.valespe.js.parser.JavaScriptV
     private String resolveSymbolName(Object nameRef) {
         final Symbol instanceName = (Symbol) memory.getJsObject((Memory.Reference) nameRef);
         return (String) instanceName.value();
-    }
-
-    @Override
-    public Object visitPrototypeAssignmentExpressionExpression(@NotNull JavaScriptParser.PrototypeAssignmentExpressionExpressionContext ctx) {
-        ctx.prototypeAssignmentExpression().accept(this);
-        return null;
-    }
-
-    @Override
-    public Object visitPrototypeAssignment(@NotNull JavaScriptParser.PrototypeAssignmentContext ctx) {
-        final Memory.Reference nameRef = (Memory.Reference) ctx.ID().accept(this);
-        final Memory.Reference objectRef = scope.get((String) memory.getJsObject(nameRef).value());
-        final JsObject jsObject = memory.getJsObject(objectRef);
-        jsObject.setPrototype((Memory.Reference) ctx.expression().accept(this));
-        return null;
     }
 
     @Override
