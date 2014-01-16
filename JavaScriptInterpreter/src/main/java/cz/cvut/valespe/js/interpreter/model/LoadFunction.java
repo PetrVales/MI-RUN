@@ -1,6 +1,7 @@
 package cz.cvut.valespe.js.interpreter.model;
 
 import cz.cvut.valespe.js.interpreter.DefinitionCollectingVisitor;
+import cz.cvut.valespe.js.interpreter.InterpreterVisitor;
 import cz.cvut.valespe.js.interpreter.Memory;
 import cz.cvut.valespe.js.interpreter.Scope;
 import cz.cvut.valespe.js.parser.JavaScriptLexer;
@@ -65,6 +66,8 @@ public class LoadFunction extends JsFunction {
     private void collectDefinitions(JavaScriptParser.FileContext file, Scope scope, Memory memory) {
         DefinitionCollectingVisitor definitionCollectingVisitor = new DefinitionCollectingVisitor(memory, scope);
         file.accept(definitionCollectingVisitor);
+        InterpreterVisitor interpreterVisitor = new InterpreterVisitor(memory, scope, scope);
+        file.accept(interpreterVisitor);
     }
 
 }

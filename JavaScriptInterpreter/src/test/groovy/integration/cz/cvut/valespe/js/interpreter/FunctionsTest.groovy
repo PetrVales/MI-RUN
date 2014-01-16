@@ -1,8 +1,6 @@
 package cz.cvut.valespe.js.interpreter
 
-import cz.cvut.valespe.js.interpreter.model.LoadFunction
 import cz.cvut.valespe.js.interpreter.model.PrintFunction
-import cz.cvut.valespe.js.interpreter.model.ReadFunction
 import org.junit.Before
 import org.junit.Test
 
@@ -33,25 +31,58 @@ class FunctionsTest extends IntegrationTest {
 
     @Test
     public void "load script file"() {
-        def loadRef = memory.storeJsObject(new LoadFunction())
-        scope.set("load", loadRef)
-
         runScript("/Load.js")
 
         def functionRefA = scope.get("A")
         def functionRefB = scope.get("B")
         def functionRefC = scope.get("C")
+        def a = scope.get("a")
+        def b = scope.get("b")
+        def c = scope.get("c")
+        def d = scope.get("d")
 
         assert memory.getJsObject(functionRefA).isJsObject()
         assert memory.getJsObject(functionRefB).isJsObject()
         assert memory.getJsObject(functionRefC).isJsObject()
+        assert a != null
+        assert b != null
+        assert c != null
+        assert d != null
+    }
+
+    @Test
+    public void "load script file - chain"() {
+        runScript("/LoadChain.js")
+
+        def functionRefA = scope.get("A")
+        def functionRefB = scope.get("B")
+        def functionRefC = scope.get("C")
+        def functionRefD = scope.get("D")
+        def functionRefE = scope.get("E")
+        def a = scope.get("a")
+        def b = scope.get("b")
+        def c = scope.get("c")
+        def d = scope.get("d")
+        def e = scope.get("e")
+        def x = scope.get("x")
+        def y = scope.get("y")
+
+        assert memory.getJsObject(functionRefA).isJsObject()
+        assert memory.getJsObject(functionRefB).isJsObject()
+        assert memory.getJsObject(functionRefC).isJsObject()
+        assert memory.getJsObject(functionRefD).isJsObject()
+        assert memory.getJsObject(functionRefE).isJsObject()
+        assert a != null
+        assert b != null
+        assert c != null
+        assert d != null
+        assert e != null
+        assert x != null
+        assert y != null
     }
 
     @Test
     public void "read file"() {
-        def readRef = memory.storeJsObject(new ReadFunction())
-        scope.set("read", readRef)
-
         runScript("/Read.js")
 
         assertValueOfVariable("x", "var x = read(\"/Read.js\")")
